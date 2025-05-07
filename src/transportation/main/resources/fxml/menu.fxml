@@ -24,8 +24,8 @@
                   <Rectangle arcHeight="30" arcWidth="30" height="750.0" width="1000.0" />
                </clip>
                <children>
-      
-                              <!-- Circular overlay for edges -->
+
+                  <!-- Circular overlay for edges -->
                   <Pane style="-fx-background-color: transparent;">
                      <Rectangle arcHeight="30" arcWidth="30" fill="transparent" height="750.0" stroke="#0e2321" strokeType="OUTSIDE" strokeWidth="10" width="1000.0" />
                      <VBox prefHeight="759.0" prefWidth="1014.0">
@@ -52,10 +52,10 @@
                                        <!-- Notification Indicator -->
                                        <Circle fx:id="notificationIndicator" fill="#FF5252" layoutX="25" layoutY="10" radius="5" visible="false" />
                                        <HBox.margin>
-                                          <Insets left="480.0" />
+                                          <Insets left="450.0" />
                                        </HBox.margin>
                                     </StackPane>
-                                    
+
                                     <Button fx:id="profileButton" mnemonicParsing="false" styleClass="profile-button">
                                        <HBox.margin>
                                           <Insets left="20.0" />
@@ -94,65 +94,65 @@
             </BorderPane.margin>
          </StackPane>
       </center>
-   <left>
-      <Pane prefHeight="750.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox layoutY="-8.0" prefHeight="764.0" prefWidth="100.0" spacing="20.0">
-               <padding>
-                  <Insets top="20.0" />
-               </padding>
-               <children>
-                  <ImageView fitHeight="85.0" fitWidth="69.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="smooth-image">
-                     <image>
-                        <Image url="@../images/logo2.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets left="20.0" />
-                     </VBox.margin>
-                  </ImageView>
-                  <Button fx:id="btnHome" mnemonicParsing="false" onAction="#handleHome" onMouseEntered="#startHomeHover" onMouseExited="#stopHomeHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
-                     <VBox.margin>
-                        <Insets left="20.0" top="50.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <StackPane fx:id="homeGraphic">
-                           <FontAwesomeIconView fx:id="homeIcon" glyphName="HOME" size="24" styleClass="menu-icon" />
-                           <Label fx:id="homeLabel" styleClass="menu-label" text="Home" visible="false" />
-                        </StackPane>
-                     </graphic>
-                  </Button>
+      <left>
+         <Pane prefHeight="750.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+               <VBox layoutY="-8.0" prefHeight="764.0" prefWidth="100.0" spacing="20.0">
+                  <padding>
+                     <Insets top="20.0" />
+                  </padding>
+                  <children>
+                     <ImageView fitHeight="85.0" fitWidth="69.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" styleClass="smooth-image">
+                        <image>
+                           <Image url="@../images/logo2.png" />
+                        </image>
+                        <VBox.margin>
+                           <Insets left="20.0" />
+                        </VBox.margin>
+                     </ImageView>
+                     <Button fx:id="btnHome" mnemonicParsing="false" onAction="#handleHome" onMouseEntered="#startHomeHover" onMouseExited="#stopHomeHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                        <VBox.margin>
+                           <Insets left="20.0" top="30.0" />
+                        </VBox.margin>
+                        <graphic>
+                           <StackPane fx:id="homeGraphic">
+                              <FontAwesomeIconView fx:id="homeIcon" glyphName="HOME" size="24" styleClass="menu-icon" />
+                              <Label fx:id="homeLabel" styleClass="menu-label" text="Home" visible="false" />
+                           </StackPane>
+                        </graphic>
+                     </Button>
 
-                  <Button fx:id="btnProgram" mnemonicParsing="false" onAction="#handlProgram" onMouseEntered="#startPrHover" onMouseExited="#stopPrHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <StackPane fx:id="PlanGraphic">
-                           <FontAwesomeIconView fx:id="prIcon" glyphName="CALENDAR" size="24" styleClass="menu-icon" />
-                           <Label fx:id="prLabel" styleClass="menu-label" text="Plan" visible="false" />
-                        </StackPane>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="btnBooking" mnemonicParsing="false" onAction="#showBookingMenu" onMouseEntered="#startBoHover" onMouseExited="#stopBoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
+                     <Button fx:id="btnProgram" mnemonicParsing="false" onAction="#handlProgram" onMouseEntered="#startPrHover" onMouseExited="#stopPrHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                        <VBox.margin>
+                           <Insets left="20.0" top="5.0" />
+                        </VBox.margin>
+                        <graphic>
+                           <StackPane fx:id="PlanGraphic">
+                              <FontAwesomeIconView fx:id="prIcon" glyphName="CALENDAR" size="24" styleClass="menu-icon" />
+                              <Label fx:id="prLabel" styleClass="menu-label" text="Plan" visible="false" />
+                           </StackPane>
+                        </graphic>
+                     </Button>
+                     <Button fx:id="btnFlight" mnemonicParsing="false" onAction="#handleFlight" onMouseEntered="#startfHover" onMouseExited="#stopfHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                        <VBox.margin>
+                           <Insets left="20.0" top="5.0" />
+                        </VBox.margin>
                         <graphic>
                            <StackPane prefHeight="39.0" prefWidth="84.0">
                               <children>
-                              <FontAwesomeIconView fx:id="boIcon" glyphName="BOOK" size="24" styleClass="menu-icon" />
-                                 <Label fx:id="boLabel" styleClass="menu-label" text="Book" visible="false" />
+                                 <FontAwesomeIconView fx:id="fIcon" glyphName="PLANE" size="24" styleClass="menu-icon" />
+                                 <Label fx:id="fLabel" styleClass="menu-label" text="Flight" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
 
-                  </Button>
-                     <Button fx:id="btnBooking1" layoutX="30.0" layoutY="343.0" mnemonicParsing="false" onAction="#showBookingMenu" onMouseEntered="#startBoHover" onMouseExited="#stopBoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                     </Button>
+                     <Button fx:id="btnAccommodation" layoutX="30.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleAccommodation" onMouseEntered="#startAHover" onMouseExited="#stopAHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                         <graphic>
                            <StackPane prefHeight="39.0" prefWidth="84.0">
                               <children>
-                                 <FontAwesomeIconView fx:id="boIcon1" glyphName="BOOK" size="24" styleClass="menu-icon" />
-                                 <Label fx:id="boLabel1" styleClass="menu-label" text="Book" visible="false" />
+                                 <FontAwesomeIconView fx:id="aIcon" glyphName="HOTEL" size="24" styleClass="menu-icon" />
+                                 <Label fx:id="aLabel" styleClass="menu-label" text="Hotel" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
@@ -160,12 +160,12 @@
                            <Insets left="20.0" top="5.0" />
                         </VBox.margin>
                      </Button>
-                     <Button fx:id="btnBooking11" layoutX="10.0" layoutY="411.0" mnemonicParsing="false" onAction="#showBookingMenu" onMouseEntered="#startBoHover" onMouseExited="#stopBoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                     <Button fx:id="btnTransport" layoutX="10.0" layoutY="411.0" mnemonicParsing="false" onAction="#handleTransport" onMouseEntered="#starttHover" onMouseExited="#stoptHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                         <graphic>
                            <StackPane prefHeight="39.0" prefWidth="84.0">
                               <children>
-                                 <FontAwesomeIconView fx:id="boIcon11" glyphName="BOOK" size="24" styleClass="menu-icon" />
-                                 <Label fx:id="boLabel11" styleClass="menu-label" text="Book" visible="false" />
+                                 <FontAwesomeIconView fx:id="tIcon" glyphName="TAXI" size="24" styleClass="menu-icon" />
+                                 <Label fx:id="tLabel" styleClass="menu-label" text="Transport" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
@@ -174,45 +174,45 @@
                         </VBox.margin>
                      </Button>
 
-                  <Button fx:id="btnSettings" mnemonicParsing="false" onAction="#handlSettings" onMouseEntered="#startStHover" onMouseExited="#stopStHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
-                     <VBox.margin>
-                        <Insets left="20.0" top="100.0" />
-                     </VBox.margin>
+                     <Button fx:id="btnSettings" mnemonicParsing="false" onAction="#handlSettings" onMouseEntered="#startStHover" onMouseExited="#stopStHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                        <VBox.margin>
+                           <Insets left="20.0" top="120.0" />
+                        </VBox.margin>
                         <graphic>
                            <StackPane prefHeight="150.0" prefWidth="200.0">
                               <children>
-                              <FontAwesomeIconView fx:id="stIcon" glyphName="COG" size="24" styleClass="menu-icon" />
+                                 <FontAwesomeIconView fx:id="stIcon" glyphName="COG" size="24" styleClass="menu-icon" />
                                  <Label fx:id="stLabel" styleClass="menu-label" text="Settings" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
-                  </Button>
-                  <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handlLogout" onMouseEntered="#startLoHover" onMouseExited="#stopLoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
-                     <VBox.margin>
-                        <Insets left="20.0" top="5.0" />
-                     </VBox.margin>
+                     </Button>
+                     <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#handlLogout" onMouseEntered="#startLoHover" onMouseExited="#stopLoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                        <VBox.margin>
+                           <Insets left="20.0" top="5.0" />
+                        </VBox.margin>
                         <graphic>
                            <StackPane prefHeight="150.0" prefWidth="200.0">
                               <children>
-                              <FontAwesomeIconView fx:id="loIcon" glyphName="SIGN_OUT" size="24" styleClass="menu-icon" />
+                                 <FontAwesomeIconView fx:id="loIcon" glyphName="SIGN_OUT" size="24" styleClass="menu-icon" />
                                  <Label fx:id="loLabel" styleClass="menu-label" text="Log Out" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
-      </Pane>
-   </left>
-   <top>
-      <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-   </top>
-   <bottom>
-      <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-   </bottom>
-   <right>
-      <Pane prefHeight="750.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
-   </right>
-</BorderPane>
+                     </Button>
+                  </children>
+               </VBox>
+            </children>
+         </Pane>
+      </left>
+      <top>
+         <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+      </top>
+      <bottom>
+         <Pane prefHeight="10.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+      </bottom>
+      <right>
+         <Pane prefHeight="750.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+      </right>
+   </BorderPane>
 </StackPane>

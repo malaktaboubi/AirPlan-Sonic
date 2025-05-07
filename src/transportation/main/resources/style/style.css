@@ -113,10 +113,9 @@
 .top-bar {
     -fx-background-color: #ffeeff;
     -fx-background-radius: 15 15 0 0;
-    -fx-border-color: #b2dfdb;
+    -fx-border-color: #4c7572;
     -fx-border-width: 0 0 1px 0;
     -fx-border-radius: 15 15 0 0;
-    -fx-effect: dropshadow(gaussian, rgba(0,100,83,0.2), 10, 0.1, 0, 2);
     -fx-padding: 10px 15px;
 }
 
@@ -160,29 +159,7 @@
     -fx-fill: #2E7D32;
 }
 
-/* Delicate Header Style */
-.delicate-header {
-    -fx-font-family: 'Roboto Light', 'Helvetica Neue Light', sans-serif;
-    -fx-font-size: 22px;
-    -fx-font-weight: 300;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 0, 1, 0, 1);
-}
-
-/* Alternative with more elegance */
-.delicate-header {
-    -fx-font-family: 'Lato', 'Segoe UI Light', sans-serif;
-    -fx-font-size: 24px;
-    -fx-font-weight: 300;
-    -fx-text-fill: #2d3436;
-    -fx-letter-spacing: 0.5px;
-    -fx-effect: none;
-    -fx-padding: 5px 0;
-    -fx-border-color: transparent transparent #e0e0e0 transparent;
-    -fx-border-width: 0 0 1px 0;
-}
-
-/* For ultra-thin modern look */
+/* For ultra-thin modern look*/
 .delicate-header {
     -fx-font-family: 'Raleway Thin', 'Arial Narrow', sans-serif;
     -fx-font-size: 26px;
