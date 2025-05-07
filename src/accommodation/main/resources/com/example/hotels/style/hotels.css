@@ -1,0 +1,171 @@
+.hotel_user{
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 4);
+
+}
+.scroll-bar:vertical{
+    -fx-background-color: rgb(48,58,59);
+    -fx-pref-width: 0;
+}
+.scroll-pane .thumb {
+    -fx-background-color: transparent;
+    -fx-pref-width: 0;
+    -fx-background-radius: 8;
+}
+.title_pane{
+    -fx-background-color: #588b8b;
+    -fx-background-radius: 0 0 25 0;
+    -fx-pref-height: 55;
+    -fx-pref-width: 300;
+    -fx-padding:15;
+    -fx-alignment: center;
+    -fx-text-fill: #ffd5c2;
+    -fx-font-family: "Calibri Light";
+    -fx-font-weight: bold;
+
+}
+
+.title_pane FontAwesomeIconView{
+    -fx-fill: #ffd5c2;
+}
+
+.search_form {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-background-radius: 25;
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+    -fx-alignment: center_left;
+
+}
+.search_form TextField{
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-border-color: #588b8b;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+.search_form Button{
+    -fx-background-color: #588b8b;
+    -fx-background-radius: 15;
+    -fx-pref-height: 30;
+    -fx-font-size: 1.2em;
+    -fx-text-fill: #ffd5c2;
+}
+.search_form Button:hover{
+    -fx-scale-x:1.05 ;
+    -fx-scale-y: 1.05 ;
+    -fx-cursor: hand;
+
+}
+.search_form DatePicker {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-pref-height: 26;
+    -fx-font-size: 1em;
+    -fx-border-color: #588b8b;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+.search_form ComboBox {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-border-color: #588b8b;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-text-fill: #588b8b;
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.3em;
+}
+/* Global TableView styling */
+.table-view {
+    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-border-color: #d0e5ff;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8px;
+    -fx-table-cell-border-color: transparent;
+}
+
+/* Header styling */
+.table-view .column-header-background {
+    -fx-background-color: #588b8b;
+    -fx-border-color: transparent;
+    -fx-background-radius: 10;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #588b8b;
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+
+/* Cell styling */
+.table-cell {
+    -fx-text-fill: #333333;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 6px;
+}
+
+/* Row styling */
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f6f9ff;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #e2f0ff;
+    -fx-text-fill: black;
+}
+
+/* Scrollbar (optional) */
+.table-view .scroll-bar:vertical {
+    -fx-pref-width: 1px;
+}
+
+.table-view .thumb {
+    -fx-background-color: #588b8b;
+    -fx-background-radius: 6;
+}
+
+.table-view .thumb:hover {
+    -fx-background-color: grey;
+}
+
+.reserv_zone{
+    -fx-background-color: #EEEEEE;
+    -fx-alignment: CENTER;
+    -fx-spacing: 10;
+}
+.resserv_btn {
+    -fx-background-color: #588b8b;
+    -fx-text-fill: #ffd5c2;
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+}
+.resserv_btn:hover {
+    -fx-scale-x:1.05 ;
+    -fx-cursor: hand;
+    -fx-scale-y: 1.05 ;
+}
+.pay_btn{
+    -fx-background-color: #ffd5c2;
+    -fx-text-fill: #588b8b;
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-pref-width: 150;
+    -fx-pref-height: 40;
+}
+.pay_btn:hover {
+    -fx-scale-x:1.05 ;
+    -fx-cursor: hand;
+    -fx-scale-y: 1.05 ;
+}

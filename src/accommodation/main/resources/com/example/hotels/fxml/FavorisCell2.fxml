@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane prefHeight="92.0" prefWidth="500.0" styleClass="cell_container" stylesheets="@../style/AccCell.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotels.controllers.FavorisCellController">
+    <AnchorPane layoutX="2.0" layoutY="12.0" prefHeight="82.0" prefWidth="497.0" styleClass="container" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <FontAwesomeIconView glyphName="HOTEL" layoutX="1.0" layoutY="28.0" size="30" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="20.0" />
+        <Label fx:id="name_lbl" layoutX="54.0" layoutY="29.0" styleClass="lbl" text="NAME" AnchorPane.topAnchor="29.0" />
+        <Label fx:id="country_lbl" layoutX="161.0" layoutY="11.0" styleClass="lbl" text="FROM">
+         <graphic>
+            <FontAwesomeIconView glyphName="MAP_MARKER" />
+         </graphic></Label>
+        <Label fx:id="city_lbl" layoutX="163.0" layoutY="45.0" styleClass="lbl" text="TO">
+         <graphic>
+            <FontAwesomeIconView glyphName="GLOBE" />
+         </graphic></Label>
+        <Label fx:id="type_lbl" layoutX="279.0" layoutY="12.0" styleClass="lbl" text="TYPE" AnchorPane.topAnchor="12.0" />
+        <Line endX="-99.99998474121094" endY="18.95956039428711" layoutX="357.0" layoutY="-8.0" startX="-100.0" startY="78.33333587646484" />
+        <Label fx:id="price_lbl" layoutX="410.0" layoutY="11.0" styleClass="price_lbl" text="PRICE" AnchorPane.topAnchor="11.0" />
+      <Label fx:id="dispo_lbl" layoutX="278.0" layoutY="40.0" styleClass="lbl" text="DISPO" />
+      <Label fx:id="rating_lbl" layoutX="414.0" layoutY="45.0" styleClass="lbl" text="Label" />
+    </AnchorPane>
+</AnchorPane>
