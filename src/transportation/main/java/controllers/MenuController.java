@@ -46,47 +46,23 @@ public class MenuController {
     @FXML
     private FontAwesomeIconView loIcon;
     @FXML
-    private Button btnBooking;
-
-    private Timeline hoverCycle;
-    private boolean showingText = false;
-    private Timeline prHoverCycle;
-    private Timeline boHoverCycle;
-    private Timeline stHoverCycle;
-    private Timeline loHoverCycle;
-    private boolean prShowingText = false;
-    private boolean boShowingText = false;
-    private boolean stShowingText = false;
-    private boolean loShowingText = false;
-
-
-    private ContextMenu bookingMenu;
-
+    private Label fLabel;
     @FXML
-    private void initialize() {
-        bookingMenu = new ContextMenu();
-
-        MenuItem transportItem = new MenuItem("Transportation");
-        transportItem.setOnAction(this::handleTransport);
-
-        MenuItem accommodationItem = new MenuItem("Accommodation");
-        accommodationItem.setOnAction(this::handleAccommodation);
-
-        MenuItem flightItem = new MenuItem("Flight");
-        flightItem.setOnAction(this::handleFlight);
-
-        bookingMenu.getItems().addAll(transportItem, accommodationItem, flightItem);
-    }
-
+    private FontAwesomeIconView fIcon;
     @FXML
-    private void showBookingMenu() {
-        if (!bookingMenu.isShowing()) {
-            // Show it to the right of the button
-            bookingMenu.show(btnBooking, Side.RIGHT, 10, 0);
-        } else {
-            bookingMenu.hide();
-        }
-    }
+    private Button btnFlight;
+    @FXML
+    private Label aLabel;
+    @FXML
+    private FontAwesomeIconView aIcon;
+    @FXML
+    private Button btnAccommodation;
+    @FXML
+    private Label tLabel;
+    @FXML
+    private FontAwesomeIconView tIcon;
+    @FXML
+    private Button btnTransport;
 
 
     //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -300,6 +276,126 @@ public class MenuController {
         fadeOutLabel.play();
     }
 
+    public void startfHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), fIcon);
+        fadeOutIcon.setFromValue(1.0);
+        fadeOutIcon.setToValue(0.0);
+
+        FadeTransition fadeInLabel = new FadeTransition(Duration.millis(300), fLabel);
+        fadeInLabel.setFromValue(0.0);
+        fadeInLabel.setToValue(1.0);
+
+        fadeOutIcon.setOnFinished(e -> {
+            fIcon.setVisible(false);
+            fLabel.setVisible(true);
+            fadeInLabel.play();
+        });
+
+        fLabel.setOpacity(0);
+        fLabel.setVisible(true);
+        fadeOutIcon.play();
+    }
+
+    public void stopfHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutLabel = new FadeTransition(Duration.millis(300), fLabel);
+        fadeOutLabel.setFromValue(1.0);
+        fadeOutLabel.setToValue(0.0);
+
+        FadeTransition fadeInIcon = new FadeTransition(Duration.millis(300), fIcon);
+        fadeInIcon.setFromValue(0.0);
+        fadeInIcon.setToValue(1.0);
+
+        fadeOutLabel.setOnFinished(e -> {
+            fLabel.setVisible(false);
+            fIcon.setVisible(true);
+            fadeInIcon.play();
+        });
+
+        fIcon.setOpacity(0);
+        fIcon.setVisible(true);
+        fadeOutLabel.play();
+    }
+
+    public void startAHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), aIcon);
+        fadeOutIcon.setFromValue(1.0);
+        fadeOutIcon.setToValue(0.0);
+
+        FadeTransition fadeInLabel = new FadeTransition(Duration.millis(300), aLabel);
+        fadeInLabel.setFromValue(0.0);
+        fadeInLabel.setToValue(1.0);
+
+        fadeOutIcon.setOnFinished(e -> {
+            aIcon.setVisible(false);
+            aLabel.setVisible(true);
+            fadeInLabel.play();
+        });
+
+        aLabel.setOpacity(0);
+        aLabel.setVisible(true);
+        fadeOutIcon.play();
+    }
+
+    public void stopAHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutLabel = new FadeTransition(Duration.millis(300), aLabel);
+        fadeOutLabel.setFromValue(1.0);
+        fadeOutLabel.setToValue(0.0);
+
+        FadeTransition fadeInIcon = new FadeTransition(Duration.millis(300), aIcon);
+        fadeInIcon.setFromValue(0.0);
+        fadeInIcon.setToValue(1.0);
+
+        fadeOutLabel.setOnFinished(e -> {
+            aLabel.setVisible(false);
+            aIcon.setVisible(true);
+            fadeInIcon.play();
+        });
+
+        aIcon.setOpacity(0);
+        aIcon.setVisible(true);
+        fadeOutLabel.play();
+    }
+
+    public void starttHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), tIcon);
+        fadeOutIcon.setFromValue(1.0);
+        fadeOutIcon.setToValue(0.0);
+
+        FadeTransition fadeInLabel = new FadeTransition(Duration.millis(300), tLabel);
+        fadeInLabel.setFromValue(0.0);
+        fadeInLabel.setToValue(1.0);
+
+        fadeOutIcon.setOnFinished(e -> {
+            tIcon.setVisible(false);
+            tLabel.setVisible(true);
+            fadeInLabel.play();
+        });
+
+        tLabel.setOpacity(0);
+        tLabel.setVisible(true);
+        fadeOutIcon.play();
+    }
+
+    public void stoptHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutLabel = new FadeTransition(Duration.millis(300), tLabel);
+        fadeOutLabel.setFromValue(1.0);
+        fadeOutLabel.setToValue(0.0);
+
+        FadeTransition fadeInIcon = new FadeTransition(Duration.millis(300), tIcon);
+        fadeInIcon.setFromValue(0.0);
+        fadeInIcon.setToValue(1.0);
+
+        fadeOutLabel.setOnFinished(e -> {
+            tLabel.setVisible(false);
+            tIcon.setVisible(true);
+            fadeInIcon.play();
+        });
+
+        tIcon.setOpacity(0);
+        tIcon.setVisible(true);
+        fadeOutLabel.play();
+    }
+
     //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 
@@ -315,10 +411,12 @@ public class MenuController {
 
     public void handlProgram(ActionEvent actionEvent) {
     }
-
+    
+    @FXML
     private void handleFlight(ActionEvent actionEvent) {
     }
-
+    
+    @FXML
     private void handleAccommodation(ActionEvent actionEvent) {
         try {
             // Clear existing content
@@ -352,4 +450,5 @@ public class MenuController {
             // Show error to user
         }
     }
+
 }

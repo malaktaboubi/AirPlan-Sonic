@@ -112,7 +112,7 @@
                   </ImageView>
                   <Button fx:id="btnHome" mnemonicParsing="false" onAction="#handleHome" onMouseEntered="#startHomeHover" onMouseExited="#stopHomeHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                      <VBox.margin>
-                        <Insets left="20.0" top="50.0" />
+                        <Insets left="20.0" top="30.0" />
                      </VBox.margin>
                      <graphic>
                         <StackPane fx:id="homeGraphic">
@@ -133,26 +133,26 @@
                         </StackPane>
                      </graphic>
                   </Button>
-                  <Button fx:id="btnBooking" mnemonicParsing="false" onAction="#showBookingMenu" onMouseEntered="#startBoHover" onMouseExited="#stopBoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                  <Button fx:id="btnFlight" mnemonicParsing="false" onAction="#handleFlight" onMouseEntered="#startfHover" onMouseExited="#stopfHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                      <VBox.margin>
                         <Insets left="20.0" top="5.0" />
                      </VBox.margin>
                         <graphic>
                            <StackPane prefHeight="39.0" prefWidth="84.0">
                               <children>
-                              <FontAwesomeIconView fx:id="boIcon" glyphName="BOOK" size="24" styleClass="menu-icon" />
-                                 <Label fx:id="boLabel" styleClass="menu-label" text="Book" visible="false" />
+                              <FontAwesomeIconView fx:id="fIcon" glyphName="PLANE" size="24" styleClass="menu-icon" />
+                                 <Label fx:id="fLabel" styleClass="menu-label" text="Flight" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
 
                   </Button>
-                     <Button fx:id="btnBooking1" layoutX="30.0" layoutY="343.0" mnemonicParsing="false" onAction="#showBookingMenu" onMouseEntered="#startBoHover" onMouseExited="#stopBoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                     <Button fx:id="btnAccommodation" layoutX="30.0" layoutY="343.0" mnemonicParsing="false" onAction="#handleAccommodation" onMouseEntered="#startAHover" onMouseExited="#stopAHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                         <graphic>
                            <StackPane prefHeight="39.0" prefWidth="84.0">
                               <children>
-                                 <FontAwesomeIconView fx:id="boIcon1" glyphName="BOOK" size="24" styleClass="menu-icon" />
-                                 <Label fx:id="boLabel1" styleClass="menu-label" text="Book" visible="false" />
+                                 <FontAwesomeIconView fx:id="aIcon" glyphName="HOTEL" size="24" styleClass="menu-icon" />
+                                 <Label fx:id="aLabel" styleClass="menu-label" text="Hotel" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
@@ -160,12 +160,12 @@
                            <Insets left="20.0" top="5.0" />
                         </VBox.margin>
                      </Button>
-                     <Button fx:id="btnBooking11" layoutX="10.0" layoutY="411.0" mnemonicParsing="false" onAction="#showBookingMenu" onMouseEntered="#startBoHover" onMouseExited="#stopBoHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
+                     <Button fx:id="btnTransport" layoutX="10.0" layoutY="411.0" mnemonicParsing="false" onAction="#handleTransport" onMouseEntered="#starttHover" onMouseExited="#stoptHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                         <graphic>
                            <StackPane prefHeight="39.0" prefWidth="84.0">
                               <children>
-                                 <FontAwesomeIconView fx:id="boIcon11" glyphName="BOOK" size="24" styleClass="menu-icon" />
-                                 <Label fx:id="boLabel11" styleClass="menu-label" text="Book" visible="false" />
+                                 <FontAwesomeIconView fx:id="tIcon" glyphName="TAXI" size="24" styleClass="menu-icon" />
+                                 <Label fx:id="tLabel" styleClass="menu-label" text="Transport" visible="false" />
                               </children>
                            </StackPane>
                         </graphic>
@@ -176,7 +176,7 @@
 
                   <Button fx:id="btnSettings" mnemonicParsing="false" onAction="#handlSettings" onMouseEntered="#startStHover" onMouseExited="#stopStHover" prefHeight="48.0" prefWidth="65.0" styleClass="menu-button">
                      <VBox.margin>
-                        <Insets left="20.0" top="100.0" />
+                        <Insets left="20.0" top="120.0" />
                      </VBox.margin>
                         <graphic>
                            <StackPane prefHeight="150.0" prefWidth="200.0">
