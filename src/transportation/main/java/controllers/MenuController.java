@@ -325,7 +325,7 @@ public class MenuController {
             contentPane.getChildren().clear();
 
             // Load new FXML content
-            Node newContent = FxmlUtils.loadFXML("src/accommodation/main/resources/com/example/hotels/fxml/client_acc.fxml");
+            Node newContent = FxmlUtils.loadFXML("/fxmlEya/client_acc.fxml");
             contentPane.getChildren().add(newContent);
 
 
