@@ -18,29 +18,29 @@
          <children>
             <Label prefHeight="68.0" prefWidth="220.0" styleClass="section-title" text="Where To?">
                <VBox.margin>
-                  <Insets left="50.0" top="10.0" />
+                  <Insets left="35.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="startLocationField" prefHeight="50.0" prefWidth="300.0" promptText="Enter starting location" styleClass="input-field">
+            <TextField fx:id="startLocationField" prefHeight="30.0" prefWidth="300.0" promptText="Enter starting location" styleClass="input-field">
                <VBox.margin>
-                  <Insets left="50.0" right="190.0" top="20.0" />
+                  <Insets left="35.0" right="190.0" top="15.0" />
                </VBox.margin>
             </TextField>
-            <TextField fx:id="destinationField" prefHeight="50.0" prefWidth="315.0" promptText="Enter destination" styleClass="input-field">
+            <TextField fx:id="destinationField" prefHeight="30.0" prefWidth="315.0" promptText="Enter destination" styleClass="input-field">
                <VBox.margin>
-                  <Insets left="50.0" right="190.0" top="20.0" />
+                  <Insets left="35.0" right="190.0" top="20.0" />
                </VBox.margin>
             </TextField>
-            <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#handleMap" prefHeight="54.0" prefWidth="310.0" styleClass="search-button" text="Search">
+            <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#handleMap" prefHeight="30.0" prefWidth="283.0" styleClass="search-button" text="Search">
                <VBox.margin>
-                  <Insets left="50.0" top="20.0" />
+                  <Insets left="35.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <Pane prefHeight="323.0" prefWidth="433.0">
+            <Pane prefHeight="346.0" prefWidth="465.0">
                <children>
-                  <StackPane prefHeight="314.0" prefWidth="335.0" styleClass="map-container">
+                  <StackPane prefHeight="352.0" prefWidth="460.0" styleClass="map-container">
                      <children>
-                        <ImageView fx:id="gifView" fitHeight="314.0" fitWidth="431.0" pickOnBounds="true" preserveRatio="true" visible="true">
+                        <ImageView fx:id="gifView" fitHeight="352.0" fitWidth="464.0" pickOnBounds="true" preserveRatio="true" visible="true">
                            <image>
                               <Image url="@/images/pointer.gif" />
                            </image>
@@ -50,7 +50,7 @@
                   </StackPane>
                </children>
                <VBox.margin>
-                  <Insets left="50.0" right="50.0" top="20.0" />
+                  <Insets left="35.0" right="50.0" top="20.0" />
                </VBox.margin>
             </Pane>
          </children>

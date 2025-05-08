@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="670.0" prefWidth="1000.0" styleClass="flights_view" stylesheets="@../style/hotelinfo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotels.controllersEya.HotelInfoClient">
+<AnchorPane prefHeight="670.0" prefWidth="1000.0" styleClass="flights_view" stylesheets="@../styleEya/hotelinfo.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersEya.HotelInfoClient">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" prefHeight="650.0" prefWidth="980.0" spacing="15.0">
          <children>
@@ -26,7 +26,7 @@
                         <FontAwesomeIconView glyphName="CHEVRON_LEFT" size="18" textAlignment="CENTER" />
                      </graphic>
                   </Button>
-                  <Label alignment="CENTER" contentDisplay="CENTER" styleClass="title-label" stylesheets="@../style/hotelinfo.css" text="Accommodation Details " />
+                  <Label alignment="CENTER" contentDisplay="CENTER" styleClass="title-label" stylesheets="@../styleEya/hotelinfo.css" text="Accommodation Details " />
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -41,7 +41,7 @@
                      <children>
                         <ImageView fx:id="photoinfo" fitHeight="230.0" fitWidth="350.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/hebergementicon.png" />
+                              <Image url="@../imagesEya/hebergementicon.png" />
                            </image>
                         </ImageView>
 

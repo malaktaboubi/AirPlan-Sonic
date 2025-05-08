@@ -14,6 +14,9 @@ public class ServiceHebergement {
 
     public ServiceHebergement() {
         cnx = DBConnection.getConnection();
+        if (cnx == null) {
+            throw new RuntimeException("Database connection could not be established");
+        }
     }
 
     public void ajouter(Hebergement h) {

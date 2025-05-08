@@ -57,7 +57,7 @@ public class ServiceTransportation {
         String req = "UPDATE transportation SET type=?, provider_name=?, departure_point=?, arrival_point=?, "
                 + "departure_Lat=?, departure_Lng=?, arrival_Lat=?, arrival_Lng=?, "
                 + "departure_time=?, duration_minutes=?, price=?, operating_days=? "
-                + "WHERE id=?";
+                + "WHERE id_transport=?";
 
         try (PreparedStatement ps = cnx.prepareStatement(req)) {
             ps.setString(1, h.getType());
@@ -72,7 +72,6 @@ public class ServiceTransportation {
             ps.setInt(10, h.getDurationMinutes());
             ps.setDouble(11, h.getPrice());
             ps.setString(12, h.getOperatingDays());
-            ps.setInt(13, h.getId());
 
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
@@ -87,7 +86,7 @@ public class ServiceTransportation {
     }
 
     public void supprimer(int id) {
-        String req = "DELETE FROM transportation WHERE id=?";
+        String req = "DELETE FROM transportation WHERE id_transport=id";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, id);

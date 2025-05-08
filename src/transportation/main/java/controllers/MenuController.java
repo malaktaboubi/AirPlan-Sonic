@@ -2,24 +2,22 @@ package controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Side;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import services.ControlledScreen;
 
 import java.io.IOException;
 
-public class MenuController {
+public class MenuController  {
     public Circle notificationIndicator;
     @FXML
     private Button btnHome;
@@ -66,6 +64,27 @@ public class MenuController {
 
 
     //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+
+    public void loadFXML(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node node = loader.load();
+
+            // Pass the main controller to the new one, if it implements ControlledScreen
+            Object controller = loader.getController();
+            if (controller instanceof ControlledScreen) {
+                ((ControlledScreen) controller).setMainController(this);
+            }
+
+            contentPane.getChildren().setAll(node); // Replaces current content with new one
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
     public void startHomeHover(MouseEvent mouseEvent) {
         // Fade out icon while fading in label
@@ -411,11 +430,11 @@ public class MenuController {
 
     public void handlProgram(ActionEvent actionEvent) {
     }
-    
+
     @FXML
     private void handleFlight(ActionEvent actionEvent) {
     }
-    
+
     @FXML
     private void handleAccommodation(ActionEvent actionEvent) {
         try {

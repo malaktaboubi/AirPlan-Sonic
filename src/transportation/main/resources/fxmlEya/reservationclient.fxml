@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" stylesheets="@../style/reservationclient.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.hotels.controllersEya.ReservationClient">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" stylesheets="@../styleEya/reservationclient.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersEya.ReservationClient">
    <children>
       <Button fx:id="btnReserve" layoutX="365.0" layoutY="615.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="32.0" prefWidth="79.0" styleClass="Button" text="Submit" />
       <Button fx:id="btnCancel" layoutX="500.0" layoutY="615.0" mnemonicParsing="false" onAction="#handleCancelAction" prefHeight="32.0" prefWidth="79.0" styleClass="Button" text="Return" />
@@ -51,7 +51,7 @@
          </font></Label>
       <ImageView fitHeight="130.0" fitWidth="250.0" layoutX="748.0" layoutY="545.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/zinareservation.png" />
+            <Image url="@../imagesEya/zinareservation.png" />
          </image>
       </ImageView>
       <AnchorPane id="anchorfilter" layoutX="72.0" layoutY="89.0" prefHeight="178.0" prefWidth="790.0">
@@ -91,14 +91,14 @@
       </AnchorPane>
       <ImageView fitHeight="211.0" fitWidth="167.0" layoutX="823.0" layoutY="347.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/bagage.png" />
+            <Image url="@../imagesEya/bagage.png" />
          </image>
       </ImageView>
       <TextField fx:id="emailresField" layoutX="267.0" layoutY="446.0" promptText="email" />
       <TextField fx:id="nameresField" layoutX="439.0" layoutY="447.0" promptText="name" />
       <ImageView fitHeight="53.0" fitWidth="608.0" layoutX="163.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/titrereservation.png" />
+            <Image url="@../imagesEya/titrereservation.png" />
          </image>
       </ImageView>
    </children>

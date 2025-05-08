@@ -1,5 +1,6 @@
 package controllersEya;
 
+import controllers.MenuController;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -8,8 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,11 +17,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import modelsEya.Hebergement;
 import modelsEya.Reservation;
 import org.json.JSONObject;
+import services.ControlledScreen;
 import servicesEya.ServiceHebergement;
 import servicesEya.ServiceReservation;
 import view.AccCellBookedFactory;
@@ -38,8 +37,14 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+public class ClientAcc implements ControlledScreen {
 
-public class ClientAcc {
+    private MenuController mainController;
+
+    @Override
+    public void setMainController(MenuController mainController) {
+        this.mainController = mainController;
+    }
 
     @FXML private ScrollPane scrollPane;
     @FXML private FlowPane flowPane;
@@ -48,7 +53,7 @@ public class ClientAcc {
     @FXML private WebView weatherWebView;
     @FXML private Button btnliked;
     @FXML private Button btnbooked;
-    // favorite pane
+
     private boolean favoritesVisible = false;
     private VBox favoritesContainer;
     private ListView<Hebergement> favoritesListView;
@@ -57,7 +62,6 @@ public class ClientAcc {
     private List<Hebergement> hotelList = new ArrayList<>();
     private List<Hebergement> displayedHotels = new ArrayList<>();
 
-    //booked acc pane
     private boolean bookedVisible = false;
     private VBox bookedContainer;
     private ListView<Reservation> bookedListView;
@@ -89,7 +93,6 @@ public class ClientAcc {
     private void setupEventHandlers() {
         pricecombo.setOnAction(event -> sortHotels());
         destinationfiled.textProperty().addListener((observable, oldValue, newValue) -> filterHotels());
-
     }
 
     private String fetchWeatherData(String city, String country) throws Exception {
@@ -121,21 +124,18 @@ public class ClientAcc {
         displayedHotels = new ArrayList<>(hotelList);
         updateHotelCards(displayedHotels);
     }
+
     private void initializeFavoritesPanel() {
-        // Create the sliding container with improved styling
         favoritesContainer = new VBox();
         favoritesContainer.setStyle("-fx-background-color: #f8f9fa; " +
                 "-fx-border-color: #dee2e6; " +
                 "-fx-border-width: 1; " +
                 "-fx-border-radius: 10; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);");
-        //favoritesContainer.setPrefWidth(520);
         favoritesContainer.setPrefWidth(900);
-        favoritesContainer.setPrefHeight(510);// 500px width as requested
-
+        favoritesContainer.setPrefHeight(510);
         favoritesContainer.setVisible(false);
 
-        // Create header with better styling (no close button needed)
         Label header = new Label("MY FAVORITES");
         header.setStyle("-fx-font-size: 18px; " +
                 "-fx-font-weight: bold; " +
@@ -145,7 +145,6 @@ public class ClientAcc {
         header.setMaxWidth(Double.MAX_VALUE);
         header.setAlignment(Pos.CENTER);
 
-        // Create header container (simplified without close button)
         HBox headerBox = new HBox(header);
         headerBox.setAlignment(Pos.CENTER);
         headerBox.setStyle("-fx-border-color: #e9ecef; " +
@@ -153,27 +152,22 @@ public class ClientAcc {
                 "-fx-background-color: #ffffff; " +
                 "-fx-border-radius: 10 10 0 0;");
 
-        // Create ListView with better styling
         favoritesListView = new ListView<>();
         favoritesListView.setCellFactory(new AccCellFavorisFactory());
         favoritesListView.setStyle("-fx-background-color: transparent; " +
                 "-fx-border-color: transparent; " +
                 "-fx-padding: 5;");
-        favoritesListView.setPrefHeight(400); // Increased height
+        favoritesListView.setPrefHeight(400);
         VBox.setVgrow(favoritesListView, Priority.ALWAYS);
 
-        // Add some padding and spacing
         favoritesContainer.setSpacing(0);
         favoritesContainer.setPadding(new Insets(0));
-
         favoritesContainer.getChildren().addAll(headerBox, favoritesListView);
 
-        // Position the container - right anchor 30px, y-coordinate at 180px as requested
         AnchorPane.setRightAnchor(favoritesContainer, 30.0);
-        AnchorPane.setTopAnchor(favoritesContainer, 180.0);  // Set to 180 y-coordinate
-        AnchorPane.setBottomAnchor(favoritesContainer, null); // Remove bottom anchor
+        AnchorPane.setTopAnchor(favoritesContainer, 180.0);
+        AnchorPane.setBottomAnchor(favoritesContainer, null);
 
-        // Add to the main scene
         ((AnchorPane)scrollPane.getParent()).getChildren().add(favoritesContainer);
     }
 
@@ -185,31 +179,24 @@ public class ClientAcc {
         favoritesVisible = !favoritesVisible;
 
         if (favoritesVisible) {
-            // Load favorites
             List<Hebergement> favorites = hotelList.stream()
                     .filter(h -> "liked".equals(h.getFavoris()))
                     .collect(Collectors.toList());
             favoritesListView.getItems().setAll(favorites);
 
-            // Show with animation
             favoritesContainer.setTranslateX(300);
             favoritesContainer.setVisible(true);
 
             TranslateTransition slideIn = new TranslateTransition(Duration.millis(300), favoritesContainer);
             slideIn.setToX(0);
-
-
             slideIn.play();
         } else {
-            // Hide with animation
             TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), favoritesContainer);
             slideOut.setToX(300);
             slideOut.setOnFinished(e -> favoritesContainer.setVisible(false));
             slideOut.play();
         }
     }
-
-
 
     private void filterHotels() {
         String keyword = destinationfiled.getText().toLowerCase();
@@ -253,12 +240,11 @@ public class ClientAcc {
         carte.setPadding(new Insets(12));
         carte.setSpacing(10);
         carte.setStyle("""
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
-    """);
+            -fx-background-color: #ffffff;
+            -fx-background-radius: 15;
+            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
+            """);
 
-        // Image
         ImageView imageView = new ImageView();
         try {
             Image img = new Image(hebergement.getPhoto(), 240, 160, true, true);
@@ -272,28 +258,23 @@ public class ClientAcc {
             System.out.println("Error loading image: " + hebergement.getPhoto());
         }
 
-        // Title
         Label labelTitre = new Label(hebergement.getName());
         labelTitre.setFont(Font.font("Arial", FontWeight.BOLD, 18));
         labelTitre.setTextFill(Color.web("#2e2e2e"));
 
-        // Location
         Label labelLocation = new Label("📍  " + hebergement.getCountry()+", "+hebergement.getCity());
         labelLocation.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 14));
         labelLocation.setTextFill(Color.web("#555"));
 
-        // Description
         Label labelDescription = new Label(hebergement.getDescription());
         labelDescription.setFont(Font.font("Arial", 12));
         labelDescription.setWrapText(true);
         labelDescription.setTextFill(Color.GRAY);
 
-        // Price
         Label labelPrix = new Label(String.format("%.2f TND / Night", hebergement.getPricePerNight()));
         labelPrix.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         labelPrix.setTextFill(Color.web("#009688"));
 
-        // Rating stars
         HBox starsBox = new HBox(2);
         for (int i = 0; i < hebergement.getRating(); i++) {
             Label star = new Label("★");
@@ -301,15 +282,13 @@ public class ClientAcc {
             starsBox.getChildren().add(star);
         }
 
-        // Favorite heart
-        Image imgHeartEmpty = new Image(getClass().getResource("/com/example/hotels/images/heart_empty.png").toExternalForm());
-        Image imgHeartFull = new Image(getClass().getResource("/com/example/hotels/images/heart_full.png").toExternalForm());
+        Image imgHeartEmpty = new Image(getClass().getResource("/imagesEya/heart_empty.png").toExternalForm());
+        Image imgHeartFull = new Image(getClass().getResource("/imagesEya/heart_full.png").toExternalForm());
 
         ImageView heartView = new ImageView();
         heartView.setFitWidth(24);
         heartView.setFitHeight(24);
 
-// Initialize heart based on current favoris status
         if ("liked".equals(hebergement.getFavoris())) {
             heartView.setImage(imgHeartFull);
         } else {
@@ -319,7 +298,7 @@ public class ClientAcc {
         Button btnFavori = new Button();
         btnFavori.setGraphic(heartView);
         btnFavori.setStyle("-fx-background-color: transparent; -fx-border-width: 0;");
-        btnFavori.setVisible(false); // Initially hidden
+        btnFavori.setVisible(false);
 
         btnFavori.setOnAction(e -> {
             try {
@@ -332,15 +311,10 @@ public class ClientAcc {
                     heartView.setImage(imgHeartFull);
                 }
 
-                // Update the database
                 service.updateFavoris(hebergement.getId(), newFavorisStatus);
-
-                // Update the local object
                 hebergement.setFavoris(newFavorisStatus);
-
             } catch (SQLException ex) {
                 System.err.println("Error updating favorite status: " + ex.getMessage());
-                // Revert the UI change if database update failed
                 if ("liked".equals(hebergement.getFavoris())) {
                     heartView.setImage(imgHeartFull);
                 } else {
@@ -349,54 +323,44 @@ public class ClientAcc {
             }
         });
 
-        // Reserve button
         Button btnReserver = new Button("Book");
         btnReserver.setStyle("""
-    -fx-background-color: #588b8b;
-    -fx-text-fill: white;
-    -fx-background-radius: 20;
-    -fx-padding: 6 12;
-    -fx-font-weight: bold;
-    """);
+            -fx-background-color: #588b8b;
+            -fx-text-fill: white;
+            -fx-background-radius: 20;
+            -fx-padding: 6 12;
+            -fx-font-weight: bold;
+            """);
         btnReserver.setVisible(false);
 
-        // Footer with reserve button and favorite button
         HBox footerBox = new HBox();
         footerBox.setAlignment(Pos.CENTER_RIGHT);
         footerBox.setSpacing(10);
 
-        // Add favorite button first (left side)
         footerBox.getChildren().add(btnFavori);
-
-        // Add growing region to push buttons to the right
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         footerBox.getChildren().add(spacer);
-
-        // Add reserve button (right side)
         footerBox.getChildren().add(btnReserver);
 
-        // Weather info panel (initially hidden)
         VBox weatherBox = new VBox();
         weatherBox.setStyle("""
-    -fx-background-color: #f8f9fa;
-    -fx-background-radius: 10;
-    -fx-padding: 8;
-    -fx-spacing: 5;
-    """);
+            -fx-background-color: #f8f9fa;
+            -fx-background-radius: 10;
+            -fx-padding: 8;
+            -fx-spacing: 5;
+            """);
         weatherBox.setVisible(false);
 
         Label weatherLoading = new Label("Loading weather...");
         weatherLoading.setStyle("-fx-text-fill: #666; -fx-font-size: 12px;");
         weatherBox.getChildren().add(weatherLoading);
 
-        // Card hover effects
         carte.setOnMouseEntered(e -> {
             btnReserver.setVisible(true);
-            btnFavori.setVisible(true); // Show favorite button on hover
+            btnFavori.setVisible(true);
             weatherBox.setVisible(true);
 
-            // Fetch weather data when hovered
             new Thread(() -> {
                 try {
                     String weatherData = fetchWeatherData(hebergement.getCity(), hebergement.getCountry());
@@ -450,26 +414,25 @@ public class ClientAcc {
             }).start();
 
             carte.setStyle("""
-        -fx-background-color: #f5f5f5;
-        -fx-background-radius: 15;
-        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 4);
-        """);
+                -fx-background-color: #f5f5f5;
+                -fx-background-radius: 15;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 12, 0, 0, 4);
+                """);
         });
 
         carte.setOnMouseExited(e -> {
             btnReserver.setVisible(false);
-            btnFavori.setVisible(false); // Hide favorite button when not hovering
+            btnFavori.setVisible(false);
             weatherBox.setVisible(false);
             carte.setStyle("""
-        -fx-background-color: #ffffff;
-        -fx-background-radius: 15;
-        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
-        """);
+                -fx-background-color: #ffffff;
+                -fx-background-radius: 15;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);
+                """);
         });
 
         btnReserver.setOnAction(event -> openReservation(hebergement, event));
 
-        // Card click handlers
         carte.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 openHotelInfo(hebergement);
@@ -492,39 +455,56 @@ public class ClientAcc {
 
     private void openHotelInfo(Hebergement hebergement) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotels/fxml/hotel_info_client.fxml"));
-            Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlEya/hotel_info_client.fxml"));
+            Node node = loader.load();
 
             HotelInfoClient hotelInfoController = loader.getController();
             hotelInfoController.setHebergementDetails(hebergement);
 
-            Scene currentScene = scrollPane.getScene();
-            currentScene.setRoot(root);
+            if (mainController != null) {
+                hotelInfoController.setMainController(mainController);
+                mainController.loadFXML(String.valueOf(node));
+            } else {
+                System.err.println("MainController is not set in ClientAcc");
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load hotel info");
+            alert.setContentText("An error occurred: " + e.getMessage());
+            alert.showAndWait();
         }
     }
 
     private void openReservation(Hebergement hebergement, ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotels/fxml/reservationclient.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlEya/reservationclient.fxml"));
+            Node node = loader.load();
 
             ReservationClient controller = loader.getController();
             controller.setHebergementData(hebergement);
 
-            Scene newScene = new Scene(root);
-            stage.setScene(newScene);
-            stage.show();
+            if (controller instanceof ControlledScreen && mainController != null) {
+                ((ControlledScreen) controller).setMainController(mainController);
+            }
+
+            if (mainController != null) {
+                mainController.loadFXML(String.valueOf(node));
+            } else {
+                System.err.println("MainController is not set in ClientAcc");
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load reservation page");
+            alert.setContentText("An error occurred: " + ex.getMessage());
+            alert.showAndWait();
         }
     }
 
     private void initializeBookedPanel() {
-        // Create the sliding container
         bookedContainer = new VBox();
         bookedContainer.setStyle("-fx-background-color: #f8f9fa; " +
                 "-fx-border-color: #dee2e6; " +
@@ -532,12 +512,10 @@ public class ClientAcc {
                 "-fx-border-radius: 10; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);");
         bookedContainer.setPrefWidth(900);
-        //bookedContainer.setPrefWidth(520);
         bookedContainer.setPrefHeight(510);
         bookedContainer.setVisible(false);
 
-        // Create header
-        Label header = new Label("MY BOOKINGS");
+        Label header = new Label("MY BOOKINGS"); // Declare and initialize header
         header.setStyle("-fx-font-size: 18px; " +
                 "-fx-font-weight: bold; " +
                 "-fx-padding: 15; " +
@@ -553,7 +531,6 @@ public class ClientAcc {
                 "-fx-background-color: #ffffff; " +
                 "-fx-border-radius: 10 10 0 0;");
 
-        // Create ListView
         bookedListView = new ListView<>();
         bookedListView.setCellFactory(new AccCellBookedFactory(this::refreshBookedList));
         bookedListView.setStyle("-fx-background-color: transparent; " +
@@ -566,12 +543,10 @@ public class ClientAcc {
         bookedContainer.setPadding(new Insets(0));
         bookedContainer.getChildren().addAll(headerBox, bookedListView);
 
-        // Position the container
         AnchorPane.setRightAnchor(bookedContainer, 30.0);
         AnchorPane.setTopAnchor(bookedContainer, 180.0);
         AnchorPane.setBottomAnchor(bookedContainer, null);
 
-        // Add to the main scene
         ((AnchorPane)scrollPane.getParent()).getChildren().add(bookedContainer);
     }
 
@@ -585,7 +560,6 @@ public class ClientAcc {
         if (bookedVisible) {
             refreshBookedList();
 
-            // Show with animation
             bookedContainer.setTranslateX(300);
             bookedContainer.setVisible(true);
 
@@ -593,7 +567,6 @@ public class ClientAcc {
             slideIn.setToX(0);
             slideIn.play();
         } else {
-            // Hide with animation
             TranslateTransition slideOut = new TranslateTransition(Duration.millis(300), bookedContainer);
             slideOut.setToX(300);
             slideOut.setOnFinished(e -> bookedContainer.setVisible(false));
@@ -604,7 +577,6 @@ public class ClientAcc {
     private void refreshBookedList() {
         try {
             ServiceReservation service = new ServiceReservation();
-            // You'll need to get the current user's ID - replace 1 with actual user ID
             List<Reservation> bookings = service.getReservationsByUserId(1);
             bookedListView.getItems().setAll(bookings);
         } catch (SQLException e) {
