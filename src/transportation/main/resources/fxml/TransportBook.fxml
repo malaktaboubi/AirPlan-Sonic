@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -14,49 +17,70 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" stylesheets="@../style/styleT.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TransportBookController">
    <left>
-      <VBox prefHeight="670.0" prefWidth="550.0" styleClass="left-pane" BorderPane.alignment="CENTER">
+      <VBox prefHeight="670.0" prefWidth="522.0" styleClass="left-pane" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="68.0" prefWidth="220.0" styleClass="section-title" text="Where To?">
                <VBox.margin>
-                  <Insets left="50.0" top="10.0" />
+                  <Insets left="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="startLocationField" prefHeight="50.0" prefWidth="300.0" promptText="Enter starting location" styleClass="input-field">
-               <VBox.margin>
-                  <Insets left="50.0" right="190.0" top="20.0" />
-               </VBox.margin>
-            </TextField>
-            <TextField fx:id="destinationField" prefHeight="50.0" prefWidth="315.0" promptText="Enter destination" styleClass="input-field">
-               <VBox.margin>
-                  <Insets left="50.0" right="190.0" top="20.0" />
-               </VBox.margin>
-            </TextField>
-            <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#handleMap" prefHeight="54.0" prefWidth="310.0" styleClass="search-button" text="Search">
-               <VBox.margin>
-                  <Insets left="50.0" top="20.0" />
-               </VBox.margin>
-            </Button>
-            <Pane prefHeight="323.0" prefWidth="433.0">
+            <HBox prefHeight="35.0" prefWidth="450.0">
                <children>
-                  <StackPane prefHeight="314.0" prefWidth="335.0" styleClass="map-container">
+                  <StackPane>
+                  <TextField fx:id="startLocationField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="170.0" promptText="Starting point" styleClass="input-field" />
+                     <Button fx:id="btnGps" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleGps" prefHeight="35.0" prefWidth="50.0" styleClass="button-gps" translateX="7.0" StackPane.alignment="CENTER_RIGHT">
+                        <graphic>
+                           <FontAwesomeIconView glyphName="COMPASS" styleClass="button-icons" />
+                        </graphic>
+                        <StackPane.margin>
+                           <Insets right="7.0" />
+                        </StackPane.margin>
+                     </Button>
+                  </StackPane>
+                  <TextField fx:id="destinationField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="170.0" promptText="Destination" styleClass="input-field">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button fx:id="btnSearch" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleMap" prefHeight="35.0" prefWidth="50.0" styleClass="search-button">
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" />
+                     </graphic>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </HBox>
+            <Pane prefHeight="486.0" prefWidth="514.0">
+               <children>
+                  <StackPane layoutX="-20.0" prefHeight="491.0" prefWidth="522.0" styleClass="map-container">
                      <children>
-                        <ImageView fx:id="gifView" fitHeight="314.0" fitWidth="431.0" pickOnBounds="true" preserveRatio="true" visible="true">
+                        <ImageView fx:id="gifView" fitHeight="488.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true" visible="true" StackPane.alignment="CENTER">
                            <image>
-                              <Image url="@/images/pointer.gif" />
+                              <Image url="@/images/pointer1.gif" />
                            </image>
+                           <StackPane.margin>
+                              <Insets left="7.0" />
+                           </StackPane.margin>
                         </ImageView>
-                        <WebView fx:id="webView" prefHeight="314.0" prefWidth="453.0" visible="false" />
+                        <WebView fx:id="webView" prefHeight="314.0" prefWidth="461.0" visible="false" />
                      </children>
                   </StackPane>
                </children>
                <VBox.margin>
-                  <Insets left="50.0" right="50.0" top="20.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </Pane>
          </children>
       </VBox>
    </left>
    <center>
+      <ScrollPane>
       <VBox fx:id="listVbox" prefHeight="670.0" prefWidth="478.0" styleClass="results-pane" BorderPane.alignment="CENTER" />
+      </ScrollPane>
    </center>
 </BorderPane>

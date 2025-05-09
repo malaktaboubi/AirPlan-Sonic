@@ -4,9 +4,12 @@ import entities.Transportation;
 import utils.MyDataBase;
 
 import java.sql.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
+import java.util.stream.*;
+import java.util.Optional;
+
 
 public class ServiceTransportation {
     private static Connection cnx;
@@ -98,21 +101,36 @@ public class ServiceTransportation {
         }
     }
 
-    public static List<Transportation> afficher() {
-        List<Transportation> transports = new ArrayList<>();
+    private static Stream<ResultSet> toStream(ResultSet rs) {
+        Iterable<ResultSet> iterable = () -> new Iterator<ResultSet>() {
+            @Override
+            public boolean hasNext() {
+                try {
+                    return !rs.isClosed() && !rs.isAfterLast() && rs.next();
+                } catch (SQLException e) {
+                    throw new RuntimeException("Error iterating through ResultSet", e);
+                }
+            }
 
+            @Override
+            public ResultSet next() {
+                return rs;
+            }
+        };
+
+        return StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    public static List<Transportation> afficher() {
         String query = "SELECT * FROM transportation";
 
         try (Statement stmt = cnx.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
 
+            List<Transportation> transports = new ArrayList<>();
+
             while (rs.next()) {
-                try {
-                    Transportation transport = mapResultSetToTransportation(rs);
-                    transports.add(transport);
-                } catch (SQLException e) {
-                    System.err.println("Error mapping transportation record: " + e.getMessage());
-                }
+                mapResultSetSafely(rs).ifPresent(transports::add);
             }
 
             System.out.println(transports.size() + " transports retrieved successfully");
@@ -124,49 +142,36 @@ public class ServiceTransportation {
         }
     }
 
-    public List<Transportation> findByDepartureAndArrival(String departure, String arrival) {
-        List<Transportation> transports = new ArrayList<>();
-
-        String query = "SELECT * FROM transportation WHERE departure_point LIKE ? AND arrival_point LIKE ?";
-
-        try (PreparedStatement ps = cnx.prepareStatement(query)) {
-            ps.setString(1, "%" + departure + "%");
-            ps.setString(2, "%" + arrival + "%");
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Transportation transport = mapResultSetToTransportation(rs);
-                    transports.add(transport);
-                }
-            }
-
-            System.out.println(transports.size() + " transports found for " + departure + " to " + arrival);
-            return transports;
-
+    private static Optional<Transportation> mapResultSetSafely(ResultSet rs) {
+        try {
+            return Optional.of(mapResultSetToTransportation(rs));
         } catch (SQLException e) {
-            System.err.println("Error finding transports: " + e.getMessage());
-            throw new RuntimeException("Database query error", e);
+            System.err.println("Error mapping transportation record: " + e.getMessage());
+            return Optional.empty();
         }
     }
 
-    private static Transportation mapResultSetToTransportation(ResultSet rs) throws SQLException {
-        Time departureTime = rs.getTime("departure_time");
-        LocalTime localDepartureTime = departureTime != null ? departureTime.toLocalTime() : null;
 
-        return new Transportation(
-                rs.getInt("id"),
-                rs.getString("type"),
-                rs.getString("provider_name"),
-                rs.getString("departure_point"),
-                rs.getString("arrival_point"),
-                rs.getDouble("departure_lat"),
-                rs.getDouble("departure_lng"),
-                rs.getDouble("arrival_lat"),
-                rs.getDouble("arrival_lng"),
-                localDepartureTime,
-                rs.getInt("duration_minutes"),
-                rs.getDouble("price"),
-                rs.getString("operating_days")
-        );
-    }
+        private static Transportation mapResultSetToTransportation(ResultSet rs) throws SQLException {
+            Transportation transport = new Transportation();
+            transport.setId(rs.getInt("id_transport"));
+            transport.setType(rs.getString("type"));
+            transport.setProviderName(rs.getString("provider_name"));
+            transport.setDeparturePoint(rs.getString("departure_point"));
+            transport.setArrivalPoint(rs.getString("arrival_point"));
+            transport.setDepartureLat(rs.getDouble("departure_lat"));
+            transport.setDepartureLng(rs.getDouble("departure_lng"));
+            transport.setArrivalLat(rs.getDouble("arrival_lat"));
+            transport.setArrivalLng(rs.getDouble("arrival_lng"));
+            transport.setDepartureTime(rs.getTime("departure_time").toLocalTime());
+            transport.setDurationMinutes(rs.getInt("duration_minutes"));
+            transport.setPrice(rs.getDouble("price"));
+            transport.setOperatingDays(rs.getString("operating_days"));
+            transport.setPhoto(rs.getString("photo"));
+
+            // etc.
+            return transport;
+        }
+
+
 }

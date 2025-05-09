@@ -1,6 +1,8 @@
 package controllers;
 
 import entities.Transportation;
+import javafx.animation.*;
+import javafx.util.Duration;
 import services.ServiceTransportation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,10 +12,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
+
+import java.io.IOException;
+import java.net.ProtocolException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.json.JSONObject;
+
 
 public class TransportBookController {
 
@@ -56,6 +68,63 @@ public class TransportBookController {
                 alert.showAndWait();
             }
         });
+
+        // Load transportation options from database automatically
+        List<Transportation> options;
+        try {
+            options = serviceTransportation.afficher();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load transportation options: " + e.getMessage());
+            alert.showAndWait();
+            return;
+        }
+
+        // Clear previous cards (just in case)
+        listVbox.getChildren().clear();
+
+        // Add cards for each transport option
+        if (options.isEmpty()) {
+            Label noResultsLabel = new Label("No transportation options found.");
+            noResultsLabel.getStyleClass().add("no-results");
+            listVbox.getChildren().add(noResultsLabel);
+        } else {
+            // REPLACE THIS SECTION WITH ANIMATED VERSION
+            for (int i = 0; i < options.size(); i++) {
+                Transportation option = options.get(i);
+                VBox card = createTransportCard(option);
+                card.setTranslateY(50); // Start below final position
+                card.setOpacity(0);
+                listVbox.getChildren().add(card);
+
+                ParallelTransition pt = new ParallelTransition();
+
+                // Fade animation
+                FadeTransition ft = new FadeTransition(Duration.millis(500), card);
+                ft.setFromValue(0);
+                ft.setToValue(1);
+
+                // Slide animation
+                TranslateTransition tt = new TranslateTransition(Duration.millis(600), card);
+                tt.setFromY(50);
+                tt.setToY(0);
+                tt.setInterpolator(Interpolator.EASE_OUT);
+
+                // Bounce effect
+                ScaleTransition st = new ScaleTransition(Duration.millis(300), card);
+                st.setFromX(0.9);
+                st.setToX(1);
+                st.setFromY(0.9);
+                st.setToY(1);
+                st.setCycleCount(2);
+                st.setAutoReverse(true);
+                st.setDelay(Duration.millis(400));
+
+                pt.getChildren().addAll(ft, tt, st);
+                pt.setDelay(Duration.millis(i * 150)); // Staggered delay
+                pt.play();
+            }
+            // END OF ANIMATED SECTION
+        }
     }
 
     @FXML
@@ -85,31 +154,6 @@ public class TransportBookController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to construct map URL: " + e.getMessage());
             alert.showAndWait();
             return;
-        }
-
-        // Load transportation options from database
-        List<Transportation> options;
-        try {
-            options = serviceTransportation.findByDepartureAndArrival(startLocation, destination);
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to fetch transportation options: " + e.getMessage());
-            alert.showAndWait();
-            return;
-        }
-
-        // Clear previous cards
-        listVbox.getChildren().clear();
-
-        // Add cards for each transport option
-        if (options.isEmpty()) {
-            Label noResultsLabel = new Label("No transportation options found.");
-            noResultsLabel.getStyleClass().add("no-results");
-            listVbox.getChildren().add(noResultsLabel);
-        } else {
-            for (Transportation option : options) {
-                VBox card = createTransportCard(option);
-                listVbox.getChildren().add(card);
-            }
         }
     }
 
@@ -158,5 +202,34 @@ public class TransportBookController {
     private String capitalize(String str) {
         if (str == null || str.isEmpty()) return str;
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    public void handleGps(ActionEvent event) throws IOException {
+        try {
+        String apiUrl = "http://ip-api.com/json"; // IP-based geolocation API
+        HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+        connection.setRequestMethod("GET");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuilder response = new StringBuilder();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            response.append(line);
+        }
+
+        reader.close();
+
+        JSONObject json = new JSONObject(response.toString());
+        String city = json.getString("city");
+        startLocationField.setText(city);
+
+    } catch(
+    Exception e)
+
+    {
+        e.printStackTrace();
+        startLocationField.setText("Error getting location");
+         }
     }
 }

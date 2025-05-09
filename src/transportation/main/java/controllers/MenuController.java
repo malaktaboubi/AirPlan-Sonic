@@ -2,20 +2,17 @@ package controllers;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import utils.FxmlUtils;
 
 import java.io.IOException;
 
