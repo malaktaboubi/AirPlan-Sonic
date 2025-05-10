@@ -1,20 +1,25 @@
 package controllers;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entities.Transportation;
 import javafx.animation.*;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.geometry.*;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.util.Duration;
 import services.ServiceTransportation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
-
+import javafx.application.Platform;
 import java.io.IOException;
-import java.net.ProtocolException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
@@ -23,6 +28,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import javafx.scene.layout.Region;
+import java.util.stream.Collectors;
+
 
 import org.json.JSONObject;
 
@@ -43,6 +51,14 @@ public class TransportBookController {
 
     @FXML
     private VBox listVbox;
+    @FXML
+    ScrollPane paneAffichage ;
+    @FXML
+    ScrollPane paneBook ;
+    @FXML
+    Label providerReservation;
+    @FXML
+    ImageView imageReservation;
 
     private ServiceTransportation serviceTransportation;
 
@@ -57,7 +73,6 @@ public class TransportBookController {
             return;
         }
 
-        // Ensure GIF is visible and WebView is hidden on startup
         gifView.setVisible(true);
         webView.setVisible(false);
 
@@ -69,7 +84,7 @@ public class TransportBookController {
             }
         });
 
-        // Load transportation options from database automatically
+        // Load transportation options
         List<Transportation> options;
         try {
             options = serviceTransportation.afficher();
@@ -79,37 +94,121 @@ public class TransportBookController {
             return;
         }
 
-        // Clear previous cards (just in case)
         listVbox.getChildren().clear();
 
-        // Add cards for each transport option
         if (options.isEmpty()) {
             Label noResultsLabel = new Label("No transportation options found.");
             noResultsLabel.getStyleClass().add("no-results");
             listVbox.getChildren().add(noResultsLabel);
         } else {
-            // REPLACE THIS SECTION WITH ANIMATED VERSION
-            for (int i = 0; i < options.size(); i++) {
-                Transportation option = options.get(i);
+            Platform.runLater(() -> {
+                for (int i = 0; i < options.size(); i++) {
+                    Transportation option = options.get(i);
+
+                    VBox card;
+                    try {
+                        card = createTransportCard(option);
+                    } catch (Exception e) {
+                        System.err.println("Error creating card for transport ID " + option.getId() + ": " + e.getMessage());
+                        e.printStackTrace();
+                        continue;
+                    }
+
+                    card.setTranslateY(50);
+                    card.setOpacity(0);
+                    listVbox.getChildren().add(card);
+
+                    // Animation setup
+                    FadeTransition ft = new FadeTransition(Duration.millis(1000), card);
+                    ft.setFromValue(0);
+                    ft.setToValue(1);
+
+                    TranslateTransition tt = new TranslateTransition(Duration.millis(1000), card);
+                    tt.setFromY(50);
+                    tt.setToY(0);
+                    tt.setInterpolator(Interpolator.EASE_OUT);
+
+                    ScaleTransition st = new ScaleTransition(Duration.millis(300), card);
+                    st.setFromX(0.9);
+                    st.setToX(1);
+                    st.setFromY(0.9);
+                    st.setToY(1);
+                    st.setCycleCount(2);
+                    st.setAutoReverse(true);
+                    st.setDelay(Duration.millis(400));
+
+                    ParallelTransition pt = new ParallelTransition(ft, tt, st);
+                    pt.setDelay(Duration.millis(i * 150)); // Staggered entrance
+                    pt.play();
+                }
+            });
+        }
+    }
+
+
+    @FXML
+    public void handleMap(ActionEvent event) {
+        // Get user input
+        String startLocation = startLocationField.getText().trim().toLowerCase();
+        String destination = destinationField.getText().trim().toLowerCase();
+
+        // Validate input
+        if (startLocation.isEmpty() || destination.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Please enter both starting location and destination.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Show map and hide GIF
+        gifView.setVisible(false);
+        webView.setVisible(true);
+
+        // Load map in WebView
+        try {
+            String encodedStart = URLEncoder.encode(startLocation, StandardCharsets.UTF_8);
+            String encodedDest = URLEncoder.encode(destination, StandardCharsets.UTF_8);
+            String mapUrl = String.format("https://www.google.com/maps/dir/%s/%s", encodedStart, encodedDest);
+            webView.getEngine().load(mapUrl);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to construct map URL: " + e.getMessage());
+            alert.showAndWait();
+            return;
+        }
+
+        // FILTER and update transport cards using stream
+        List<Transportation> allOptions = serviceTransportation.afficher();
+        List<Transportation> filteredOptions = allOptions.stream()
+                .filter(t -> t.getDeparturePoint().toLowerCase().contains(startLocation)
+                        && t.getArrivalPoint().toLowerCase().contains(destination))
+                .collect(Collectors.toList());
+
+        // Update the card display
+        listVbox.getChildren().clear();
+
+        if (filteredOptions.isEmpty()) {
+            Label noResults = new Label("No transportation found for this route.");
+            noResults.getStyleClass().add("no-results");
+            listVbox.getChildren().add(noResults);
+        } else {
+            for (int i = 0; i < filteredOptions.size(); i++) {
+                Transportation option = filteredOptions.get(i);
                 VBox card = createTransportCard(option);
-                card.setTranslateY(50); // Start below final position
+                card.setTranslateY(50);
                 card.setOpacity(0);
                 listVbox.getChildren().add(card);
 
+                // Animate cards as before
                 ParallelTransition pt = new ParallelTransition();
 
-                // Fade animation
-                FadeTransition ft = new FadeTransition(Duration.millis(500), card);
+                FadeTransition ft = new FadeTransition(Duration.millis(1000), card);
                 ft.setFromValue(0);
                 ft.setToValue(1);
 
-                // Slide animation
-                TranslateTransition tt = new TranslateTransition(Duration.millis(600), card);
+                TranslateTransition tt = new TranslateTransition(Duration.millis(1000), card);
                 tt.setFromY(50);
                 tt.setToY(0);
                 tt.setInterpolator(Interpolator.EASE_OUT);
 
-                // Bounce effect
                 ScaleTransition st = new ScaleTransition(Duration.millis(300), card);
                 st.setFromX(0.9);
                 st.setToX(1);
@@ -120,56 +219,125 @@ public class TransportBookController {
                 st.setDelay(Duration.millis(400));
 
                 pt.getChildren().addAll(ft, tt, st);
-                pt.setDelay(Duration.millis(i * 150)); // Staggered delay
+                pt.setDelay(Duration.millis(i * 150));
                 pt.play();
             }
-            // END OF ANIMATED SECTION
         }
     }
 
-    @FXML
-    public void handleMap(ActionEvent event) {
-        // Get user input
-        String startLocation = startLocationField.getText().trim();
-        String destination = destinationField.getText().trim();
-
-        // Validate input
-        if (startLocation.isEmpty() || destination.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Please enter both starting location and destination.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Hide GIF and show WebView
-        gifView.setVisible(false);
-        webView.setVisible(true);
-
-        // Load Google Maps with route
-        try {
-            String encodedStart = URLEncoder.encode(startLocation, StandardCharsets.UTF_8.toString());
-            String encodedDest = URLEncoder.encode(destination, StandardCharsets.UTF_8.toString());
-            String mapUrl = String.format("https://www.google.com/maps/dir/%s/%s", encodedStart, encodedDest);
-            webView.getEngine().load(mapUrl);
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to construct map URL: " + e.getMessage());
-            alert.showAndWait();
-            return;
-        }
-    }
 
     private VBox createTransportCard(Transportation option) {
-        VBox card = new VBox(5);
+        VBox card = new VBox(10);
         card.getStyleClass().add("transport-card");
+        card.getStyleClass().add(option.getType().toLowerCase());
+        card.setPadding(new Insets(10));
+        card.setPrefWidth(300);
 
-        Label typeLabel = new Label("Type: " + capitalize(option.getType()));
-        Label providerLabel = new Label("Provider: " + option.getProviderName());
+        // Title and icon
+        Label typeLabel = new Label(capitalize(option.getType()) + " Service");
+        typeLabel.getStyleClass().add("title");
+        Node typeIcon = createTransportIcon(option.getType());
+
+        HBox titleBox = new HBox(8, typeIcon, typeLabel);
+        titleBox.setAlignment(Pos.CENTER_LEFT);
+
+        // Image
+        ImageView typeImage = new ImageView();
+        typeImage.setFitHeight(60);
+        typeImage.setFitWidth(60);
+
+        String imagePath = switch (option.getType().toLowerCase()) {
+            case "bus" -> "/images/bus.png";
+            case "train" -> "/images/train.png";
+            case "taxi" -> "/images/taxi.png";
+            case "ship" -> "/images/ship.png";
+            case "uber" -> "/images/uber.png";
+            default -> "/images/location.png";
+        };
+
+        try {
+            Image image = new Image(getClass().getResourceAsStream(imagePath));
+            typeImage.setImage(image);
+        } catch (Exception e) {
+            System.err.println("Error loading image: " + e.getMessage());
+        }
+
+        HBox headerBox = new HBox(10, titleBox, typeImage);
+        headerBox.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(titleBox, Priority.ALWAYS);
+
+        // First row: provider and departure time
+        Label providerLabel = new Label(option.getProviderName());
         Label timeLabel = new Label("Departure: " + formatTime(option.getDepartureTime()));
+        HBox row1 = new HBox(10, providerLabel, timeLabel);
+        row1.setAlignment(Pos.CENTER_LEFT);
+
+        // Second row: duration, price, and "Book" button on far right
         Label durationLabel = new Label("Duration: " + formatDuration(option.getDurationMinutes()));
         Label priceLabel = new Label("Price: $" + String.format("%.2f", option.getPrice()));
-        Label daysLabel = new Label("Operating Days: " + formatOperatingDays(option.getOperatingDays()));
 
-        card.getChildren().addAll(typeLabel, providerLabel, timeLabel, durationLabel, priceLabel, daysLabel);
+        Button bookButton = new Button("Book");
+        bookButton.getStyleClass().add("book-button");
+        bookButton.setVisible(false);
+        // 🔁 On click: switch panes and fill info
+        bookButton.setOnAction(e -> {
+            // Set transport ID if needed elsewhere (e.g., global variable or hidden field)
+            Object selectedTransportId = option.getId();  // Create `int selectedTransportId;` as a field
+
+            // Switch panes
+            paneAffichage.setVisible(false);
+            paneBook.setVisible(true);
+
+            // Set provider name
+            providerReservation.setText(option.getProviderName());
+
+            // Set image in booking pane
+            imageReservation.setImage(typeImage.getImage());
+        });
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS); // Push button to the right
+
+        HBox row2 = new HBox(10, durationLabel, priceLabel, spacer, bookButton);
+        row2.setAlignment(Pos.CENTER_LEFT);
+
+        // Available days below
+        Label daysLabel = new Label("Available: " + formatOperatingDays(option.getOperatingDays()));
+        HBox row3 = new HBox(daysLabel);
+        row3.setAlignment(Pos.CENTER_LEFT);
+
+        // Hover effect to show button
+        card.setOnMouseEntered(e -> bookButton.setVisible(true));
+        card.setOnMouseExited(e -> bookButton.setVisible(false));
+
+        card.getChildren().addAll(headerBox, row1, row2, row3);
+        card.getStyleClass().add("animated");
+        card.setCache(true);
+
         return card;
+    }
+
+    private Node createTransportIcon(String type) {
+        FontAwesomeIconView icon = new FontAwesomeIconView();
+        icon.setSize("16");
+
+        switch(type.toLowerCase()) {
+            case "bus":
+                icon.setGlyphName(String.valueOf(FontAwesomeIcon.BUS));
+                icon.setStyle("-fx-fill: #3498db;");
+                break;
+            case "train":
+                icon.setGlyphName(String.valueOf(FontAwesomeIcon.TRAIN));
+                icon.setStyle("-fx-fill: #9b59b6;");
+                break;
+            case "taxi":
+                icon.setGlyphName(String.valueOf(FontAwesomeIcon.TAXI));
+                icon.setStyle("-fx-fill: #e67e22;");
+                break;
+            default:
+                icon.setGlyphName(String.valueOf(FontAwesomeIcon.CAR));
+        }
+        return icon;
     }
 
     private String formatTime(LocalTime time) {

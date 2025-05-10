@@ -3,8 +3,10 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,24 +15,30 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" stylesheets="@../style/styleT.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TransportBookController">
    <left>
       <VBox prefHeight="670.0" prefWidth="522.0" styleClass="left-pane" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="68.0" prefWidth="220.0" styleClass="section-title" text="Where To?">
-               <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </VBox.margin>
-            </Label>
+            <HBox prefHeight="66.0" prefWidth="478.0">
+               <children>
+                  <Label prefHeight="68.0" prefWidth="220.0" styleClass="section-title" text="Where To?" />
+                  <Button mnemonicParsing="false" text="Reservations">
+                     <HBox.margin>
+                        <Insets left="170.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox prefHeight="35.0" prefWidth="450.0">
                <children>
                   <StackPane>
                   <TextField fx:id="startLocationField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="170.0" promptText="Starting point" styleClass="input-field" />
                      <Button fx:id="btnGps" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleGps" prefHeight="35.0" prefWidth="50.0" styleClass="button-gps" translateX="7.0" StackPane.alignment="CENTER_RIGHT">
                         <graphic>
-                           <FontAwesomeIconView glyphName="COMPASS" styleClass="button-icons" />
+                           <FontAwesomeIconView glyphName="COMPASS" size="20" styleClass="button-icon" />
                         </graphic>
                         <StackPane.margin>
                            <Insets right="7.0" />
@@ -42,24 +50,27 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="btnSearch" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleMap" prefHeight="35.0" prefWidth="50.0" styleClass="search-button">
+                  <Button fx:id="btnSearch" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleMap" prefHeight="35.0" prefWidth="50.0" styleClass="button-search">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
                      <graphic>
-                        <FontAwesomeIconView glyphName="SEARCH" />
+                        <FontAwesomeIconView fill="WHITE" glyphName="SEARCH" size="15" styleClass="button-icon">
+                           <font>
+                              <Font size="34.0" />
+                           </font></FontAwesomeIconView>
                      </graphic>
                   </Button>
                </children>
                <VBox.margin>
-                  <Insets left="10.0" />
+                  <Insets left="5.0" top="10.0" />
                </VBox.margin>
             </HBox>
-            <Pane prefHeight="486.0" prefWidth="514.0">
+            <Pane prefHeight="517.0" prefWidth="481.0">
                <children>
-                  <StackPane layoutX="-20.0" prefHeight="491.0" prefWidth="522.0" styleClass="map-container">
+                  <StackPane layoutX="-20.0" prefHeight="523.0" prefWidth="522.0" styleClass="map-container">
                      <children>
-                        <ImageView fx:id="gifView" fitHeight="488.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true" visible="true" StackPane.alignment="CENTER">
+                        <ImageView fx:id="gifView" fitHeight="514.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true" visible="true" StackPane.alignment="CENTER">
                            <image>
                               <Image url="@/images/pointer1.gif" />
                            </image>
@@ -79,8 +90,54 @@
       </VBox>
    </left>
    <center>
-      <ScrollPane>
-      <VBox fx:id="listVbox" prefHeight="670.0" prefWidth="478.0" styleClass="results-pane" BorderPane.alignment="CENTER" />
-      </ScrollPane>
+      <StackPane>
+         <ScrollPane fx:id="paneAffichage">
+            <content>
+               <VBox prefHeight="659.0" prefWidth="470.0" />
+            </content></ScrollPane>
+         <ScrollPane fx:id="paneBook">
+            <VBox fx:id="listVbox" prefHeight="670.0" prefWidth="478.0" styleClass="results-pane" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="providerReservation" text="Label">
+                           <HBox.margin>
+                              <Insets left="100.0" top="70.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fx:id="imageReservation" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets left="100.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="94.0" prefWidth="437.0">
+                     <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="Reservation details:" />
+                              <Label text="Label" />
+                              <DatePicker minWidth="-Infinity" prefWidth="150.0" />
+                              <Label text="Label" />
+                              <Spinner />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Label text="More details" />
+                           </children>
+                           <HBox.margin>
+                              <Insets left="120.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children></VBox>
+         </ScrollPane>
+      </StackPane>
    </center>
 </BorderPane>
