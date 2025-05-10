@@ -205,3 +205,89 @@
     -fx-background-color: #e74c3c;
     -fx-text-fill: white;
 }
+
+/*8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
+
+/* ===== Target your specific DatePicker ===== */
+.date-picker {
+    -fx-pref-width: 150px; /* Matches FXML prefWidth */
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-prompt-text-fill: #999999;
+}
+
+/* Arrow Button (Dropdown) */
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 5px;
+}
+.date-picker .arrow-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+.date-picker .arrow {
+    -fx-background-color: #555555;
+}
+
+/* Popup Calendar */
+.date-picker-popup {
+    -fx-border-color: #e0e0e0;
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 1);
+}
+
+/* Selected Date Highlight */
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #6200ee;
+    -fx-text-fill: white;
+    -fx-border-radius: 20px;
+}
+
+.cancel-button {
+    -fx-background-color: #b31313;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover{
+    -fx-background-color: #d83e3e;
+}
+
+.booking {
+    -fx-background-color: #087c3e;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-cursor: hand;
+    -fx-font-size: 20;
+    -fx-font-weight: 600;
+    -fx-font-family: 'Arial';
+}
+
+.title-booking{
+    -fx-font-family: 'Montserrat', 'Arial Black', sans-serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bolder;
+    -fx-text-fill: linear-gradient(to right, #563aa1, #897fdf, #8a2b95); /* Gradient text */
+    -fx-effect: dropshadow(three-pass-box, rgba(151, 255, 215, 0.8), 10, 0, 0, 2);
+    -fx-padding: 10px 20px;
+    -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+    -fx-border-color: linear-gradient(to right, #3ccaab, #353aef);
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-border-insets: -2px;
+}
+
+.title {
+    -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Dark gray for readability */
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
+    -fx-padding: 5px 0; /* Minimal padding */
+}

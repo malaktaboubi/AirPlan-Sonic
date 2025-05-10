@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.util.Duration;
-import services.ServiceTransportation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -33,6 +32,7 @@ import java.util.stream.Collectors;
 
 
 import org.json.JSONObject;
+import services.ServiceTransportation;
 
 
 public class TransportBookController {
@@ -279,14 +279,17 @@ public class TransportBookController {
         Button bookButton = new Button("Book");
         bookButton.getStyleClass().add("book-button");
         bookButton.setVisible(false);
+
         // 🔁 On click: switch panes and fill info
         bookButton.setOnAction(e -> {
-            // Set transport ID if needed elsewhere (e.g., global variable or hidden field)
-            Object selectedTransportId = option.getId();  // Create `int selectedTransportId;` as a field
+            // Set transport ID if needed elsewhere
+            System.out.println("Book button clicked: " + option.getProviderName());
+            int selectedTransportId = option.getId();
 
             // Switch panes
-            paneAffichage.setVisible(false);
+            //paneAffichage.setVisible(false);
             paneBook.setVisible(true);
+            paneBook.toFront();
 
             // Set provider name
             providerReservation.setText(option.getProviderName());
@@ -399,5 +402,16 @@ public class TransportBookController {
         e.printStackTrace();
         startLocationField.setText("Error getting location");
          }
+    }
+    //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+    public void handleCancelBooking(ActionEvent event){
+        paneBook.setVisible(false);
+    }
+
+    public void handleBooking(ActionEvent actionEvent) {
+    }
+
+    public void handleReservations(ActionEvent actionEvent) {
     }
 }
