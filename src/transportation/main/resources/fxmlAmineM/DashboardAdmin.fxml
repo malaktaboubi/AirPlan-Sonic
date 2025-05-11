@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airPlan.controllers.Admin.AdminisController">
+    <top>
+        <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="header-pane" BorderPane.alignment="CENTER">
+            <HBox prefHeight="100.0" prefWidth="1000.0" alignment="CENTER_LEFT">
+                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                    <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                    </HBox.margin>
+                    <Image url="@../../images/logoAirplan.png" />
+                </ImageView>
+                <Label fx:id="adminNameLabel" text="Admin: [Name]" styleClass="client-label">
+                    <HBox.margin>
+                        <Insets left="20.0" top="40.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Button fx:id="btnLogout" text="Logout" onAction="#logout" styleClass="logout-button">
+                    <HBox.margin>
+                        <Insets left="10.0" top="40.0" />
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </Pane>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" prefHeight="570.0" prefWidth="1000.0" styleClass="scroll-pane"
+                    BorderPane.alignment="CENTER">
+            <VBox prefWidth="1000.0" styleClass="content-pane" spacing="20.0" alignment="TOP_CENTER">
+                <Label text="Admin Dashboard" styleClass="section-title">
+                    <VBox.margin>
+                        <Insets top="20.0"/>
+                    </VBox.margin>
+                </Label>
+                <GridPane hgap="20.0" vgap="20.0" alignment="TOP_CENTER">
+                    <!-- User Overview Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-users" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="User Overview" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalUsersLabel" text="Total Users: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="activeUsersLabel" text="Active Users This Month: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="userTypesLabel" text="User Types: None" styleClass="card-label"
+                               wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="topUsersLabel" text="Top Users: None" styleClass="card-label"
+                               wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="newUsersLabel" text="New Users This Month: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Platform Activity Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-globe" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Platform Activity" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalReservationsLabel" text="Total Reservations: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="reservationsByTypeLabel" text="Reservations by Type: None"
+                               styleClass="card-label" wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="successCancellationLabel" text="Success vs Cancellation: 0% / 0%"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="peakUsageLabel" text="Peak Usage: None" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Financial Overview Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-btc" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Financial Overview" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalRevenueLabel" text="Total Revenue: $0.00" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="revenueByServiceLabel" text="Revenue by Service: None"
+                               styleClass="card-label" wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="topEarnersLabel" text="Top Earners: None" styleClass="card-label"
+                               wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- System Health & Warnings Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-heartbeat" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="System Health and Warnings" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="failedBookingsLabel" text="Failed Bookings: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="dataIssuesLabel" text="Data Issues: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="lowAvailabilityLabel" text="Low Availability Services: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Feedback & Satisfaction Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-comment" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Feedback and Satisfaction" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalFeedbackLabel" text="Total Feedback: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="feedbackTypesLabel" text="Feedback Types: None" styleClass="card-label"
+                               wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="recurringIssuesLabel" text="Top Issues: None" styleClass="card-label"
+                               wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="unresolvedFeedbackLabel" text="Unresolved Feedback: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Program Participation Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-trophy" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Program Participation" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalProgramsLabel" text="Programs Created: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="popularProgramsLabel" text="Most Enrolled Programs: None"
+                               styleClass="card-label" wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="upcomingProgramsLabel" text="Upcoming/Ending Programs: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="programEngagementLabel" text="User Engagement: 0%"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Charts Card (Full Width) -->
+                    <VBox styleClass="dashboard-card" prefWidth="960.0" GridPane.columnIndex="0"
+                          GridPane.rowIndex="3" GridPane.columnSpan="3">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-line-chart" iconSize="24" fill="#3498db"/>
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0"/>
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Platform Trends" styleClass="card-title"/>
+                        </HBox>
+                        <LineChart fx:id="bookingChart" prefHeight="200.0" prefWidth="920.0">
+                            <xAxis>
+                                <CategoryAxis fx:id="bookingMonthAxis" label="Month" styleClass="chart-axis"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="bookingAxis" label="Bookings" styleClass="chart-axis"/>
+                            </yAxis>
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </LineChart>
+                        <LineChart fx:id="revenueChart" prefHeight="200.0" prefWidth="920.0">
+                            <xAxis>
+                                <CategoryAxis fx:id="revenueMonthAxis" label="Month" styleClass="chart-axis"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="revenueAxis" label="Revenue ($)" styleClass="chart-axis"/>
+                            </yAxis>
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </LineChart>
+                    </VBox>
+                </GridPane>
+                <Pane prefHeight="20.0"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

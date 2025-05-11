@@ -9,9 +9,9 @@ public class User {
     private String phone;
     private String address;
     private String passport;
-    private byte[] profilePhoto;
+    private String profilePhotoPath;
 
-    public User(int id, String name, String email, String password, String userType, String phone, String address, String passport, Object o) {
+    public User(int id, String name, String email, String password, String userType, String phone, String address, String passport, String profilePhotoPath) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -20,7 +20,7 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.passport = passport;
-        this.profilePhoto = (byte[]) o;
+        this.profilePhotoPath = profilePhotoPath;
     }
 
     public int getId() {
@@ -87,12 +87,12 @@ public class User {
         this.passport = passport;
     }
 
-    public byte[] getProfilePhoto() {
-        return profilePhoto;
+    public String getProfilePhotoPath() {
+        return profilePhotoPath;
     }
 
-    public void setProfilePhoto(byte[] profilePhoto) {
-        this.profilePhoto = profilePhoto;
+    public void setProfilePhotoPath(String profilePhotoPath) {
+        this.profilePhotoPath = profilePhotoPath;
     }
 
     public User getUser() {

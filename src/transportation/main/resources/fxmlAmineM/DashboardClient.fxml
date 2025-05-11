@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airPlan.controllers.Admin.ClientDashboardController">
+    <top>
+        <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="header-pane" BorderPane.alignment="CENTER">
+            <HBox prefHeight="100.0" prefWidth="1000.0" alignment="CENTER_LEFT">
+                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                    <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                    </HBox.margin>
+                    <Image url="@../../images/logoAirplan.png" />
+                </ImageView>
+                <Label fx:id="clientNameLabel" text="Client: [Name]" styleClass="client-label">
+                    <HBox.margin>
+                        <Insets left="20.0" top="40.0" />
+                    </HBox.margin>
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Button fx:id="btnProfile" text="Profile" onAction="#goToProfile" styleClass="save-button">
+                    <HBox.margin>
+                        <Insets left="500.0" top="40.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="btnLogout" text="Logout" onAction="#logout" styleClass="logout-button">
+                    <HBox.margin>
+                        <Insets left="10.0" top="40.0" />
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </Pane>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" prefHeight="570.0" prefWidth="1000.0" styleClass="scroll-pane"
+                    BorderPane.alignment="CENTER">
+            <VBox prefWidth="1000.0" styleClass="content-pane" spacing="20.0" alignment="TOP_CENTER">
+                <Label text="Client Dashboard" styleClass="section-title">
+                    <VBox.margin>
+                        <Insets top="20.0"/>
+                    </VBox.margin>
+                </Label>
+                <GridPane hgap="20.0" vgap="20.0" alignment="TOP_CENTER">
+                    <!-- Travel Summary Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-user" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="My Travel Summary" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalTripsLabel" text="Total Trips Booked: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="flightsTakenLabel" text="Flights Taken: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="accommodationsBookedLabel" text="Accommodations Booked: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="transportBookedLabel" text="Transportation Bookings: 0"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Spending Overview Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-btc" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Spending Overview" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="totalSpentLabel" text="Total Spent: $0.00" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="averageCostLabel" text="Average Cost per Trip: $0.00"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="mostExpensiveTripLabel" text="Most Expensive Trip: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="spendingBreakdownLabel"
+                               text="Spending Breakdown: Flights: $0, Accommodations: $0, Transport: $0"
+                               styleClass="card-label" wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Upcoming Reservations Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-calendar" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Upcoming Reservations" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="nextFlightLabel" text="Next Flight: None" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="nextAccommodationLabel" text="Next Accommodation: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="nextTransportLabel" text="Next Transport: None" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="daysUntilTripLabel" text="Days Until Next Trip: N/A"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Preferences & Habits Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-heart" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Preferences and Habits" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="favoriteAirlineLabel" text="Favorite Airline: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="favoriteAccommodationLabel" text="Favorite Accommodation: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="favoriteTransportLabel" text="Favorite Transport: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="mostUsedClassLabel" text="Most Used Class: None" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="averageTripDurationLabel" text="Average Trip Duration: 0 days"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="soloVsGroupLabel" text="Solo vs Group Ratio: 0.0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Feedback Activity Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-comment" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Feedback Activity" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="feedbackCountLabel" text="Feedback Submitted: 0" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="responseRateLabel" text="Response Rate: 0%" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="commonFeedbackTypeLabel" text="Most Common Feedback: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Program Participation Card -->
+                    <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
+                          GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-trophy" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="My Program Participation" styleClass="card-title"/>
+                        </HBox>
+                        <Label fx:id="activeProgramsLabel" text="Active Programs: None" styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="programHistoryLabel" text="Program History: None" styleClass="card-label"
+                               wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="benefitsUnlockedLabel" text="Benefits Unlocked: None"
+                               styleClass="card-label" wrapText="true">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                    <!-- Booking Trends Card (Full Width) -->
+                    <VBox styleClass="dashboard-card" prefWidth="960.0" GridPane.columnIndex="0"
+                          GridPane.rowIndex="2" GridPane.columnSpan="3">
+                        <HBox alignment="CENTER_LEFT">
+                            <?import org.kordamp.ikonli.javafx.FontIcon?>
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontIcon iconLiteral="fa-bar-chart" iconSize="24" fill="#3498db" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <Label text="Booking Trends" styleClass="card-title"/>
+                        </HBox>
+                        <BarChart fx:id="bookingChart" prefHeight="300.0" prefWidth="920.0">
+                            <xAxis>
+                                <CategoryAxis fx:id="monthAxis" label="Month" styleClass="chart-axis"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="countAxis" label="Bookings" styleClass="chart-axis"/>
+                            </yAxis>
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0" right="20.0"/>
+                            </VBox.margin>
+                        </BarChart>
+                        <Label fx:id="preferredSeasonLabel" text="Preferred Season: Unknown"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="10.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="topDestinationLabel" text="Most Visited Destination: None"
+                               styleClass="card-label">
+                            <VBox.margin>
+                                <Insets top="5.0" left="20.0"/>
+                            </VBox.margin>
+                        </Label>
+                    </VBox>
+                </GridPane>
+                <Pane prefHeight="20.0"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airPlan.controllers.Admin.ClientController2">
+   <top>
+      <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="header-pane" BorderPane.alignment="CENTER">
+         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1000.0">
+            <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets left="20.0" top="10.0" />
+               </HBox.margin>
+               <Image url="@../../images/logoAirplan.png" />
+            </ImageView>
+            <Label fx:id="clientNameLabel" styleClass="client-label" text="Client: [Name]">
+               <HBox.margin>
+                  <Insets left="20.0" top="40.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnDashboard" onAction="#goToDashboard" styleClass="save-button" text="Dashboard">
+               <HBox.margin>
+                  <Insets left="500.0" top="40.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnLogout" onAction="#logout" styleClass="logout-button" text="Logout">
+               <HBox.margin>
+                  <Insets left="10.0" top="40.0" />
+               </HBox.margin>
+            </Button>
+         </HBox>
+      </Pane>
+   </top>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1000.0" spacing="20.0" styleClass="content-pane"
+            BorderPane.alignment="CENTER">
+         <Label styleClass="section-title" text="Profile Management">
+            <VBox.margin>
+               <Insets top="20.0"/>
+            </VBox.margin>
+         </Label>
+         <HBox alignment="CENTER" spacing="20.0">
+            <!-- Profile Photo and Buttons Card -->
+            <VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="300.0" styleClass="profile-card">
+               <Label styleClass="card-title" text="Profile Photo">
+                  <VBox.margin>
+                     <Insets top="15.0"/>
+                  </VBox.margin>
+               </Label>
+               <ImageView fx:id="profilePhotoView" fitHeight="150.0" fitWidth="150.0" preserveRatio="true"
+                          styleClass="profile-photo">
+                  <VBox.margin>
+                     <Insets top="20.0"/>
+                  </VBox.margin>
+                  <Image url="@../../images/PNG_icons/user-icon7.png"/>
+               </ImageView>
+               <Button fx:id="btnUploadPhoto" onAction="#uploadProfilePhoto" styleClass="save-button"
+                       text="Upload Photo">
+                  <VBox.margin>
+                     <Insets top="20.0"/>
+                  </VBox.margin>
+               </Button>
+               <Button fx:id="btnRemovePhoto" onAction="#removeProfilePhoto" styleClass="delete-button"
+                       text="Remove Photo">
+                  <VBox.margin>
+                     <Insets top="10.0"/>
+                  </VBox.margin>
+               </Button>
+               <Button fx:id="btnSave" onAction="#saveProfile" styleClass="save-button" text="Save Changes">
+                  <VBox.margin>
+                     <Insets top="20.0"/>
+                  </VBox.margin>
+               </Button>
+               <Button fx:id="btnDeleteAccount" onAction="#deleteAccount" styleClass="delete-button"
+                       text="Delete Account">
+                  <VBox.margin>
+                     <Insets top="10.0"/>
+                  </VBox.margin>
+               </Button>
+            </VBox>
+            <!-- Personal Info and Password Reset Card -->
+            <VBox alignment="TOP_LEFT" prefHeight="450.0" prefWidth="600.0" spacing="10.0" styleClass="profile-card">
+               <Label styleClass="card-title" text="Personal Information">
+                  <VBox.margin>
+                     <Insets left="20.0" top="15.0"/>
+                  </VBox.margin>
+               </Label>
+               <!-- Name -->
+               <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label styleClass="card-icon">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-user" iconSize="24" fill="#3498db"/>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </HBox.margin>
+                  </Label>
+                  <VBox>
+                     <Label styleClass="form-label" text="Name"/>
+                     <TextField fx:id="nameField" prefWidth="300.0" styleClass="text-field">
+                        <HBox.margin>
+                           <Insets left="10.0"/>
+                        </HBox.margin>
+                     </TextField>
+                     <Label fx:id="nameErrorLabel" styleClass="error-label" text=""/>
+                  </VBox>
+               </HBox>
+               <!-- Email -->
+               <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label styleClass="card-icon">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-envelope" iconSize="24" fill="#3498db"/>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </HBox.margin>
+                  </Label>
+                  <VBox>
+                     <Label styleClass="form-label" text="Email"/>
+                     <TextField fx:id="emailField" disable="true" prefWidth="300.0" styleClass="text-field">
+                        <HBox.margin>
+                           <Insets left="10.0"/>
+                        </HBox.margin>
+                     </TextField>
+                  </VBox>
+               </HBox>
+               <!-- Phone -->
+               <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label styleClass="card-icon">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-phone" iconSize="24" fill="#3498db"/>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </HBox.margin>
+                  </Label>
+                  <VBox>
+                     <Label styleClass="form-label" text="Phone"/>
+                     <TextField fx:id="phoneField" prefWidth="300.0" styleClass="text-field">
+                        <HBox.margin>
+                           <Insets left="10.0"/>
+                        </HBox.margin>
+                     </TextField>
+                     <Label fx:id="phoneErrorLabel" styleClass="error-label" text=""/>
+                  </VBox>
+               </HBox>
+               <!-- Address -->
+               <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label styleClass="card-icon">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-at" iconSize="24" fill="#3498db"/>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </HBox.margin>
+                  </Label>
+                  <VBox>
+                     <Label styleClass="form-label" text="Address"/>
+                     <TextField fx:id="addressField" prefWidth="300.0" styleClass="text-field">
+                        <HBox.margin>
+                           <Insets left="10.0"/>
+                        </HBox.margin>
+                     </TextField>
+                  </VBox>
+               </HBox>
+               <!-- Passport -->
+               <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Label styleClass="card-icon">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-address-card" iconSize="24" fill="#3498db"/>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </HBox.margin>
+                  </Label>
+                  <VBox>
+                     <Label styleClass="form-label" text="Passport"/>
+                     <TextField fx:id="passportField" prefWidth="300.0" styleClass="text-field">
+                        <HBox.margin>
+                           <Insets left="10.0"/>
+                        </HBox.margin>
+                     </TextField>
+                     <Label fx:id="passportErrorLabel" styleClass="error-label" text=""/>
+                  </VBox>
+               </HBox>
+               <!-- Settings Button -->
+               <HBox alignment="CENTER_LEFT" spacing="10.0">
+                  <Button fx:id="btnSettings" onAction="#togglePasswordReset" styleClass="settings-button"
+                          text="Settings">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </HBox.margin>
+                  </Button>
+               </HBox>
+               <!-- Password Reset Section (Hidden by Default) -->
+               <VBox fx:id="passwordResetSection" visible="false" managed="false" spacing="10.0">
+                  <Label styleClass="card-title" text="Reset Password">
+                     <VBox.margin>
+                        <Insets left="20.0" top="10.0"/>
+                     </VBox.margin>
+                  </Label>
+                  <!-- New Password -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <Label styleClass="card-icon">
+                        <graphic>
+                           <FontIcon iconLiteral="fa-lock" iconSize="24" fill="#3498db"/>
+                        </graphic>
+                        <HBox.margin>
+                           <Insets left="20.0" top="10.0"/>
+                        </HBox.margin>
+                     </Label>
+                     <VBox>
+                        <Label styleClass="form-label" text="New Password"/>
+                        <PasswordField fx:id="newPasswordField" prefWidth="300.0" styleClass="text-field">
+                           <HBox.margin>
+                              <Insets left="10.0"/>
+                           </HBox.margin>
+                        </PasswordField>
+                     </VBox>
+                  </HBox>
+                  <!-- Confirm Password -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <Label styleClass="card-icon">
+                        <graphic>
+                           <FontIcon iconLiteral="fa-lock" iconSize="24" fill="#3498db"/>
+                        </graphic>
+                        <HBox.margin>
+                           <Insets left="20.0" top="10.0"/>
+                        </HBox.margin>
+                     </Label>
+                     <VBox>
+                        <Label styleClass="form-label" text="Confirm Password"/>
+                        <PasswordField fx:id="confirmPasswordField" prefWidth="300.0" styleClass="text-field">
+                           <HBox.margin>
+                              <Insets left="10.0"/>
+                           </HBox.margin>
+                        </PasswordField>
+                        <Label fx:id="passwordErrorLabel" styleClass="error-label" text=""/>
+                     </VBox>
+                  </HBox>
+               </VBox>
+            </VBox>
+         </HBox>
+      </VBox>
+   </center>
+</BorderPane>

@@ -15,7 +15,7 @@ import static utilsAmineM.DBConnection2.getConnection;
 public class ServiceUser {
 
     public void add(User user) throws SQLException {
-        String sql = "INSERT INTO users (name, email, password, user_type, phone, address, passport, profile_photo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, user_type, phone, address, passport, profile_photo_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, user.getName());
@@ -25,7 +25,7 @@ public class ServiceUser {
             pstmt.setString(5, user.getPhone());
             pstmt.setString(6, user.getAddress());
             pstmt.setString(7, user.getPassport());
-            pstmt.setBytes(8, user.getProfilePhoto());
+            pstmt.setString(8, user.getProfilePhotoPath());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
@@ -35,14 +35,14 @@ public class ServiceUser {
     }
 
     public void update(User user) throws SQLException {
-        String sql = "UPDATE users SET name = ?, phone = ?, address = ?, passport = ?, profile_photo = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, phone = ?, address = ?, passport = ?, profile_photo_path = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getPhone());
             pstmt.setString(3, user.getAddress());
             pstmt.setString(4, user.getPassport());
-            pstmt.setBytes(5, user.getProfilePhoto());
+            pstmt.setString(5, user.getProfilePhotoPath());
             pstmt.setInt(6, user.getId());
             int rows = pstmt.executeUpdate();
             if (rows == 0) {
@@ -114,7 +114,7 @@ public class ServiceUser {
                         rs.getString("address"),
                         rs.getString("passport"),
                         null);
-                user.setProfilePhoto(rs.getBytes("profile_photo"));
+                user.setProfilePhotoPath(rs.getString("profile_photo_path"));
                 users.add(user);
             }
         }
@@ -137,8 +137,7 @@ public class ServiceUser {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getString("passport"),
-                        null);
-                user.setProfilePhoto(rs.getBytes("profile_photo"));
+                        rs.getString("profile_photo_path"));
                 return user;
             }
         }
@@ -163,7 +162,7 @@ public class ServiceUser {
                         rs.getString("address"),
                         rs.getString("passport"),
                         null);
-                user.setProfilePhoto(rs.getBytes("profile_photo"));
+                user.setProfilePhotoPath(rs.getString("profile_photo_path"));
                 return user;
             }
         }
@@ -193,7 +192,7 @@ public class ServiceUser {
     public void updateProfilePhoto(int id, File selectedFile) throws SQLException, IOException {
         try (Connection conn = getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                    "UPDATE users SET profile_photo = ? WHERE user_id = ?"
+                    "UPDATE users SET profile_photo_path = ? WHERE id = ?"
             );
             if (selectedFile != null) {
                 try (FileInputStream fis = new FileInputStream(selectedFile)) {
@@ -207,15 +206,15 @@ public class ServiceUser {
         }
     }
 
-    public byte[] getProfilePhoto(int id) throws SQLException {
+    public String getProfilePhotoPath(int id) throws SQLException {
         try (Connection conn = getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT profile_photo FROM users WHERE user_id = ?"
+                    "SELECT profile_photo_path FROM users WHERE id = ?"
             );
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getBytes("profile_photo");
+                return rs.getString("profile_photo_path");
             }
             return null;
         }
