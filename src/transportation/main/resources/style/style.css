@@ -1,0 +1,169 @@
+/* Import modern Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500&display=swap');
+
+/* Base styles */
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-alignment: center;
+    -fx-border-color: transparent;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0.1, 0, 1);
+}
+
+/* Hover and focus states */
+.menu-button:hover {
+    -fx-border-color: #00ffd9;
+    -fx-background-color: rgba(0,255,217,0.1);
+    -fx-effect: dropshadow(gaussian, rgba(0,255,217,0.3), 8, 0.2, 0, 2);
+}
+
+.menu-button:focused, .menu-button:selected {
+    -fx-border-color: #00ffd9;
+    -fx-background-color: rgba(0,255,217,0.3);
+}
+
+/* Icon styling */
+.menu-icon {
+    -fx-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 2, 0.2, 0, 1);
+}
+
+/* Label styling with modern font */
+.menu-label {
+    -fx-text-fill: white;
+    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-weight: 500;
+    -fx-font-size: 13px;
+    -fx-letter-spacing: 0.5px;
+    -fx-opacity: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 3, 0.2, 0, 1);
+}
+
+/* Menu items styling */
+.menu-button .menu-item {
+    -fx-padding: 10px 20px;
+    -fx-background-color: #0e2321;
+    -fx-text-fill: white;
+    -fx-font-family: 'Roboto', sans-serif;
+    -fx-font-size: 13px;
+    -fx-font-weight: 400;
+}
+
+.menu-button .menu-item:hover {
+    -fx-background-color: #1a3a37;
+    -fx-text-fill: #00ffd9;
+    -fx-font-weight: 500;
+}
+
+.menu-button .menu-item .label {
+    -fx-text-fill: inherit;
+    -fx-font-family: inherit;
+    -fx-font-size: inherit;
+    -fx-padding: 0 0 0 10px;
+}
+
+/* Menu item icons */
+.menu-button .menu-item .icon {
+    -fx-fill: #00ffd9;
+    -fx-opacity: 0.8;
+}
+
+/* Context menu styling */
+.menu-button .context-menu {
+    -fx-background-color: #0e2321;
+    -fx-border-color: #00ffd9;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 5px 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0.2, 0, 2);
+}
+
+/* Animation for smooth transitions */
+.menu-icon, .menu-label {
+    -fx-transition: all 0.3s ease;
+}
+
+/* Circular edge styling */
+.rounded-edge {
+    -fx-background-radius: 30 30 0 0; /* Top edges rounded */
+    -fx-border-radius: 30 30 0 0;
+    -fx-border-color: #0e2321;
+    -fx-border-width: 5;
+}
+
+/* Content pane styling */
+#contentPane {
+    -fx-background-radius: 30;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0.2, 0, 0);
+}
+
+.smooth-image {
+    -fx-smooth: true;
+    -fx-interpolation: bicubic;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0.2, 0, 0);
+    -fx-opacity: 0.99;
+}
+
+.top-bar {
+    -fx-background-color: #f6f1f6;
+    -fx-background-radius: 15 15 0 0;
+    -fx-border-color: #4c7572;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-radius: 15 15 0 0;
+    -fx-padding: 10px 15px;
+}
+
+.profile-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+    -fx-padding: 5px 10px 5px 5px;
+    -fx-cursor: hand;
+}
+
+.profile-button:hover {
+    -fx-background-color: rgba(168, 230, 207, 0.3);
+}
+
+/* User Labels */
+.user-name {
+    -fx-text-fill: #2E7D32;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.user-type {
+    -fx-text-fill: #689F38;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+}
+
+/* Notification Button */
+.notification-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 20px;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+}
+
+.notification-button:hover {
+    -fx-background-color: rgba(168, 230, 207, 0.3);
+}
+
+.notification-button FontAwesomeIconView {
+    -fx-fill: #2E7D32;
+}
+
+/* For ultra-thin modern look*/
+.delicate-header {
+    -fx-font-family: 'Raleway Thin', 'Arial Narrow', sans-serif;
+    -fx-font-size: 26px;
+    -fx-font-weight: 200;
+    -fx-text-fill: #222222;
+    -fx-letter-spacing: 1px;
+}
