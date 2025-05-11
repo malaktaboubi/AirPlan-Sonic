@@ -1,0 +1,182 @@
+.root {
+    -fx-background-color: #ecf0f1;
+}
+
+.header-pane {
+    -fx-background-color: linear-gradient(to right, #3498db, #2980b9);
+    -fx-padding: 10;
+}
+
+.content-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 20;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.section-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "System";
+    -fx-padding: 0 0 20 0;
+}
+
+.client-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "System";
+}
+
+.form-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-family: "System";
+}
+
+.text-field, .password-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+    -fx-font-family: "System";
+}
+
+.save-button, .logout-button, .settings-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-family: "System";
+    -fx-padding: 8 20;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.save-button:hover, .logout-button:hover, .settings-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.delete-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-font-family: "System";
+    -fx-padding: 8 20;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 12px;
+    -fx-font-family: "System";
+}
+
+.chart {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+}
+
+.chart-bar, .chart-line-symbol {
+    -fx-background-color: linear-gradient(to bottom, #3498db, #2980b9);
+    -fx-stroke: linear-gradient(to bottom, #3498db, #2980b9);
+}
+
+.chart-axis {
+    -fx-font-size: 12px;
+    -fx-tick-label-fill: #2c3e50;
+    -fx-font-family: "System";
+}
+
+.dashboard-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: linear-gradient(to right, #3498db, #2980b9);
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 12, 0, 0, 5);
+    -fx-cursor: hand;
+    -fx-alignment: top-left;
+}
+
+.dashboard-card:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 8);
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "System";
+    -fx-padding: 5 0 8 0;
+}
+
+.card-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #34495e;
+    -fx-font-family: "System";
+    -fx-max-width: 260px;
+}
+
+.card-icon {
+    -fx-font-size: 20px;
+    -fx-text-fill: #3498db;
+    -fx-padding: 5 10 5 15;
+}
+
+.profile-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 12, 0, 0, 5);
+    -fx-alignment: top-left;
+}
+
+.profile-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 8);
+}
+
+.profile-photo {
+    -fx-background-radius: 75;
+    -fx-border-radius: 75;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 3);
+}
+
+.profile-photo:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.settings-button {
+    -fx-pref-width: 120;
+}

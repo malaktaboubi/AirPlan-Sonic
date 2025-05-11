@@ -59,6 +59,8 @@ public class TransportBookController {
     Label providerReservation;
     @FXML
     ImageView imageReservation;
+    @FXML
+    private ComboBox<String> timeComboBox;
 
     private ServiceTransportation serviceTransportation;
 
@@ -293,6 +295,14 @@ public class TransportBookController {
 
             // Set provider name
             providerReservation.setText(option.getProviderName());
+            if (!option.getType().equalsIgnoreCase("bus") &&
+                    !option.getType().equalsIgnoreCase("train") &&
+                    !option.getType().equalsIgnoreCase("ship") ) {
+
+                timeComboBox.setDisable(false);
+
+            }
+
 
             // Set image in booking pane
             imageReservation.setImage(typeImage.getImage());
