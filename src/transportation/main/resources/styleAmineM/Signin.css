@@ -1,0 +1,30 @@
+.left_side_pane {
+     -fx-background-color: #F0ECCF;
+}
+
+.btn_signin {
+     -fx-background-color: #A4C4B5;
+     -fx-border-width: 2px 2px 2px 2px;
+     -fx-border-radius: 50px;
+     -fx-background-radius: 50px;
+     -fx-border-style: solid;
+     -fx-border-color: #A4C4B5
+}
+
+.btn_connect {
+     -fx-background-color: #ffff;
+     -fx-border-width: 2px 2px 2px 2px;
+     -fx-border-radius: 50px;
+     -fx-background-radius: 50px;
+     -fx-border-style: solid;
+     -fx-border-color: #A4C4B5
+}
+
+.btn_signup {
+     -fx-background-color: #A4C4B5 ;
+     -fx-border-width: 2px 2px 2px 2px;
+     -fx-border-radius: 50px;
+     -fx-background-radius: 50px;
+     -fx-border-style: solid;
+     -fx-border-color: #A4C4B5
+}
