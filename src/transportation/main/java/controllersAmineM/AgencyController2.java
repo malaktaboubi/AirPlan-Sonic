@@ -47,7 +47,7 @@ public class AgencyController2 implements Initializable, UserAwareController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceUser = new ServiceUser();
-        root.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
         // Check session for user if not set
         if (user == null) {
             user = Session.getCurrentUser();

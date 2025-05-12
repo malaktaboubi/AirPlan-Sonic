@@ -60,7 +60,7 @@ public class AdminisController /*implements Initializable*/ {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceAdmin = new ServiceAdmin();
-        root.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
         user = Session.getCurrentUser();
         System.out.println("AdminDashboardController: User from session: " + (user != null ? user.getName() : "null"));
         if (user != null && "ADMIN".equals(user.getUserType())) {

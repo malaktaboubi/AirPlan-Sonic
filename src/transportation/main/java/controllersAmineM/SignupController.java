@@ -96,8 +96,8 @@ public class SignupController implements Initializable {
     private void redirectToDashboard(User user) {
         try {
             String fxmlPath = switch (user.getUserType()) {
-                case "AGENCY" -> "/fxmlAmineM/ProfileAgency.fxml";
-                case "CLIENT" -> "/fxmlAmineM/ProfileClient.fxml";
+                case "AGENCY" -> "/fxml/menu.fxml";
+                case "CLIENT" -> "/fxml/menu.fxml";
                 default -> throw new IllegalArgumentException("Unknown user type");
             };
 

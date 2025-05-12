@@ -1,0 +1,123 @@
+/* Base colors */
+.root {
+    -fx-primary-color: #518c6e;
+    -fx-secondary-color: #3a6b54;
+    -fx-light-color: #f5f7fa;
+    -fx-dark-color: #333333;
+    -fx-accent-color: #6b8cff;
+    -fx-error-color: #ff4444;
+}
+
+/* Left side pane styling */
+.left_side_pane {
+    -fx-background-color: linear-gradient(to bottom, #0e2321, #11d89f);
+}
+
+/* Text styles */
+Text {
+    -fx-fill: -fx-dark-color;
+}
+
+/* Button styling */
+.btn_signin {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-padding: 8px 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 1);
+    -fx-border-color: #c8ffee;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-font-family: 'Montserrat', sans-serif;
+}
+
+.btn_signin:hover {
+    -fx-background-color: -fx-secondary-color;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.3, 0, 2);
+}
+
+.btn_signin:pressed {
+    -fx-background-color: derive(-fx-secondary-color, -10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0.1, 0, 1);
+}
+
+/* TextField and PasswordField styling */
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #d1d5db;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 2, 0, 0, 1);
+}
+
+
+.btn_signup {
+    -fx-background-color: #0e2321;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+    -fx-border-color: #0e2321;
+    -fx-border-style: solid;
+}
+
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: -fx-primary-color;
+    -fx-border-width: 1.5px;
+    -fx-effect: dropshadow(gaussian, rgba(81,140,110,0.2), 4, 0, 0, 2);
+}
+
+/* CheckBox styling */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-dark-color;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.check-box:selected .box {
+    -fx-background-color: -fx-primary-color;
+    -fx-border-color: -fx-primary-color;
+}
+
+
+
+/* ImageView shadow */
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.3, 0, 2);
+}
+
+/* Title text styling */
+Text[text="Register for free!"] {
+    -fx-fill: -fx-dark-color;
+    -fx-font-weight: bold;
+}
+
+/* AirPlan logo text */
+Text[text="AirPlan"] {
+    -fx-fill: -fx-primary-color;
+    -fx-font-weight: bold;
+}
+
+/* Subtle shadow for containers */
+.vbox, .hbox, .anchor-pane {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0.2, 0, 1);
+}
+
+/* Responsive padding */
+.vbox {
+    -fx-spacing: 10px;
+    -fx-padding: 20px;
+}

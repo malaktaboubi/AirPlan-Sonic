@@ -189,18 +189,12 @@ public class ServiceUser {
         }
     }
 
-    public void updateProfilePhoto(int id, File selectedFile) throws SQLException, IOException {
+    public void updateProfilePhoto(int id, String selectedFilePath) throws SQLException, IOException {
         try (Connection conn = getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                     "UPDATE users SET profile_photo_path = ? WHERE id = ?"
             );
-            if (selectedFile != null) {
-                try (FileInputStream fis = new FileInputStream(selectedFile)) {
-                    stmt.setBinaryStream(1, fis, (int) selectedFile.length());
-                }
-            } else {
-                stmt.setNull(1, Types.BLOB);
-            }
+            stmt.setString(1, selectedFilePath);
             stmt.setInt(2, id);
             stmt.executeUpdate();
         }

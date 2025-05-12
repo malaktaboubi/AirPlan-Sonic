@@ -48,7 +48,7 @@ public class ClientDashboardController /*implements Initializable*/ {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceBooking = new ServiceBooking();
-        root.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
         user = Session.getCurrentUser();
         if (user != null) {
             loadDashboard();

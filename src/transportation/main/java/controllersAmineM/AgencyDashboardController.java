@@ -62,7 +62,7 @@ public class AgencyDashboardController /*implements Initializable*/ {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceAgency = new ServiceAgency();
-        root.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
         user = Session.getCurrentUser();
         System.out.println("AgencyDashboardController: User from session: " + (user != null ? user.getName() : "null"));
         if (user != null) {

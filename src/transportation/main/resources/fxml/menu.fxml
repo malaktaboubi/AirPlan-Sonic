@@ -56,7 +56,7 @@
                                        </HBox.margin>
                                     </StackPane>
 
-                                    <Button fx:id="profileButton" mnemonicParsing="false" styleClass="profile-button">
+                                    <Button fx:id="profileButton" mnemonicParsing="false" onAction="#handleProfileButton" styleClass="profile-button">
                                        <HBox.margin>
                                           <Insets left="20.0" />
                                        </HBox.margin>

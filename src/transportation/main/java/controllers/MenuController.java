@@ -1,12 +1,17 @@
 package controllers;
 
+import controllersAmineM.ProfileClientController;
 import controllersAmineM.SigninController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entitiesAmineM.User;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import servicesAmineM.ServiceUser;
 import servicesAmineM.Session;
@@ -494,6 +500,8 @@ public class MenuController implements SigninController.UserAwareController {
 
     @FXML
     public void handleHome(ActionEvent event) {
+        // Clear existing content
+        contentPane.getChildren().clear();
     }
 
     @FXML
@@ -529,7 +537,42 @@ public class MenuController implements SigninController.UserAwareController {
     public void handlSettings(ActionEvent actionEvent) {
     }
 
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(title.equals("Success") ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     @FXML
     public void handlLogout(ActionEvent actionEvent) {
+        try {
+            Session.clearSession();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
+            Stage stage = (Stage) btnLogout.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            showAlert("Error", "Failed to log out: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleProfileButton(ActionEvent actionEvent) {
+        try {
+            // Clear existing content
+            contentPane.getChildren().clear();
+
+            // Load new FXML content
+            Node newContent = FxmlUtils.loadFXML("/fxmlAmineM/ProfileClient.fxml");
+            contentPane.getChildren().add(newContent);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Show error to user
+        }
     }
 }
