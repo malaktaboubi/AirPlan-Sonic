@@ -4,6 +4,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entities.Transportation;
 import javafx.animation.*;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.geometry.*;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,6 +34,7 @@ import javafx.scene.layout.Region;
 import java.util.stream.Collectors;
 
 
+import javafx.util.StringConverter;
 import org.json.JSONObject;
 import services.ServiceTransportation;
 
@@ -60,7 +64,7 @@ public class TransportBookController {
     @FXML
     ImageView imageReservation;
     @FXML
-    private ComboBox<String> timeComboBox;
+    private ComboBox<LocalTime> timeComboBox; // or appropriate type
 
     private ServiceTransportation serviceTransportation;
 
@@ -145,6 +149,30 @@ public class TransportBookController {
                 }
             });
         }
+
+        List<LocalTime> times = new ArrayList<>();
+        for (int hour = 0; hour < 24; hour++) {
+            for (int minute = 0; minute < 60; minute += 15) {
+                times.add(LocalTime.of(hour, minute));
+            }
+        }
+        timeComboBox.setItems(FXCollections.observableArrayList(times));
+
+        // Custom format the display to HH:mm
+        timeComboBox.setConverter(new StringConverter<LocalTime>() {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+            @Override
+            public String toString(LocalTime time) {
+                return (time != null) ? formatter.format(time) : "";
+            }
+
+            @Override
+            public LocalTime fromString(String string) {
+                return (string != null && !string.isEmpty()) ? LocalTime.parse(string, formatter) : null;
+            }
+        });
+
     }
 
 
@@ -295,17 +323,17 @@ public class TransportBookController {
 
             // Set provider name
             providerReservation.setText(option.getProviderName());
-            if (!option.getType().equalsIgnoreCase("bus") &&
-                    !option.getType().equalsIgnoreCase("train") &&
-                    !option.getType().equalsIgnoreCase("ship") ) {
-
-                timeComboBox.setDisable(false);
-
-            }
-
 
             // Set image in booking pane
             imageReservation.setImage(typeImage.getImage());
+
+            if (!option.getType().equalsIgnoreCase("bus") &&
+                    !option.getType().equalsIgnoreCase("train") &&
+                    !option.getType().equalsIgnoreCase("ship")) {
+
+                timeComboBox.setDisable(false);
+            }
+
         });
 
         Region spacer = new Region();
