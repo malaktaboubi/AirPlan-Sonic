@@ -291,3 +291,17 @@
     -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.1), 2, 0, 0, 1);
     -fx-padding: 5px 0; /* Minimal padding */
 }
+
+.res-display {
+    -fx-background-color: transparent;
+    -fx-text-fill: linear-gradient(to right, #563aa1, #897fdf, #8a2b95); /* Gradient text */
+    -fx-effect: dropshadow(three-pass-box, rgba(151, 255, 215, 0.8), 10, 0, 0, 2);
+    -fx-font-family: 'Montserrat', 'Arial Black', sans-serif;
+    -fx-font-size: 13px;
+}
+
+.res-display:hover{
+    -fx-background-color: #52c386;
+    -fx-background-radius: 50px;
+    -fx-text-fill: #333333;
+}

@@ -29,9 +29,9 @@
             <HBox prefHeight="66.0" prefWidth="478.0">
                <children>
                   <Label prefHeight="68.0" prefWidth="220.0" styleClass="section-title" text="Where To?" />
-                  <Button fx:id="reservationDisplay" mnemonicParsing="false" onAction="#handleReservations" text="Reservations">
+                  <Button fx:id="reservationDisplay" mnemonicParsing="false" onAction="#handleReservations" styleClass="res-display" text="Reservations">
                      <HBox.margin>
-                        <Insets left="170.0" top="20.0" />
+                        <Insets left="160.0" top="20.0" />
                      </HBox.margin>
                   </Button>
                </children>
