@@ -1,5 +1,6 @@
 package controllers;
 
+import controllersAmineM.ApplicationContext;
 import controllersAmineM.ProfileClientController;
 import controllersAmineM.SigninController;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -81,7 +82,7 @@ public class MenuController implements SigninController.UserAwareController {
 
     private static final Logger LOGGER = Logger.getLogger(MenuController.class.getName());
     private User currentUser;
-    private static final String PROFILE_PHOTOS_DIR = "src/main/resources/imagesAmineM/profile-photos/";
+    private static final String PROFILE_PHOTOS_DIR = "/imagesAmineM/";
     private static final String DEFAULT_PROFILE_IMAGE = "/imagesAmineM/user-icon7.png";
     @FXML
     private Button btnSettings;
@@ -123,6 +124,7 @@ public class MenuController implements SigninController.UserAwareController {
     }
 
     public void initialize() {
+        rootPane.setUserData(this); // Assuming rootPane is the top-level Pane
         updateProfileUI();
     }
 
@@ -562,17 +564,32 @@ public class MenuController implements SigninController.UserAwareController {
     @FXML
     public void handleProfileButton(ActionEvent actionEvent) {
         try {
-            // Clear existing content
+            User sessionUser = Session.getCurrentUser();
+            if (sessionUser == null) {
+                LOGGER.warning("Session expired or user not logged in. Redirecting to signin page.");
+                showAlert("Session Expired", "Please sign in again.");
+                Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
+                Stage stage = (Stage) profileButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+                return;
+            }
+
             contentPane.getChildren().clear();
 
-            // Load new FXML content
-            Node newContent = FxmlUtils.loadFXML("/fxmlAmineM/ProfileClient.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlAmineM/ProfileClient.fxml"));
+            Node newContent = loader.load();
+
+            ProfileClientController controller = loader.getController();
+            controller.setUser(sessionUser);
+            controller.setMenuController(this); // Pass MenuController instance
+            LOGGER.info("Set user and MenuController in ProfileClientController for ID: " + sessionUser.getId());
+
             contentPane.getChildren().add(newContent);
-
-
         } catch (IOException e) {
+            LOGGER.severe("Failed to load ProfileClient.fxml: " + e.getMessage());
             e.printStackTrace();
-            // Show error to user
+            showAlert("Error", "Failed to load profile page: " + e.getMessage());
         }
     }
 }

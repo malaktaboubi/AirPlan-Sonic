@@ -1,13 +1,18 @@
 package controllersAmineM;
 
 
+import controllers.MenuController;
 import entitiesAmineM.User;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import servicesAmineM.ServiceUser;
 import servicesAmineM.Session;
 
@@ -31,6 +36,16 @@ public class ProfileClientController implements SigninController.UserAwareContro
     @FXML private Label nameErrorLabel;
     @FXML private Label phoneErrorLabel;
     @FXML private Label passportErrorLabel;
+
+    private MenuController menuController;
+
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
+    }
+
+    private MenuController getMenuControllerFromStage(Stage stage) {
+        return ApplicationContext.getMenuController();
+    }
 
     private User user;
     private ServiceUser serviceUser;
@@ -61,8 +76,29 @@ public class ProfileClientController implements SigninController.UserAwareContro
         }
     }
 
+    private void redirectToSignin() {
+        try {
+            Session.clearSession();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
+            Stage stage = (Stage) (profilePhotoView != null ? profilePhotoView.getScene().getWindow() : btnUploadPhoto.getScene().getWindow());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            LOGGER.severe("Failed to redirect to signin page: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void loadProfile() {
         try {
+            // Validate session
+            User sessionUser = Session.getCurrentUser();
+            if (sessionUser == null || sessionUser.getId() != user.getId()) {
+                LOGGER.warning("Session expired or mismatched user ID. Redirecting to signin page.");
+                showAlert("Session Expired", "Please sign in again.");
+                redirectToSignin();
+                return;
+            }
             // Refresh user data
             user = serviceUser.getUserById(user.getId());
             if (user != null) {
@@ -78,7 +114,7 @@ public class ProfileClientController implements SigninController.UserAwareContro
                 passportField.setText(user.getPassport() != null ? user.getPassport() : "");
 
                 // Load profile photo
-                String photoPath = user.getProfilePhotoPath();
+                String photoPath = serviceUser.getProfilePhotoPath(user.getId());
                 if (photoPath != null && !photoPath.isEmpty()) {
                     File photoFile = new File(photoPath);
                     if (photoFile.exists()) {
@@ -180,26 +216,30 @@ public class ProfileClientController implements SigninController.UserAwareContro
 
     @FXML
     private void saveProfile() throws SQLException {
+        if (user == null || serviceUser == null) {
+            LOGGER.warning("Cannot save profile: user or serviceUser is null");
+            showAlert("Error", "User or service not initialized. Please sign in again.");
+            redirectToSignin();
+            return;
+        }
+
         boolean valid = true;
         nameErrorLabel.setText("");
         phoneErrorLabel.setText("");
         passportErrorLabel.setText("");
 
-        // Validate Name
         String name = nameField.getText().trim();
         if (name.isEmpty()) {
             nameErrorLabel.setText("Name is required.");
             valid = false;
         }
 
-        // Validate Phone
         String phone = phoneField.getText().trim();
         if (!phone.isEmpty() && !PHONE_PATTERN.matcher(phone).matches()) {
             phoneErrorLabel.setText("Invalid phone number (e.g., +1234567890).");
             valid = false;
         }
 
-        // Validate Passport
         String passport = passportField.getText().trim();
         if (!passport.isEmpty() && !PASSPORT_PATTERN.matcher(passport).matches()) {
             passportErrorLabel.setText("Invalid passport (6-12 alphanumeric).");
@@ -207,13 +247,18 @@ public class ProfileClientController implements SigninController.UserAwareContro
         }
 
         if (valid) {
-            // Update user data
             user.setName(name);
             user.setPhone(phone.isEmpty() ? null : phone);
             user.setAddress(addressField.getText().trim().isEmpty() ? null : addressField.getText().trim());
             user.setPassport(passport.isEmpty() ? null : passport);
             serviceUser.update(user);
             showAlert("Success", "Profile updated successfully.");
+
+            // Update Session with the latest user data
+            User updatedUser = serviceUser.getUserById(user.getId());
+            Session.setCurrentUser(Session.getSession(updatedUser));
+            LOGGER.info("Session updated with new profile data for ID: " + user.getId());
+
             loadProfile();
         }
     }
