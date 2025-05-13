@@ -78,6 +78,12 @@ public class MenuController implements SigninController.UserAwareController {
     @FXML
     private Button btnTransport;
     @FXML
+    private Label cLabel;
+    @FXML
+    private ImageView cpic;
+    @FXML
+    private Button btnChat;
+    @FXML
     private Label userNameLabel;
     @FXML
     private Label userTypeLabel;
@@ -120,12 +126,6 @@ public class MenuController implements SigninController.UserAwareController {
             e.printStackTrace();
         }
     }
-    @FXML
-    private Label cLabel;
-    @FXML
-    private ImageView cpic;
-    @FXML
-    private Button btnChat;
 
     @Override
     public void setUser(User user) {
@@ -464,22 +464,6 @@ public class MenuController implements SigninController.UserAwareController {
         fadeOutLabel.play();
     }
 
-    //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
-
-
-    public void handlSettings(ActionEvent actionEvent) {
-    }
-
-    public void handlLogout(ActionEvent actionEvent) {
-    }
-
-    public void handleHome(ActionEvent actionEvent) {
-    }
-
-    public void handlProgram(ActionEvent actionEvent) {
-    }
-
     @FXML
     public void startStHover(MouseEvent event) {
         FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), stIcon);
@@ -563,6 +547,8 @@ public class MenuController implements SigninController.UserAwareController {
         loIcon.setVisible(true);
         fadeOutLabel.play();
     }
+
+    //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 
