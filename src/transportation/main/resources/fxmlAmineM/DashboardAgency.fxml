@@ -15,39 +15,10 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airPlan.controllers.Admin.AgencyDashboardController">
-    <top>
-        <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="header-pane" BorderPane.alignment="CENTER">
-            <HBox prefHeight="100.0" prefWidth="1000.0" alignment="CENTER_LEFT">
-                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                    <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                    </HBox.margin>
-                    <Image url="@../../images/logoAirplan.png" />
-                </ImageView>
-                <Label fx:id="agencyNameLabel" text="Agency: [Name]" styleClass="client-label">
-                    <HBox.margin>
-                        <Insets left="20.0" top="40.0" />
-                    </HBox.margin>
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                </Label>
-                <Button fx:id="btnProfile" text="Profile" onAction="#goToProfile" styleClass="save-button">
-                    <HBox.margin>
-                        <Insets left="500.0" top="40.0" />
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="btnLogout" text="Logout" onAction="#logout" styleClass="logout-button">
-                    <HBox.margin>
-                        <Insets left="10.0" top="40.0" />
-                    </HBox.margin>
-                </Button>
-            </HBox>
-        </Pane>
-    </top>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.AgencyDashboardController">
     <center>
         <ScrollPane fitToWidth="true" prefHeight="570.0" prefWidth="1000.0" styleClass="scroll-pane"
                     BorderPane.alignment="CENTER">
@@ -64,7 +35,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-briefcase" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="BRIEFCASE" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -103,7 +74,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-btc" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="BTC" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -135,7 +106,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-star" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="STAR" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -173,7 +144,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-hourglass" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="HOURGLASS" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -199,7 +170,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-comment" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="COMMENT" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -236,7 +207,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-bullhorn" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="BULLHORN" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -267,7 +238,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-bar-chart" iconSize="24" fill="#3498db"/>
+                                    <FontAwesomeIconView glyphName="BAR_CHART" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>

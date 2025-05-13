@@ -1,5 +1,7 @@
 package controllersAmineM;
-/*
+
+import controllers.MenuController;
+import entitiesAmineM.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import servicesAmineM.ServiceBooking;
+import servicesAmineM.Session;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,15 +25,14 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
-*/
-public class ClientDashboardController /*implements Initializable*/ {
 
-   /* private static final Logger LOGGER = Logger.getLogger(ClientDashboardController.class.getName());
+public class ClientDashboardController implements Initializable {
+
+    private static final Logger LOGGER = Logger.getLogger(ClientDashboardController.class.getName());
     private static final DecimalFormat DF = new DecimalFormat("#.00");
 
     @FXML private BorderPane root;
-    @FXML private Label clientNameLabel;
-    @FXML private Button btnProfile, btnLogout;
+
     @FXML private Label totalTripsLabel, flightsTakenLabel, accommodationsBookedLabel, transportBookedLabel;
     @FXML private Label totalSpentLabel, averageCostLabel, mostExpensiveTripLabel, spendingBreakdownLabel;
     @FXML private Label nextFlightLabel, nextAccommodationLabel, nextTransportLabel, daysUntilTripLabel;
@@ -44,11 +47,16 @@ public class ClientDashboardController /*implements Initializable*/ {
 
     private User user;
     private ServiceBooking serviceBooking;
+    private MenuController menuController;
+
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceBooking = new ServiceBooking();
-        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/styleAmineM/Dashboard.css").toExternalForm());
         user = Session.getCurrentUser();
         if (user != null) {
             loadDashboard();
@@ -68,8 +76,6 @@ public class ClientDashboardController /*implements Initializable*/ {
 
     private void loadDashboard() {
         try {
-            clientNameLabel.setText("Client: " + user.getName());
-
             // Travel Summary
             ServiceBooking.TravelSummary summary = serviceBooking.getTravelSummary(user.getId());
             totalTripsLabel.setText("Total Trips Booked: " + summary.totalTrips);
@@ -130,33 +136,9 @@ public class ClientDashboardController /*implements Initializable*/ {
         }
     }
 
-    @FXML
-    private void goToProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/ProfileClient.fxml"));
-            Parent root = loader.load();
-            ClientController2 controller = loader.getController();
-            controller.setUser(user);
-            Stage stage = (Stage) btnProfile.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            LOGGER.severe("Error navigating to profile for user ID: " + (user != null ? user.getId() : "null") + ": " + e.getMessage());
-            showAlert("Error", "Failed to load profile: " + e.getMessage(), Alert.AlertType.ERROR);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @FXML
-    private void logout() {
-        Session.clearSession();
-        redirectToSignin();
-    }
-
     private void redirectToSignin() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Admin/signin.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
             Stage stage = (Stage) this.root.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -172,5 +154,5 @@ public class ClientDashboardController /*implements Initializable*/ {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
-    }*/
+    }
 }

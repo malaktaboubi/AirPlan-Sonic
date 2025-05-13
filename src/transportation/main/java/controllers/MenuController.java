@@ -1,8 +1,6 @@
 package controllers;
 
-import controllersAmineM.ApplicationContext;
-import controllersAmineM.ProfileClientController;
-import controllersAmineM.SigninController;
+import controllersAmineM.*;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entitiesAmineM.User;
 import javafx.animation.FadeTransition;
@@ -32,7 +30,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-public class MenuController implements SigninController.UserAwareController {
+public class MenuController implements UserAwareController {
     @FXML
     public Circle notificationIndicator;
     @FXML
@@ -80,10 +78,12 @@ public class MenuController implements SigninController.UserAwareController {
     @FXML
     private ImageView profileImage;
 
-    private static final Logger LOGGER = Logger.getLogger(MenuController.class.getName());
+    private Logger LOGGER = Logger.getLogger(MenuController.class.getName());
     private User currentUser;
-    private static final String PROFILE_PHOTOS_DIR = "/imagesAmineM/";
-    private static final String DEFAULT_PROFILE_IMAGE = "/imagesAmineM/user-icon7.png";
+    private MenuController menuController;
+    private String PROFILE_PHOTOS_DIR = "/imagesAmineM/";
+    private String DEFAULT_PROFILE_IMAGE = "/imagesAmineM/user-icon7.png";
+    private ServiceUser serviceUser;
     @FXML
     private Button btnSettings;
     @FXML
@@ -105,8 +105,6 @@ public class MenuController implements SigninController.UserAwareController {
     @FXML
     private Button profileButton;
 
-    private ServiceUser serviceUser;
-
     public MenuController() {
         try {
             this.serviceUser = new ServiceUser();
@@ -117,20 +115,62 @@ public class MenuController implements SigninController.UserAwareController {
         }
     }
 
-    @Override
     public void setUser(User user) {
         this.currentUser = user;
-        updateProfileUI();
     }
 
     public void initialize() {
-        rootPane.setUserData(this); // Assuming rootPane is the top-level Pane
         updateProfileUI();
-    }
+        // Add listener to refresh UI when content changes
+        contentPane.getChildren().addListener((javafx.collections.ListChangeListener<Node>) change -> {
+            while (change.next()) {
+                updateProfileUI();
+                LOGGER.info("MenuController UI refreshed due to content change");
+            }
+        });
 
-    public void refreshProfileUI() {
-        updateProfileUI();
-        LOGGER.info("Profile UI refreshed");
+        try {
+            User sessionUser = Session.getCurrentUser();
+            if (sessionUser == null) {
+                LOGGER.warning("Session expired or user not logged in. Redirecting to signin page.");
+                showAlert("Session Expired", "Please sign in again.");
+                Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
+                Stage stage = (Stage) profileButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+                return;
+            }
+
+            String fxmlPath = switch (sessionUser.getUserType()) {
+                case "ADMIN" -> "/fxmlAmineM/DashboardAdmin.fxml";
+                case "AGENCY" -> "/fxmlAmineM/DashboardAgency.fxml";
+                case "CLIENT" -> "/fxmlAmineM/DashboardClient.fxml";
+                default -> throw new IllegalArgumentException("Unknown user type: " + sessionUser.getUserType());
+            };
+
+            contentPane.getChildren().clear();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node newContent = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof UserAwareController userAwareController) {
+                System.out.println("MenuController: Setting user: " + sessionUser.getName());
+                userAwareController.setUser(sessionUser);
+            } else {
+                System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
+            }
+
+            contentPane.getChildren().add(newContent);
+        } catch (IOException e) {
+            LOGGER.severe("Failed to load home dashboard: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Failed to load home dashboard");
+        } catch (IllegalArgumentException e) {
+            LOGGER.severe("Invalid user type: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Invalid user type");
+        }
     }
 
     private void updateProfileUI() {
@@ -147,19 +187,15 @@ public class MenuController implements SigninController.UserAwareController {
             User refreshedUser = serviceUser.getUserById(sessionUser.getId());
             if (refreshedUser != null) {
                 sessionUser = refreshedUser;
-                // Update Session
                 Session.setCurrentUser(Session.getSession(sessionUser));
                 LOGGER.info("Session updated with refreshed user data for ID: " + sessionUser.getId());
 
-                // Set username
                 userNameLabel.setText(sessionUser.getName());
                 LOGGER.info("Username set to: " + sessionUser.getName());
 
-                // Set user type
                 userTypeLabel.setText(sessionUser.getUserType());
                 LOGGER.info("User type set to: " + sessionUser.getUserType());
 
-                // Set profile image
                 String photoPath = serviceUser.getProfilePhotoPath(sessionUser.getId());
                 if (photoPath != null && !photoPath.isEmpty()) {
                     File photoFile = new File(photoPath);
@@ -175,7 +211,6 @@ public class MenuController implements SigninController.UserAwareController {
                     profileImage.setImage(new Image(getClass().getResource(DEFAULT_PROFILE_IMAGE).toExternalForm()));
                 }
 
-                // Apply circular clip to profile image
                 Circle clip = new Circle(20, 20, 20);
                 profileImage.setClip(clip);
             } else {
@@ -499,11 +534,84 @@ public class MenuController implements SigninController.UserAwareController {
     }
     //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
+    private void redirectToDashboard(User user) {
+        try {
+            String fxmlPath = switch (user.getUserType()) {
+                case "ADMIN" -> "/fxmlAmineM/DashboardAdmin.fxml";
+                case "AGENCY" -> "/fxmlAmineM/DashboardAgency.fxml";
+                case "CLIENT" -> "/fxmlAmineM/DashboardClient.fxml";
+                default -> throw new IllegalArgumentException("Unknown user type: " + user.getUserType());
+            };
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node newContent = loader.load();
+
+            // Determine the controller type and cast it
+            Object controller = loader.getController();
+            if (controller instanceof UserAwareController userAwareController) {
+                System.out.println("MenuController: Setting user: " + user.getName());
+                userAwareController.setUser(user);
+            } else {
+                System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
+            }
+
+            contentPane.getChildren().clear();
+            contentPane.getChildren().add(newContent);
+        } catch (IOException e) {
+            LOGGER.severe("Failed to load dashboard: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Failed to load dashboard");
+        } catch (IllegalArgumentException e) {
+            LOGGER.severe("Invalid user type: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Invalid user type");
+        }
+    }
 
     @FXML
     public void handleHome(ActionEvent event) {
-        // Clear existing content
-        contentPane.getChildren().clear();
+        try {
+            User sessionUser = Session.getCurrentUser();
+            if (sessionUser == null) {
+                LOGGER.warning("Session expired or user not logged in. Redirecting to signin page.");
+                showAlert("Session Expired", "Please sign in again.");
+                Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
+                Stage stage = (Stage) profileButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+                return;
+            }
+
+            String fxmlPath = switch (sessionUser.getUserType()) {
+                case "ADMIN" -> "/fxmlAmineM/DashboardAdmin.fxml";
+                case "AGENCY" -> "/fxmlAmineM/DashboardAgency.fxml";
+                case "CLIENT" -> "/fxmlAmineM/DashboardClient.fxml";
+                default -> throw new IllegalArgumentException("Unknown user type: " + sessionUser.getUserType());
+            };
+
+            contentPane.getChildren().clear();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node newContent = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof UserAwareController userAwareController) {
+                System.out.println("MenuController: Setting user: " + sessionUser.getName());
+                userAwareController.setUser(sessionUser);
+            } else {
+                System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
+            }
+
+            contentPane.getChildren().add(newContent);
+        } catch (IOException e) {
+            LOGGER.severe("Failed to load home dashboard: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Failed to load home dashboard");
+        } catch (IllegalArgumentException e) {
+            LOGGER.severe("Invalid user type: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Invalid user type");
+        }
     }
 
     @FXML
@@ -592,4 +700,5 @@ public class MenuController implements SigninController.UserAwareController {
             showAlert("Error", "Failed to load profile page: " + e.getMessage());
         }
     }
+
 }

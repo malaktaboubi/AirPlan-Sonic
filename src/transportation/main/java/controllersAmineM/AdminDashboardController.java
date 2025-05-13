@@ -1,6 +1,6 @@
 package controllersAmineM;
 
-/*
+import entitiesAmineM.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,14 +13,17 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import servicesAmineM.ServiceAdmin;
+import servicesAmineM.Session;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.text.DecimalFormat;
-*/
-public class AdminisController /*implements Initializable*/ {
 
-    /*@FXML private BorderPane root;
+public class AdminDashboardController implements Initializable {
+
+    @FXML private BorderPane root;
     @FXML private Label adminNameLabel;
     @FXML private Button btnLogout;
     @FXML private Label totalUsersLabel;
@@ -60,7 +63,7 @@ public class AdminisController /*implements Initializable*/ {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceAdmin = new ServiceAdmin();
-        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/styleAmineM/Dashboard.css").toExternalForm());
         user = Session.getCurrentUser();
         System.out.println("AdminDashboardController: User from session: " + (user != null ? user.getName() : "null"));
         if (user != null && "ADMIN".equals(user.getUserType())) {
@@ -73,8 +76,6 @@ public class AdminisController /*implements Initializable*/ {
 
     private void loadDashboard() {
         try {
-            adminNameLabel.setText("Admin: " + user.getName());
-
             // User Overview
             ServiceAdmin.UserOverview userOverview = serviceAdmin.getUserOverview();
             totalUsersLabel.setText("Total Users: " + userOverview.totalUsers);
@@ -161,5 +162,5 @@ public class AdminisController /*implements Initializable*/ {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }*/
+    }
 }

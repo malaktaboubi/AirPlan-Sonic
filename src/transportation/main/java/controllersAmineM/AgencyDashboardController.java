@@ -1,18 +1,12 @@
 package controllersAmineM;
 
-import entitiesAmineM.User;
+import servicesAmineM.Session;
+import servicesAmineM.ServiceAgency;
 
-
-import controllersAmineM.AgencyController2;
-import entitiesAmineM.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
@@ -22,12 +16,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.text.DecimalFormat;
 
-public class AgencyDashboardController /*implements Initializable*/ {
+public class AgencyDashboardController implements Initializable {
 
-    /*@FXML private BorderPane root;
-    @FXML private Label agencyNameLabel;
-    @FXML private Button btnProfile;
-    @FXML private Button btnLogout;
+    @FXML private BorderPane root;
     @FXML private Label totalOffersLabel;
     @FXML private Label activeVsExpiredLabel;
     @FXML private Label popularOfferTypeLabel;
@@ -57,26 +48,23 @@ public class AgencyDashboardController /*implements Initializable*/ {
 
     private entitiesAmineM.User user;
     private ServiceAgency serviceAgency;
-    private static final DecimalFormat df = new DecimalFormat("#.00");
+    public static final DecimalFormat df = new DecimalFormat("#.00");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         serviceAgency = new ServiceAgency();
-        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("/styleAmineM/Dashboard.css").toExternalForm());
         user = Session.getCurrentUser();
         System.out.println("AgencyDashboardController: User from session: " + (user != null ? user.getName() : "null"));
         if (user != null) {
             loadDashboard();
         } else {
             showAlert("Session Error", "No user session found. Please sign in again.");
-            redirectToSignin();
         }
     }
 
     private void loadDashboard() {
         try {
-            agencyNameLabel.setText("Agency: " + user.getName());
-
             // Business Overview
             ServiceAgency.BusinessOverview overview = serviceAgency.getBusinessOverview(user.getId());
             totalOffersLabel.setText("Total Offers Published: " + overview.totalOffers);
@@ -134,59 +122,11 @@ public class AgencyDashboardController /*implements Initializable*/ {
         }
     }
 
-    @FXML
-    private void goToProfile() {
-        try {
-            if (user == null) {
-                showAlert("Session Error", "No user session found. Please sign in again.");
-                redirectToSignin();
-                return;
-            }
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/Admin/ProfileAgency.fxml"));
-            Parent root = loader.load();
-            AgencyController2 controller = loader.getController();
-            controller.setUser(user);
-            Stage stage = (Stage) btnProfile.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            showAlert("Error", "Failed to load profile: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void logout() {
-        try {
-            Session.clearSession();
-            Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Admin/signin.fxml"));
-            Stage stage = (Stage) btnLogout.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            showAlert("Error", "Failed to log out: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void redirectToSignin() {
-        try {
-            Session.clearSession();
-            Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Admin/signin.fxml"));
-            Stage stage = (Stage) btnProfile.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            showAlert("Error", "Failed to redirect to sign-in: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }*/
+    }
 }

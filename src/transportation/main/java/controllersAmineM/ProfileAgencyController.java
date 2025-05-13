@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AgencyController2 implements Initializable, UserAwareController {
+public class ProfileAgencyController implements Initializable, UserAwareController {
 
     @FXML private BorderPane root;
     @FXML private Label agencyNameLabel;

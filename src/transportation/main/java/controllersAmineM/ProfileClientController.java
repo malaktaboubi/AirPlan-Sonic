@@ -247,19 +247,22 @@ public class ProfileClientController implements SigninController.UserAwareContro
         }
 
         if (valid) {
+            // Refresh user object to ensure latest photo path is included
+            user = serviceUser.getUserById(user.getId());
+
+            // Update user fields
             user.setName(name);
             user.setPhone(phone.isEmpty() ? null : phone);
             user.setAddress(addressField.getText().trim().isEmpty() ? null : addressField.getText().trim());
             user.setPassport(passport.isEmpty() ? null : passport);
+
             serviceUser.update(user);
             showAlert("Success", "Profile updated successfully.");
 
-            // Update Session with the latest user data
+            // Update session with the latest user data
             User updatedUser = serviceUser.getUserById(user.getId());
             Session.setCurrentUser(Session.getSession(updatedUser));
             LOGGER.info("Session updated with new profile data for ID: " + user.getId());
-
-            loadProfile();
         }
     }
 

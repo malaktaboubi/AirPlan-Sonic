@@ -1,53 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 
-<?import org.kordamp.ikonli.javafx.FontIcon?>
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airPlan.controllers.Admin.ClientDashboardController">
-    <top>
-        <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="header-pane" BorderPane.alignment="CENTER">
-            <HBox prefHeight="100.0" prefWidth="1000.0" alignment="CENTER_LEFT">
-                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                    <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                    </HBox.margin>
-                    <Image url="@../../images/logoAirplan.png" />
-                </ImageView>
-                <Label fx:id="clientNameLabel" text="Client: [Name]" styleClass="client-label">
-                    <HBox.margin>
-                        <Insets left="20.0" top="40.0" />
-                    </HBox.margin>
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                </Label>
-                <Button fx:id="btnProfile" text="Profile" onAction="#goToProfile" styleClass="save-button">
-                    <HBox.margin>
-                        <Insets left="500.0" top="40.0" />
-                    </HBox.margin>
-                </Button>
-                <Button fx:id="btnLogout" text="Logout" onAction="#logout" styleClass="logout-button">
-                    <HBox.margin>
-                        <Insets left="10.0" top="40.0" />
-                    </HBox.margin>
-                </Button>
-            </HBox>
-        </Pane>
-    </top>
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.ClientDashboardController">
     <center>
         <ScrollPane fitToWidth="true" prefHeight="570.0" prefWidth="1000.0" styleClass="scroll-pane"
                     BorderPane.alignment="CENTER">
@@ -62,10 +24,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="0" GridPane.rowIndex="0">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-user" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="USER" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -100,10 +61,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-btc" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="BTC" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -140,10 +100,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="2" GridPane.rowIndex="0">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-calendar" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="CALENDAR" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -178,10 +137,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="0" GridPane.rowIndex="1">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-heart" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="HEART" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -228,10 +186,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="1" GridPane.rowIndex="1">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-comment" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="COMMENT" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -260,10 +217,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="2" GridPane.rowIndex="1">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-trophy" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="TROPHY" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -293,10 +249,9 @@
                     <VBox styleClass="dashboard-card" prefWidth="960.0" GridPane.columnIndex="0"
                           GridPane.rowIndex="2" GridPane.columnSpan="3">
                         <HBox alignment="CENTER_LEFT">
-                            <?import org.kordamp.ikonli.javafx.FontIcon?>
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontIcon iconLiteral="fa-bar-chart" iconSize="24" fill="#3498db" />
+                                    <FontAwesomeIconView glyphName="BAR_CHART" />
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
