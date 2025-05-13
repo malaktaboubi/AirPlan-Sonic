@@ -17,7 +17,7 @@ public class Transportation {
     private int durationMinutes;
     private double price;
     private String operatingDays;// "1111100" for MTWTFSS
-    private String photo;
+    private String photo="";
 
     public Transportation(String type, String providerName, String departurePoint, String arrivalPoint,
                           double departureLat, double departureLng, double arrivalLat, double arrivalLng,

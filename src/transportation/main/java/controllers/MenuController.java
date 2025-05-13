@@ -16,11 +16,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import servicesAmineM.ServiceUser;
@@ -47,6 +47,10 @@ public class MenuController implements SigninController.UserAwareController {
     private Label prLabel;
     @FXML
     private FontAwesomeIconView prIcon;
+    @FXML
+    private Label boLabel;
+    @FXML
+    private FontAwesomeIconView boIcon;
     @FXML
     private Label stLabel;
     @FXML
@@ -116,6 +120,12 @@ public class MenuController implements SigninController.UserAwareController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private Label cLabel;
+    @FXML
+    private ImageView cpic;
+    @FXML
+    private Button btnChat;
 
     @Override
     public void setUser(User user) {
@@ -414,6 +424,62 @@ public class MenuController implements SigninController.UserAwareController {
         fadeOutLabel.play();
     }
 
+    public void startcHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), cpic);
+        fadeOutIcon.setFromValue(1.0);
+        fadeOutIcon.setToValue(0.0);
+
+        FadeTransition fadeInLabel = new FadeTransition(Duration.millis(300), cLabel);
+        fadeInLabel.setFromValue(0.0);
+        fadeInLabel.setToValue(1.0);
+
+        fadeOutIcon.setOnFinished(e -> {
+            cpic.setVisible(false);
+            cLabel.setVisible(true);
+            fadeInLabel.play();
+        });
+
+        cLabel.setOpacity(0);
+        cLabel.setVisible(true);
+        fadeOutIcon.play();
+    }
+
+    public void stopcHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutLabel = new FadeTransition(Duration.millis(300), cLabel);
+        fadeOutLabel.setFromValue(1.0);
+        fadeOutLabel.setToValue(0.0);
+
+        FadeTransition fadeInIcon = new FadeTransition(Duration.millis(300), cpic);
+        fadeInIcon.setFromValue(0.0);
+        fadeInIcon.setToValue(1.0);
+
+        fadeOutLabel.setOnFinished(e -> {
+            cLabel.setVisible(false);
+            cpic.setVisible(true);
+            fadeInIcon.play();
+        });
+
+        cpic.setOpacity(0);
+        cpic.setVisible(true);
+        fadeOutLabel.play();
+    }
+
+    //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+
+
+    public void handlSettings(ActionEvent actionEvent) {
+    }
+
+    public void handlLogout(ActionEvent actionEvent) {
+    }
+
+    public void handleHome(ActionEvent actionEvent) {
+    }
+
+    public void handlProgram(ActionEvent actionEvent) {
+    }
+
     @FXML
     public void startStHover(MouseEvent event) {
         FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), stIcon);
@@ -525,7 +591,7 @@ public class MenuController implements SigninController.UserAwareController {
             contentPane.getChildren().clear();
 
             // Load new FXML content
-            Node newContent = FxmlUtils.loadFXML("/fxml/TransportBook.fxml");
+            Node newContent = FxmlUtils.loadFXML("/fxml/TransportBookAdmin.fxml");
             contentPane.getChildren().add(newContent);
 
 
@@ -533,6 +599,9 @@ public class MenuController implements SigninController.UserAwareController {
             e.printStackTrace();
             // Show error to user
         }
+    }
+
+    public void handleChat(ActionEvent actionEvent) {
     }
 
     @FXML

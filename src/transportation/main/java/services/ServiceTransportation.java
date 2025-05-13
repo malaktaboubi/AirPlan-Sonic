@@ -60,7 +60,7 @@ public class ServiceTransportation {
         String req = "UPDATE transportation SET type=?, provider_name=?, departure_point=?, arrival_point=?, "
                 + "departure_Lat=?, departure_Lng=?, arrival_Lat=?, arrival_Lng=?, "
                 + "departure_time=?, duration_minutes=?, price=?, operating_days=? "
-                + "WHERE id=?";
+                + "WHERE id_transport=?";
 
         try (PreparedStatement ps = cnx.prepareStatement(req)) {
             ps.setString(1, h.getType());
@@ -90,7 +90,7 @@ public class ServiceTransportation {
     }
 
     public void supprimer(int id) {
-        String req = "DELETE FROM transportation WHERE id=?";
+        String req = "DELETE FROM transportation WHERE id_transport=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, id);
@@ -172,6 +172,24 @@ public class ServiceTransportation {
             // etc.
             return transport;
         }
+
+    public String getMostFrequentProvider() {
+        String query = "SELECT provider_name, COUNT(*) as count FROM transportation GROUP BY provider_name ORDER BY count DESC LIMIT 1";
+
+        try (PreparedStatement ps = cnx.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getString("provider_name");
+            } else {
+                return "No providers found in database";
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error finding most frequent provider: " + e.getMessage());
+            return "Error retrieving provider data";
+        }
+    }
 
 
 }

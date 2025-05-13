@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -112,7 +113,7 @@
                      </ImageView>
                      <Button fx:id="btnHome" mnemonicParsing="false" onAction="#handleHome" onMouseEntered="#startHomeHover" onMouseExited="#stopHomeHover" prefHeight="48.0" prefWidth="90.0" styleClass="menu-button">
                         <VBox.margin>
-                           <Insets left="10.0" top="30.0" />
+                           <Insets left="10.0" top="20.0" />
                         </VBox.margin>
                         <graphic>
                            <StackPane fx:id="homeGraphic">
@@ -173,10 +174,31 @@
                            <Insets left="10.0" top="5.0" />
                         </VBox.margin>
                      </Button>
+                     <Button fx:id="btnChat" layoutX="20.0" layoutY="438.0" mnemonicParsing="false" onAction="#handleChat" onMouseEntered="#startcHover" onMouseExited="#stopcHover" prefHeight="48.0" prefWidth="90.0" styleClass="menu-button">
+                        <graphic>
+                           <StackPane prefHeight="39.0" prefWidth="84.0">
+                              <children>
+                                 <ImageView fx:id="cpic" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/chat.gif" />
+                                    </image></ImageView>
+                                 <Label fx:id="cLabel" styleClass="menu-label" text="Assistant" visible="false" />
+                              </children>
+                           </StackPane>
+                        </graphic>
+                        <VBox.margin>
+                           <Insets left="10.0" top="5.0" />
+                        </VBox.margin>
+                     </Button>
+                     <Separator prefWidth="200.0">
+                        <VBox.margin>
+                           <Insets left="7.0" />
+                        </VBox.margin>
+                     </Separator>
 
                      <Button fx:id="btnSettings" mnemonicParsing="false" onAction="#handlSettings" onMouseEntered="#startStHover" onMouseExited="#stopStHover" prefHeight="48.0" prefWidth="90.0" styleClass="menu-button">
                         <VBox.margin>
-                           <Insets left="10.0" top="120.0" />
+                           <Insets left="10.0" top="30.0" />
                         </VBox.margin>
                         <graphic>
                            <StackPane prefHeight="150.0" prefWidth="200.0">

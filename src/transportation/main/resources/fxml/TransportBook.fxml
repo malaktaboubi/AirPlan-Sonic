@@ -29,9 +29,9 @@
             <HBox prefHeight="66.0" prefWidth="478.0">
                <children>
                   <Label prefHeight="68.0" prefWidth="220.0" styleClass="section-title" text="Where To?" />
-                  <Button mnemonicParsing="false" onAction="#handleReservations" prefHeight="26.0" prefWidth="135.0" text="My Reservations">
+                  <Button fx:id="reservationDisplay" mnemonicParsing="false" onAction="#handleReservations" styleClass="res-display" text="Reservations">
                      <HBox.margin>
-                        <Insets left="170.0" top="17.0" />
+                        <Insets left="160.0" top="20.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -39,7 +39,7 @@
             <HBox prefHeight="35.0" prefWidth="450.0">
                <children>
                   <StackPane>
-                  <TextField fx:id="startLocationField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="170.0" promptText="Starting point" styleClass="input-field" />
+                     <TextField fx:id="startLocationField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="170.0" promptText="Starting point" styleClass="input-field" />
                      <Button fx:id="btnGps" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleGps" prefHeight="35.0" prefWidth="50.0" styleClass="button-gps" translateX="7.0" StackPane.alignment="CENTER_RIGHT">
                         <graphic>
                            <FontAwesomeIconView glyphName="COMPASS" size="20" styleClass="button-icon" />
@@ -95,7 +95,7 @@
    </left>
    <center>
       <StackPane>
-         <ScrollPane fx:id="paneAffichage" >
+         <ScrollPane fx:id="paneAffichage">
             <content>
                <VBox fx:id="listVbox" prefHeight="659.0" prefWidth="470.0" />
             </content>
@@ -113,7 +113,7 @@
                         <children>
                            <Label fx:id="providerReservation" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="174.0" styleClass="title-booking" text="Label">
                               <HBox.margin>
-                                 <Insets left="10.0" top="45.0" />
+                                 <Insets left="10.0" top="50.0" />
                               </HBox.margin>
                            </Label>
                            <ImageView fx:id="imageReservation" fitHeight="153.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -123,58 +123,54 @@
                            </ImageView>
                         </children>
                      </HBox>
-                     <HBox prefHeight="267.0" prefWidth="440.0">
+                     <HBox prefHeight="278.0" prefWidth="440.0">
                         <children>
-                           <VBox prefHeight="255.0" prefWidth="116.0">
+                           <VBox prefHeight="200.0" prefWidth="100.0">
                               <children>
                                  <Label styleClass="title" text="Reservation details:" />
                                  <Label text="Pick Date">
                                     <VBox.margin>
-                                       <Insets top="15.0" />
+                                       <Insets top="20.0" />
                                     </VBox.margin></Label>
                                  <DatePicker maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" styleClass="date-picker">
                                     <VBox.margin>
                                        <Insets top="10.0" />
                                     </VBox.margin></DatePicker>
-                                 <Label text="Pick Time">
+                                 <Label text="Pick Date">
                                     <VBox.margin>
                                        <Insets top="15.0" />
-                                    </VBox.margin>
-                                 </Label>
+                                    </VBox.margin></Label>
                                  <ComboBox fx:id="timeComboBox" disable="true" minHeight="-Infinity" prefHeight="30.0" prefWidth="150" promptText="HH:mm">
                                     <VBox.margin>
                                        <Insets top="10.0" />
-                                    </VBox.margin></ComboBox>
-                                 <Label text="Passengers number">
+                                    </VBox.margin> </ComboBox>
+                                 <Label text="Label">
                                     <VBox.margin>
-                                       <Insets top="20.0" />
+                                       <Insets top="15.0" />
                                     </VBox.margin></Label>
-                                 <Spinner minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
+                                 <Spinner fx:id="passengersNum" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
                                     <VBox.margin>
                                        <Insets top="10.0" />
                                     </VBox.margin></Spinner>
                               </children>
                            </VBox>
-                           <VBox prefHeight="255.0" prefWidth="274.0">
+                           <VBox prefHeight="278.0" prefWidth="265.0">
                               <children>
                                  <Label styleClass="title" text="More details">
                                     <VBox.margin>
                                        <Insets left="30.0" />
                                     </VBox.margin></Label>
-                                 <BarChart prefHeight="286.0" prefWidth="274.0">
-                                   <xAxis>
-                                     <CategoryAxis prefHeight="0.0" prefWidth="218.0" side="BOTTOM" />
-                                   </xAxis>
-                                   <yAxis>
-                                     <NumberAxis side="LEFT" />
-                                   </yAxis>
-                                    <VBox.margin>
-                                       <Insets />
-                                    </VBox.margin>
+                                 <BarChart>
+                                    <xAxis>
+                                       <CategoryAxis side="BOTTOM" />
+                                    </xAxis>
+                                    <yAxis>
+                                       <NumberAxis side="LEFT" />
+                                    </yAxis>
                                  </BarChart>
                               </children>
                               <HBox.margin>
-                                 <Insets left="10.0" />
+                                 <Insets left="30.0" />
                               </HBox.margin>
                            </VBox>
                         </children>
@@ -184,17 +180,21 @@
                      </HBox>
                      <Button mnemonicParsing="false" onAction="#handleBooking" prefHeight="38.0" prefWidth="140.0" styleClass="booking" text="Book" textFill="WHITE">
                         <VBox.margin>
-                           <Insets left="135.0" top="40.0" />
+                           <Insets left="140.0" top="40.0" />
                         </VBox.margin>
                      </Button>
                   </children></VBox>
             </content>
          </ScrollPane>
-         <ScrollPane prefHeight="200.0" prefWidth="200.0" visible="false">
+         <ScrollPane fx:id="paneAffichage1" visible="false">
             <content>
-               <VBox fx:id="listofReservations" prefHeight="668.0" prefWidth="478.0">
+               <VBox fx:id="listVboxReservations" prefHeight="659.0" prefWidth="470.0">
                   <children>
-                     <Label text="Label" />
+                     <Label text="My Reservation List:">
+                        <VBox.margin>
+                           <Insets left="20.0" top="30.0" />
+                        </VBox.margin>
+                     </Label>
                   </children>
                </VBox>
             </content>

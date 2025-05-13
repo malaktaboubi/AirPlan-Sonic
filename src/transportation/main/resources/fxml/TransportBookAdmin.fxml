@@ -1,14 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.TransportBookController"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" stylesheets="@/style/styleTA.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TransportBookAdminController">
+   <left>
+      <Pane prefHeight="670.0" prefWidth="690.0" style="-fx-background-color: white" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="673.0" prefWidth="694.0">
+               <children>
+                  <HBox prefHeight="98.0" prefWidth="694.0">
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="321.0" styleClass="title" text="Transportation Area">
+                           <HBox.margin>
+                              <Insets left="20.0" top="8.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="date" styleClass="date" text="Label">
+                           <HBox.margin>
+                              <Insets left="200.0" top="18.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="167.0" prefWidth="694.0" styleClass="dashboard-hbox">
+                     <VBox prefHeight="167.0" prefWidth="231.0" styleClass="dashboard-vbox">
+                        <Label prefHeight="18.0" prefWidth="126.0" styleClass="dashboard-title" text="Top Service" />
+                        <Label fx:id="topService" styleClass="dashboard-number" text="Label" />
+                     </VBox>
+                     <VBox prefHeight="167.0" prefWidth="231.0" styleClass="dashboard-vbox">
+                        <Label prefHeight="20.0" prefWidth="164.0" styleClass="dashboard-title" text="Reservation Numbers" />
+                        <Label fx:id="resNum" styleClass="dashboard-number" text="Label" />
+                     </VBox>
+                     <VBox prefHeight="167.0" prefWidth="231.0" styleClass="dashboard-vbox">
+                        <Label prefHeight="18.0" prefWidth="209.0" styleClass="dashboard-title" text="Canceled reservations" />
+                        <Label fx:id="canceledRes" styleClass="dashboard-number" text="Label" />
+                     </VBox>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label prefHeight="19.0" prefWidth="199.0" styleClass="title2" text="Transports List">
+                           <VBox.margin>
+                              <Insets left="20.0" top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ScrollPane minHeight="-Infinity" prefHeight="390.0" prefWidth="694.0">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                           <content>
+                              <VBox fx:id="listVbox" prefHeight="388.0" prefWidth="691.0" style="-fx-background-color: #e5ddd5;" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </left>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #e5ddd5" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="671.0" prefWidth="311.0">
+               <children>
+                  <PieChart fx:id="pieChartType" labelLineLength="15.0" labelsVisible="false" prefHeight="291.0" prefWidth="311.0" styleClass="animated-pie" />
+                  <!-- chat area -->
+                  <BorderPane prefHeight="392.0" prefWidth="311.0" style="-fx-border-width: 1" styleClass="chatcontainer">
+                     <top>
+                        <HBox alignment="CENTER" style="-fx-background-color: #4CAF50;">
+                           <Label style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16; -fx-padding: 10;" text="Transportation Data Assistant" />
+                        </HBox>
+                     </top>
 
-</AnchorPane>
+                     <center>
+                        <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER">
+                           <VBox fx:id="chatContainer" alignment="CENTER" maxWidth="-Infinity" prefHeight="14.0" prefWidth="318.0" spacing="10" style="-fx-background-color: #e5ddd5; -fx-padding: 10;">
+                              <!-- Messages will be added here programmatically -->
+                           </VBox>
+                        </ScrollPane>
+                     </center>
+
+                     <bottom>
+                        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #f5f5f5; -fx-padding: 10;">
+                           <TextField fx:id="inputField" onAction="#handleSend" promptText="Type your message here..." style="-fx-background-radius: 20; -fx-pref-height: 40; -fx-pref-width: 300;" />
+                           <Button onAction="#handleSend" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 20; -fx-pref-height: 40; -fx-pref-width: 80;" text="Send" />
+                        </HBox>
+                     </bottom>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </BorderPane>
+                  <!-- END chat area -->
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
