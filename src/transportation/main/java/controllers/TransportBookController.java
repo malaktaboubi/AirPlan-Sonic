@@ -261,7 +261,7 @@ public class TransportBookController {
         card.getStyleClass().add("transport-card");
         card.getStyleClass().add(option.getType().toLowerCase());
         card.setPadding(new Insets(10));
-        card.setPrefWidth(300);
+        card.setPrefWidth(350);
 
         // Title and icon
         Label typeLabel = new Label(capitalize(option.getType()) + " Service");

@@ -28,7 +28,7 @@ public class TransportChatbot {
             "Please enter the departure time (HH:MM:SS): ",
             "Please enter the duration in minutes (whole number): ",
             "Please enter the price (decimal): ",
-            "Please enter the operating days (7 digits, 1=operating, 0=closed, e.g., 1111100): ",
+            "Please enter the operating days (7 digits, 1=operating, 0=closed, e.g., 1111100): "
     };
 
     public String processInput(String input) {
@@ -54,6 +54,7 @@ public class TransportChatbot {
         String lowerInput = input.toLowerCase();
         if (lowerInput.equals("help me add transportation") || lowerInput.equals("yes")) {
             currentTransport = new Transportation();
+            currentTransport.setPhoto(""); // Always set photo to an empty string
             currentFieldIndex = 0;
             currentState = State.COLLECTING_DATA;
             return fieldPrompts[currentFieldIndex];
@@ -65,20 +66,33 @@ public class TransportChatbot {
     }
 
     private String handleCollectingDataState(String input) {
-        // First validate the input
+        // Handle transport type first as it affects other fields
+        if (currentFieldIndex == 0) {
+            try {
+                setTransportField(currentFieldIndex, input);
+
+                // If transport type is NOT bus/train/ship, skip certain fields
+                if (!isStandardTransportType(input)) {
+                    setTransportField(1, input);
+                    skipFieldsForNonStandardTransport();
+                    return fieldPrompts[currentFieldIndex];
+                }
+            } catch (Exception e) {
+                return "Error: " + e.getMessage() + "\nPlease enter a valid transport type\n" + fieldPrompts[currentFieldIndex];
+            }
+        }
+
+        // For other fields
         if (!validateField(currentFieldIndex, input)) {
             return getFieldErrorMessage(currentFieldIndex) + "\n" + fieldPrompts[currentFieldIndex];
         }
 
         try {
-            // Only set the field if validation passed
             setTransportField(currentFieldIndex, input);
+            currentFieldIndex = getNextFieldIndex(); // Get next field considering skips
 
-            // Move to next field
-            currentFieldIndex++;
-
-            // Check if we've collected all fields
             if (currentFieldIndex >= fieldPrompts.length) {
+                currentTransport.setPhoto(""); // Reinforce empty photo before saving
                 serviceTransportation.ajouter(currentTransport);
                 currentState = State.COMPLETED;
                 return "Thank you! I'll take care of that for you!\n\nAny new transportation to be added? (yes/no)";
@@ -89,6 +103,43 @@ public class TransportChatbot {
             return "An error occurred: " + e.getMessage() + "\nPlease try again.\n" + fieldPrompts[currentFieldIndex];
         }
     }
+
+    private boolean isStandardTransportType(String type) {
+        if (type == null) return false;
+        String lowerType = type.toLowerCase();
+        return lowerType.equals("bus") || lowerType.equals("train") || lowerType.equals("ship");
+    }
+
+    private void skipFieldsForNonStandardTransport() {
+        currentTransport.setDeparturePoint("N/A");
+        currentTransport.setArrivalPoint("N/A");
+        currentTransport.setDepartureLat(0.0);
+        currentTransport.setDepartureLng(0.0);
+        currentTransport.setArrivalLat(0.0);
+        currentTransport.setArrivalLng(0.0);
+        currentTransport.setDepartureTime(LocalTime.of(0, 0));
+        currentTransport.setDurationMinutes(0);
+        currentTransport.setPrice(0.0);
+
+        // After provider (index 1), jump to operating days (index 11)
+        currentFieldIndex = 11;
+    }
+
+
+    private int getNextFieldIndex() {
+        if (isStandardTransportType(currentTransport.getType())) {
+            return currentFieldIndex + 1;
+        }
+
+        switch (currentFieldIndex) {
+            case 0: return 1; // Ask provider next
+            case 1:
+                skipFieldsForNonStandardTransport(); // Skip after provider
+                return currentFieldIndex; // Now at 11
+            default: return currentFieldIndex + 1;
+        }
+    }
+
 
     private void setTransportField(int index, String value) throws Exception {
         switch (index) {
@@ -109,33 +160,34 @@ public class TransportChatbot {
                 }
                 currentTransport.setOperatingDays(value);
                 break;
-            default: throw new IndexOutOfBoundsException("Invalid field index: " + index);
+            default:
+                throw new IndexOutOfBoundsException("Invalid field index: " + index);
         }
     }
 
     private boolean validateField(int index, String value) {
+        if (!isStandardTransportType(currentTransport.getType())) {
+            if (index >= 2 && index <= 9) return true;
+        }
+
         if (value == null || value.trim().isEmpty()) {
             return false;
         }
 
         try {
             switch (index) {
-                case 4: case 5: case 6: case 7: // Coordinates
-                    Double.parseDouble(value);
-                    return true;
-                case 8: // Time
-                    LocalTime.parse(value);
-                    return true;
-                case 9: // Duration
-                    Integer.parseInt(value);
-                    return true;
-                case 10: // Price
-                    Double.parseDouble(value);
-                    return true;
-                case 11: // Operating days
+                case 4: case 5: case 6: case 7:
+                    Double.parseDouble(value); return true;
+                case 8:
+                    LocalTime.parse(value); return true;
+                case 9:
+                    Integer.parseInt(value); return true;
+                case 10:
+                    Double.parseDouble(value); return true;
+                case 11:
                     return value.matches("[01]{7}");
                 default:
-                    return true; // For text fields
+                    return true;
             }
         } catch (NumberFormatException | DateTimeParseException e) {
             return false;

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -60,6 +61,12 @@ public class MenuController {
     private FontAwesomeIconView tIcon;
     @FXML
     private Button btnTransport;
+    @FXML
+    private Label cLabel;
+    @FXML
+    private ImageView cpic;
+    @FXML
+    private Button btnChat;
 
 
     //888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -393,6 +400,46 @@ public class MenuController {
         fadeOutLabel.play();
     }
 
+    public void startcHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutIcon = new FadeTransition(Duration.millis(300), cpic);
+        fadeOutIcon.setFromValue(1.0);
+        fadeOutIcon.setToValue(0.0);
+
+        FadeTransition fadeInLabel = new FadeTransition(Duration.millis(300), cLabel);
+        fadeInLabel.setFromValue(0.0);
+        fadeInLabel.setToValue(1.0);
+
+        fadeOutIcon.setOnFinished(e -> {
+            cpic.setVisible(false);
+            cLabel.setVisible(true);
+            fadeInLabel.play();
+        });
+
+        cLabel.setOpacity(0);
+        cLabel.setVisible(true);
+        fadeOutIcon.play();
+    }
+
+    public void stopcHover(MouseEvent mouseEvent) {
+        FadeTransition fadeOutLabel = new FadeTransition(Duration.millis(300), cLabel);
+        fadeOutLabel.setFromValue(1.0);
+        fadeOutLabel.setToValue(0.0);
+
+        FadeTransition fadeInIcon = new FadeTransition(Duration.millis(300), cpic);
+        fadeInIcon.setFromValue(0.0);
+        fadeInIcon.setToValue(1.0);
+
+        fadeOutLabel.setOnFinished(e -> {
+            cLabel.setVisible(false);
+            cpic.setVisible(true);
+            fadeInIcon.play();
+        });
+
+        cpic.setOpacity(0);
+        cpic.setVisible(true);
+        fadeOutLabel.play();
+    }
+
     //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
 
@@ -425,7 +472,7 @@ public class MenuController {
             contentPane.getChildren().clear();
 
             // Load new FXML content
-            Node newContent = FxmlUtils.loadFXML("/fxml/TransportBook.fxml");
+            Node newContent = FxmlUtils.loadFXML("/fxml/TransportBookAdmin.fxml");
             contentPane.getChildren().add(newContent);
 
 
@@ -433,6 +480,9 @@ public class MenuController {
             e.printStackTrace();
             // Show error to user
         }
+    }
+
+    public void handleChat(ActionEvent actionEvent) {
     }
 
 }
