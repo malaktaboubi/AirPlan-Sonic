@@ -132,7 +132,7 @@
                                     <VBox.margin>
                                        <Insets top="20.0" />
                                     </VBox.margin></Label>
-                                 <DatePicker maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" styleClass="date-picker">
+                                 <DatePicker fx:id="date" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="150.0" styleClass="date-picker">
                                     <VBox.margin>
                                        <Insets top="10.0" />
                                     </VBox.margin></DatePicker>
@@ -160,7 +160,7 @@
                                     <VBox.margin>
                                        <Insets left="30.0" />
                                     </VBox.margin></Label>
-                                 <BarChart>
+                                 <BarChart fx:id="chartclient">
                                     <xAxis>
                                        <CategoryAxis side="BOTTOM" />
                                     </xAxis>

@@ -472,7 +472,7 @@ public class MenuController {
             contentPane.getChildren().clear();
 
             // Load new FXML content
-            Node newContent = FxmlUtils.loadFXML("/fxml/TransportBookAdmin.fxml");
+            Node newContent = FxmlUtils.loadFXML("/fxml/TransportBookAgence.fxml");
             contentPane.getChildren().add(newContent);
 
 

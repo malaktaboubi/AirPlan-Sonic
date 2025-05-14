@@ -3,11 +3,15 @@ package controllers;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import entities.Transportation;
+import entities.TransportationPlusHistory;
 import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.scene.chart.BarChart;
+import entities.Reservation;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +26,8 @@ import javafx.application.Platform;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,12 +38,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import javafx.scene.layout.Region;
 import java.util.stream.Collectors;
-
-
-import javafx.util.StringConverter;
 import org.json.JSONObject;
 import services.ServiceTransportation;
-
+import services.ServiceTransportationPlusHistory;
+import javafx.util.StringConverter;
+import services.ServiceReservation;
 
 public class TransportBookController {
 
@@ -56,23 +61,43 @@ public class TransportBookController {
     @FXML
     private VBox listVbox;
     @FXML
-    ScrollPane paneAffichage ;
+    private ScrollPane paneAffichage;
     @FXML
-    ScrollPane paneBook ;
+    private ScrollPane paneBook;
     @FXML
-    Label providerReservation;
+    private Label providerReservation;
     @FXML
-    ImageView imageReservation;
+    private ImageView imageReservation;
     @FXML
-    private ComboBox<LocalTime> timeComboBox; // or appropriate type
+    private ComboBox<LocalTime> timeComboBox;
+    @FXML
+    private Button chartButton;
+    @FXML
+    private BarChart<String, Number> chartclient; // Added BarChart injection
+    @FXML
+    private Spinner<Integer> passengersNum;
+    @FXML
+    private DatePicker date;
+    private int selectedTransportId = -1;
+
+
 
     private ServiceTransportation serviceTransportation;
+    private ServiceTransportationPlusHistory serviceHistory; // Added for history data
+    private ServiceReservation serviceReservation=new ServiceReservation();
 
     @FXML
     private void initialize() {
-        // Initialize service
+
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1); // min, max, initial
+        passengersNum.setValueFactory(valueFactory);
+
+
+        // Initialize services
         try {
             serviceTransportation = new ServiceTransportation();
+            serviceHistory = new ServiceTransportationPlusHistory(); // Initialize history service
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to connect to database: " + e.getMessage());
             alert.showAndWait();
@@ -172,9 +197,7 @@ public class TransportBookController {
                 return (string != null && !string.isEmpty()) ? LocalTime.parse(string, formatter) : null;
             }
         });
-
     }
-
 
     @FXML
     public void handleMap(ActionEvent event) {
@@ -255,7 +278,6 @@ public class TransportBookController {
         }
     }
 
-
     private VBox createTransportCard(Transportation option) {
         VBox card = new VBox(10);
         card.getStyleClass().add("transport-card");
@@ -310,16 +332,28 @@ public class TransportBookController {
         bookButton.getStyleClass().add("book-button");
         bookButton.setVisible(false);
 
-        // 🔁 On click: switch panes and fill info
         bookButton.setOnAction(e -> {
             // Set transport ID if needed elsewhere
             System.out.println("Book button clicked: " + option.getProviderName());
-            int selectedTransportId = option.getId();
+            selectedTransportId = option.getId();
 
             // Switch panes
-            //paneAffichage.setVisible(false);
+            paneAffichage.setVisible(false); // Uncommented and enabled
             paneBook.setVisible(true);
             paneBook.toFront();
+
+            LocalTime finalDepartureTime;
+
+            if (!timeComboBox.isDisabled() && timeComboBox.getValue() != null) {
+                // Use selected time from combo box
+                finalDepartureTime = timeComboBox.getValue();
+            } else {
+                // Use default scheduled time from transport option
+                finalDepartureTime = option.getDepartureTime();
+            }
+
+
+            System.out.println("Final departure time used: " + finalDepartureTime);
 
             // Set provider name
             providerReservation.setText(option.getProviderName());
@@ -327,13 +361,48 @@ public class TransportBookController {
             // Set image in booking pane
             imageReservation.setImage(typeImage.getImage());
 
+            // Enable timeComboBox for non-scheduled transports
             if (!option.getType().equalsIgnoreCase("bus") &&
                     !option.getType().equalsIgnoreCase("train") &&
                     !option.getType().equalsIgnoreCase("ship")) {
-
                 timeComboBox.setDisable(false);
+            } else {
+                timeComboBox.setDisable(true); // Disable for scheduled transports
+            }
+            timeComboBox.setValue(option.getDepartureTime());
+
+
+            // Update chart with historical data for the selected transport
+            int transportId = selectedTransportId; // Use the transport ID from the selected option
+            List<TransportationPlusHistory> history;
+            try {
+                history = serviceHistory.getHistoryByTransportId(transportId);
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load history data: " + ex.getMessage());
+                alert.showAndWait();
+                return;
             }
 
+            // Clear existing data
+            chartclient.getData().clear();
+
+            // Prepare series data
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Passengers per Day (Transport ID: " + transportId + ")");
+
+            if (history.isEmpty()) {
+                series.getData().add(new XYChart.Data<>("No Data", 0));
+            } else {
+                for (TransportationPlusHistory record : history) {
+                    series.getData().add(new XYChart.Data<>(record.getRecordedDate().toString(), record.getPassengersSumPerDay()));
+                }
+            }
+
+            // Add series to chart
+            chartclient.getData().add(series);
+
+            // Set chart title
+            chartclient.setTitle("Passenger Trends for Transport ID: " + transportId);
         });
 
         Region spacer = new Region();
@@ -362,7 +431,7 @@ public class TransportBookController {
         FontAwesomeIconView icon = new FontAwesomeIconView();
         icon.setSize("16");
 
-        switch(type.toLowerCase()) {
+        switch (type.toLowerCase()) {
             case "bus":
                 icon.setGlyphName(String.valueOf(FontAwesomeIcon.BUS));
                 icon.setStyle("-fx-fill: #3498db;");
@@ -415,41 +484,100 @@ public class TransportBookController {
 
     public void handleGps(ActionEvent event) throws IOException {
         try {
-        String apiUrl = "http://ip-api.com/json"; // IP-based geolocation API
-        HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
-        connection.setRequestMethod("GET");
+            String apiUrl = "http://ip-api.com/json"; // IP-based geolocation API
+            HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+            connection.setRequestMethod("GET");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
 
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+
+            reader.close();
+
+            JSONObject json = new JSONObject(response.toString());
+            String city = json.getString("city");
+            startLocationField.setText(city);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            startLocationField.setText("Error getting location");
+        }
+    }
+
+    @FXML
+    private void handleBooking(ActionEvent event) {
+        if (providerReservation.getText() == null || providerReservation.getText().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Booking Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a transport before booking.");
+            alert.showAndWait();
+            return;
         }
 
-        reader.close();
+        // Get user input
+        String provider = providerReservation.getText();
+        LocalTime selectedTime = timeComboBox.isDisabled() ? null : timeComboBox.getValue();
+        String departure = startLocationField.getText(); // Make sure these match your actual input field fx:id
+        String arrival = destinationField.getText();
+        LocalDate travelDate = date.getValue(); // uses the system's current date
+        int passengers = passengersNum.getValue(); // add validation!
+        LocalDateTime bookingTime = LocalDateTime.now();
 
-        JSONObject json = new JSONObject(response.toString());
-        String city = json.getString("city");
-        startLocationField.setText(city);
+        // Example: get transportId (assume you store it when a user clicks "Book")
+        int transportId = selectedTransportId;
+        //int userId = currentUser.getId(); // You need a reference to the logged-in user
 
-    } catch(
-    Exception e)
+        // Create the reservation
+        Reservation reservation = new Reservation(
+                9,
+                transportId,
+                departure,
+                arrival,
+                travelDate,
+                passengers,
+                bookingTime,
+                "pending"
+        );
 
-    {
-        e.printStackTrace();
-        startLocationField.setText("Error getting location");
-         }
-    }
-    //88888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+        // Save to DB
+        try {
+            serviceReservation.ajouter(reservation);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Booking Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Could not save your booking: " + e.getMessage());
+            alert.showAndWait();
+            return;
+        }
 
-    public void handleCancelBooking(ActionEvent event){
+        // Switch panes and show confirmation
         paneBook.setVisible(false);
+        paneAffichage.setVisible(true);
+        paneAffichage.toFront();
+
+        Alert confirm = new Alert(Alert.AlertType.INFORMATION);
+        confirm.setTitle("Booking Confirmed");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Your booking with " + provider +
+                (selectedTime != null ? " at " + selectedTime.toString() : "") + " is confirmed.");
+        confirm.showAndWait();
     }
 
-    public void handleBooking(ActionEvent actionEvent) {
+
+
+    public void handleCancelBooking(ActionEvent event) {
+        paneBook.setVisible(false);
+        paneAffichage.setVisible(true); // Return to display pane
     }
 
     public void handleReservations(ActionEvent actionEvent) {
+        // Implement reservations display logic here
+        System.out.println("Reservations view triggered");
     }
 }

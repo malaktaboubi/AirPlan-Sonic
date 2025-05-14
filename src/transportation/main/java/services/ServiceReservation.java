@@ -18,17 +18,19 @@ public class ServiceReservation implements IServiceTransport<Reservation> {
 
     @Override
     public void ajouter(Reservation reservation) {
-        String req = "INSERT INTO reservation_transport (user_id, transport_id, travel_date, passengers, booking_time, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO reservation (user_id, id_transport, departure_point, arrival_point, travel_date, passengers, booking_time, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = cnx.prepareStatement(req, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, reservation.getUserId());
             ps.setInt(2, reservation.getTransportId());
-            ps.setDate(3, Date.valueOf(reservation.getTravelDate()));
-            ps.setInt(4, reservation.getPassengers());
-            ps.setTimestamp(5, Timestamp.valueOf(reservation.getBookingTime()));
-            ps.setString(6, reservation.getStatus());
+            ps.setString(3, reservation.getDeparturePoint());
+            ps.setString(4, reservation.getArrivalPoint());
+            ps.setDate(5, Date.valueOf(reservation.getTravelDate()));
+            ps.setInt(6, reservation.getPassengers());
+            ps.setTimestamp(7, Timestamp.valueOf(reservation.getBookingTime()));
+            ps.setString(8, reservation.getStatus());
 
             int affectedRows = ps.executeUpdate();
 
@@ -48,17 +50,19 @@ public class ServiceReservation implements IServiceTransport<Reservation> {
 
     @Override
     public void modifier(Reservation reservation) {
-        String req = "UPDATE reservation_transport SET user_id=?, transport_id=?, travel_date=?, passengers=?, booking_time=?, status=? " +
+        String req = "UPDATE reservation SET user_id=?, id_transport=? , departure_point=?, arrival_point=?, travel_date=?, passengers=?, booking_time=?, status=? " +
                 "WHERE id_reservation_transport=?";
 
         try (PreparedStatement ps = cnx.prepareStatement(req)) {
             ps.setInt(1, reservation.getUserId());
             ps.setInt(2, reservation.getTransportId());
-            ps.setDate(3, Date.valueOf(reservation.getTravelDate()));
-            ps.setInt(4, reservation.getPassengers());
-            ps.setTimestamp(5, Timestamp.valueOf(reservation.getBookingTime()));
-            ps.setString(6, reservation.getStatus());
-            ps.setInt(7, reservation.getUserId());
+            ps.setString(3, reservation.getDeparturePoint());
+            ps.setString(4, reservation.getArrivalPoint());
+            ps.setDate(5, Date.valueOf(reservation.getTravelDate()));
+            ps.setInt(6, reservation.getPassengers());
+            ps.setTimestamp(7, Timestamp.valueOf(reservation.getBookingTime()));
+            ps.setString(8, reservation.getStatus());
+            ps.setInt(9, reservation.getId());
 
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
@@ -74,7 +78,7 @@ public class ServiceReservation implements IServiceTransport<Reservation> {
 
     @Override
     public void supprimer(int id) {
-        String req = "DELETE FROM reservation_transport WHERE id_reservation_transport=?";
+        String req = "DELETE FROM reservation WHERE id_reservation_transport=?";
         try {
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, id);
@@ -84,6 +88,51 @@ public class ServiceReservation implements IServiceTransport<Reservation> {
             System.err.println("Error deleting reservation: " + e.getMessage());
         }
     }
+
+    public List<Reservation> afficher() {
+        String query = "SELECT * FROM reservation";
+
+        try (Statement stmt = cnx.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            List<Reservation> reservations = new ArrayList<>();
+
+            while (rs.next()) {
+                mapResultSetSafely(rs).ifPresent(reservations::add);
+            }
+
+            System.out.println(reservations.size() + " reservations retrieved successfully");
+            return reservations;
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving reservations: " + e.getMessage());
+            throw new RuntimeException("Database access error", e);
+        }
+    }
+
+    private Optional<Reservation> mapResultSetSafely(ResultSet rs) {
+        try {
+            return Optional.of(mapResultSetToReservation(rs));
+        } catch (SQLException e) {
+            System.err.println("Error mapping reservation record: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    private Reservation mapResultSetToReservation(ResultSet rs) throws SQLException {
+        Reservation reservation = new Reservation();
+        reservation.setId(rs.getInt("id_reservation_transport"));
+        reservation.setUserId(rs.getInt("user_id"));
+        reservation.setTransportId(rs.getInt("id_transport"));
+        reservation.setDeparturePoint(rs.getString("departure_point")); // New field
+        reservation.setArrivalPoint(rs.getString("arrival_point")); // New field
+        reservation.setTravelDate(rs.getDate("travel_date").toLocalDate());
+        reservation.setPassengers(rs.getInt("passengers"));
+        reservation.setBookingTime(rs.getTimestamp("booking_time").toLocalDateTime());
+        reservation.setStatus(rs.getString("status"));
+        return reservation;
+    }
+
 
     public int getReservationTotal() {
         String query = "SELECT COUNT(*) as total FROM reservation";
@@ -105,6 +154,25 @@ public class ServiceReservation implements IServiceTransport<Reservation> {
 
     public int canceledResCount() {
         String query = "SELECT COUNT(*) as count FROM reservation WHERE status='cancelled'";
+
+        try (PreparedStatement ps = cnx.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                return rs.getInt("count");
+            } else {
+                return 0;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+            return -1;
+        }
+    }
+
+
+    public int pendingResCount() {
+        String query = "SELECT COUNT(*) as count FROM reservation WHERE status='pending'";
 
         try (PreparedStatement ps = cnx.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {

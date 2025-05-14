@@ -83,9 +83,10 @@
 
                      <center>
                         <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER">
-                           <VBox fx:id="chatContainer" alignment="CENTER" maxWidth="-Infinity" prefHeight="14.0" prefWidth="318.0" spacing="10" style="-fx-background-color: #e5ddd5; -fx-padding: 10;">
-                              <!-- Messages will be added here programmatically -->
-                           </VBox>
+                           <VBox fx:id="chatContainer" alignment="CENTER" maxWidth="-Infinity" prefHeight="14.0" prefWidth="306.0" spacing="10" style="-fx-background-color: #e5ddd5; -fx-padding: 10;">
+                              <padding>
+                                 <Insets right="10.0" />
+                              </padding></VBox>
                         </ScrollPane>
                      </center>
 

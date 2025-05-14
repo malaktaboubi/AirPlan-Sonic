@@ -1,0 +1,235 @@
+.accept-button {
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.decline-button {
+    -fx-background-color: #ff4444; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.reservation-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.2, 0, 1);
+}
+
+.reservation-card .title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.animated {
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.reservation-card .label {
+    -fx-max-width: 150px; /* Adjust based on your needs */
+    -fx-ellipsis-string: "..."; /* Adds ellipsis for overflow */
+    -fx-overflow: hidden;
+}
+
+/*888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
+
+/* Main container styling */
+.root {
+    -fx-background-color: #f5f7fa;
+}
+
+/* Header section styling */
+.header-container {
+    -fx-padding: 20px;
+    -fx-background-color: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* Title styling */
+.header-title {
+    -fx-font-family: 'Montserrat', sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #2d3436;
+}
+
+/* Date label styling - enhanced from your existing */
+.date {
+    -fx-font-family: 'Montserrat', 'Arial Black', sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to right, #563aa1, #897fdf, #8a2b95);
+    -fx-effect: dropshadow(three-pass-box, rgba(151, 255, 215, 0.8), 10, 0, 0, 2);
+    -fx-padding: 8px 16px;
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-color: linear-gradient(to right, #3ccaab, #353aef);
+    -fx-border-width: 1px;
+    -fx-border-radius: 20px;
+}
+
+/* Search section styling */
+.search-container {
+    -fx-spacing: 15px;
+    -fx-padding: 10px 0;
+}
+
+.search-field {
+    -fx-background-color: white;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 15px;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0, 0, 1);
+    -fx-prompt-text-fill: #a0a0a0;
+}
+
+.search-field:focused {
+    -fx-border-color: #518c6e;
+    -fx-effect: dropshadow(gaussian, rgba(81,140,110,0.2), 5, 0, 0, 2);
+}
+
+.search-button {
+    -fx-background-color: #518c6e;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.search-button:hover {
+    -fx-background-color: #3a6b54;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+/* Stats panel styling */
+.stats-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 15px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 2);
+    -fx-alignment: center;
+}
+
+.stats-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
+.stats-value {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 10px;
+    -fx-background-color: linear-gradient(to right, #3a7bd5, #00d2ff);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+/* Scroll pane styling - matches your existing */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 15px;
+}
+
+/* Content area styling */
+.content-container {
+    -fx-spacing: 15px;
+    -fx-padding: 10px;
+}
+
+/*888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
+/*scrollpanes*/
+
+/* Base ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Viewport styling */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Scroll bars - track */
+.scroll-bar:horizontal,
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* Scroll bars - thumb */
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(#518c6e, 20%);
+    -fx-background-radius: 10px;
+    -fx-background-insets: 2;
+    -fx-opacity: 0.4;
+}
+
+/* Scroll bars - thumb hover */
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(#518c6e, 10%);
+    -fx-opacity: 0.7;
+}
+
+/* Scroll bars - thumb pressed */
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #518c6e;
+    -fx-opacity: 0.9;
+}
+
+/* Scroll bars - increment/decrement buttons */
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
+}
+
+/* Scroll bars - increment/decrement arrows */
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* Corner styling */
+.scroll-pane .corner {
+    -fx-background-color: transparent;
+}
+
+/* Dark theme variant */
+.dark .scroll-pane {
+    -fx-background-color: #2d2d2d;
+}
+
+.dark .scroll-bar:horizontal .thumb,
+.dark .scroll-bar:vertical .thumb {
+    -fx-background-color: derive(#6b8cff, 20%);
+}
+
+.dark .scroll-bar:horizontal .thumb:hover,
+.dark .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: derive(#6b8cff, 10%);
+}
+
+.dark .scroll-bar:horizontal .thumb:pressed,
+.dark .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: #6b8cff;
+}

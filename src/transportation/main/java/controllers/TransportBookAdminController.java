@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
+
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -159,7 +161,7 @@ public class TransportBookAdminController {
 
         // Add message text
         Text messageText = new Text(text);
-        messageText.setWrappingWidth(250);
+        messageText.setWrappingWidth(240);
         messageBubble.getChildren().add(messageText);
 
         // Add timestamp
@@ -202,7 +204,7 @@ public class TransportBookAdminController {
         };
 
         try {
-            Image image = new Image(getClass().getResourceAsStream(imagePath));
+            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
             typeImage.setImage(image);
         } catch (Exception e) {
             System.err.println("Error loading image: " + e.getMessage());
