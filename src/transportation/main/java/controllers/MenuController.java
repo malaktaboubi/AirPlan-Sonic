@@ -10,9 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -30,7 +28,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-public class MenuController implements UserAwareController {
+public class MenuController implements UserAwareController,MenuAwareController {
     @FXML
     public Circle notificationIndicator;
     @FXML
@@ -119,6 +117,10 @@ public class MenuController implements UserAwareController {
         this.currentUser = user;
     }
 
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
+    }
+
     public void initialize() {
         updateProfileUI();
         // Add listener to refresh UI when content changes
@@ -157,6 +159,12 @@ public class MenuController implements UserAwareController {
             if (controller instanceof UserAwareController userAwareController) {
                 System.out.println("MenuController: Setting user: " + sessionUser.getName());
                 userAwareController.setUser(sessionUser);
+                if (controller instanceof MenuAwareController menuControllerAware) {
+                    menuControllerAware.setMenuController(this); // This should set menuController
+                    LOGGER.info("Set user and MenuController for user ID: " + sessionUser.getId());
+                } else {
+                    System.out.println("MenuController: Controller does not implement MenuControllerAware: " + controller.getClass().getName());
+                }
             } else {
                 System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
             }
@@ -547,10 +555,18 @@ public class MenuController implements UserAwareController {
             Node newContent = loader.load();
 
             // Determine the controller type and cast it
+            User sessionUser = Session.getCurrentUser();
+
             Object controller = loader.getController();
             if (controller instanceof UserAwareController userAwareController) {
                 System.out.println("MenuController: Setting user: " + user.getName());
                 userAwareController.setUser(user);
+                if (controller instanceof MenuAwareController menuControllerAware) {
+                    menuControllerAware.setMenuController(this); // This should set menuController
+                    LOGGER.info("Set user and MenuController for user ID: " + sessionUser.getId());
+                } else {
+                    System.out.println("MenuController: Controller does not implement MenuControllerAware: " + controller.getClass().getName());
+                }
             } else {
                 System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
             }
@@ -598,6 +614,12 @@ public class MenuController implements UserAwareController {
             if (controller instanceof UserAwareController userAwareController) {
                 System.out.println("MenuController: Setting user: " + sessionUser.getName());
                 userAwareController.setUser(sessionUser);
+                if (controller instanceof MenuAwareController menuControllerAware) {
+                    menuControllerAware.setMenuController(this); // This should set menuController
+                    LOGGER.info("Set user and MenuController for user ID: " + sessionUser.getId());
+                } else {
+                    System.out.println("MenuController: Controller does not implement MenuControllerAware: " + controller.getClass().getName());
+                }
             } else {
                 System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
             }
@@ -683,22 +705,43 @@ public class MenuController implements UserAwareController {
                 return;
             }
 
+            String fxmlPath = switch (sessionUser.getUserType()) {
+                case "ADMIN" -> "/fxmlAmineM/DashboardAdmin.fxml";
+                case "AGENCY" -> "/fxmlAmineM/DashboardAgency.fxml";
+                case "CLIENT" -> "/fxmlAmineM/DashboardClient.fxml";
+                default -> throw new IllegalArgumentException("Unknown user type: " + sessionUser.getUserType());
+            };
+
             contentPane.getChildren().clear();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlAmineM/ProfileClient.fxml"));
             Node newContent = loader.load();
 
-            ProfileClientController controller = loader.getController();
-            controller.setUser(sessionUser);
-            controller.setMenuController(this); // Pass MenuController instance
-            LOGGER.info("Set user and MenuController in ProfileClientController for ID: " + sessionUser.getId());
+            Object controller = loader.getController();
+            if (controller instanceof UserAwareController userAwareController) {
+                System.out.println("MenuController: Setting user: " + sessionUser.getName());
+                userAwareController.setUser(sessionUser);
+                if (controller instanceof MenuAwareController menuControllerAware) {
+                    menuControllerAware.setMenuController(this); // This should set menuController
+                    LOGGER.info("Set user and MenuController for user ID: " + sessionUser.getId());
+                } else {
+                    System.out.println("MenuController: Controller does not implement MenuControllerAware: " + controller.getClass().getName());
+                }
+            } else {
+                System.out.println("MenuController: Controller is not UserAwareController: " + controller.getClass().getName());
+            }
 
             contentPane.getChildren().add(newContent);
+
         } catch (IOException e) {
-            LOGGER.severe("Failed to load ProfileClient.fxml: " + e.getMessage());
+            LOGGER.severe("Failed to load Profile : " + e.getMessage());
             e.printStackTrace();
             showAlert("Error", "Failed to load profile page: " + e.getMessage());
         }
     }
 
+    // Getter for contentPane
+    public Pane getContentPane() {
+        return contentPane;
+    }
 }

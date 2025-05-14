@@ -15,7 +15,7 @@ import static utilsAmineM.DBConnection2.getConnection;
 public class ServiceUser {
 
     public void add(User user) throws SQLException {
-        String sql = "INSERT INTO users (name, email, password, user_type, phone, address, passport, profile_photo_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, user_type, phone, address, passport, profile_photo_path, website) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, user.getName());
@@ -26,6 +26,7 @@ public class ServiceUser {
             pstmt.setString(6, user.getAddress());
             pstmt.setString(7, user.getPassport());
             pstmt.setString(8, user.getProfilePhotoPath());
+            pstmt.setString(9, user.getWebsite());
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
@@ -35,7 +36,7 @@ public class ServiceUser {
     }
 
     public void update(User user) throws SQLException {
-        String sql = "UPDATE users SET name = ?, phone = ?, address = ?, passport = ?, profile_photo_path = ? WHERE id = ?";
+        String sql = "UPDATE users SET name = ?, phone = ?, address = ?, passport = ?, profile_photo_path = ?, website = ? WHERE id = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, user.getName());
@@ -43,7 +44,8 @@ public class ServiceUser {
             pstmt.setString(3, user.getAddress());
             pstmt.setString(4, user.getPassport());
             pstmt.setString(5, user.getProfilePhotoPath());
-            pstmt.setInt(6, user.getId());
+            pstmt.setString(6, user.getWebsite());
+            pstmt.setInt(7, user.getId());
             int rows = pstmt.executeUpdate();
             if (rows == 0) {
                 throw new SQLException("No user found with id: " + user.getId());
@@ -113,7 +115,8 @@ public class ServiceUser {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getString("passport"),
-                        null);
+                        rs.getString("profile_photo_path"),
+                        rs.getString("website"));
                 user.setProfilePhotoPath(rs.getString("profile_photo_path"));
                 users.add(user);
             }
@@ -137,7 +140,8 @@ public class ServiceUser {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getString("passport"),
-                        rs.getString("profile_photo_path"));
+                        rs.getString("profile_photo_path"),
+                        rs.getString("website"));
                 return user;
             }
         }
@@ -161,7 +165,8 @@ public class ServiceUser {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getString("passport"),
-                        null);
+                        rs.getString("profile_photo_path"),
+                        rs.getString("website"));
                 user.setProfilePhotoPath(rs.getString("profile_photo_path"));
                 return user;
             }

@@ -1,203 +1,276 @@
 package controllersAmineM;
 
+
+import controllers.MenuController;
 import entitiesAmineM.User;
-import servicesAmineM.ServiceUser;
-import servicesAmineM.Session;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.mindrot.jbcrypt.BCrypt;
-import java.net.URL;
+import servicesAmineM.ServiceUser;
+import servicesAmineM.Session;
+
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.io.*;
+import java.util.UUID;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
-public class ProfileAgencyController implements Initializable, UserAwareController {
+public class ProfileAgencyController implements SigninController.UserAwareController {
 
-    @FXML private BorderPane root;
-    @FXML private Label agencyNameLabel;
+    @FXML private ImageView profilePhotoView;
+    @FXML private Button btnUploadPhoto;
     @FXML private TextField nameField;
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
     @FXML private TextField addressField;
-    @FXML private PasswordField newPasswordField;
-    @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField websiteField;
     @FXML private Label nameErrorLabel;
     @FXML private Label phoneErrorLabel;
-    @FXML private Label passwordErrorLabel;
-    @FXML private Button btnSave;
-    @FXML private Button btnLogout;
-    @FXML private Button btnDeleteAccount;
+    @FXML private Label websiteErrorLabel;
+
+    private MenuController menuController;
+
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
+    }
+
+    private MenuController getMenuControllerFromStage(Stage stage) {
+        return ApplicationContext.getMenuController();
+    }
 
     private User user;
     private ServiceUser serviceUser;
-    @FXML
-    private StackPane contentArea;
-    @FXML
-    private VBox profileView;
+    private static final String DEFAULT_PROFILE_IMAGE = "/imagesAmineM/user-icon7.png";
+    private static final String PROFILE_PHOTOS_DIR = "/imagesAmineM/";
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        serviceUser = new ServiceUser();
-        root.getStylesheets().add(getClass().getResource("/Profile.css").toExternalForm());
-        // Check session for user if not set
-        if (user == null) {
-            user = Session.getCurrentUser();
-            System.out.println("AgencyController: User from session: " + (user != null ? user.getName() : "null"));
-            if (user != null) {
-                loadProfile();
-            }
-        }
-    }
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?\\d{10,15}$");
+    private static final Pattern PASSPORT_PATTERN = Pattern.compile("^[A-Z0-9]{6,12}$");
+    private static final Pattern WEBSITE_PATTERN = Pattern.compile(
+            "^(https?://)?([a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)+)(:[0-9]+)?(/.*)?$"
+    );
+
+    private static final Logger LOGGER = Logger.getLogger(ProfileAgencyController.class.getName());
 
     @Override
     public void setUser(User user) {
         this.user = user;
-        System.out.println("AgencyController: setUser called with: " + (user != null ? user.getName() : "null"));
-        loadProfile();
+        if (serviceUser == null) {
+            try {
+                this.serviceUser = new ServiceUser();
+                LOGGER.info("ServiceUser initialized in setUser");
+            } catch (Exception e) {
+                LOGGER.severe("Failed to initialize ServiceUser in setUser: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        if (user != null) {
+            loadProfile();
+        } else {
+            LOGGER.warning("setUser called with null user");
+        }
+    }
+
+    private void redirectToSignin() {
+        try {
+            Session.clearSession();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxmlAmineM/signin.fxml"));
+            Stage stage = (Stage) (profilePhotoView != null ? profilePhotoView.getScene().getWindow() : btnUploadPhoto.getScene().getWindow());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            LOGGER.severe("Failed to redirect to signin page: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void loadProfile() {
-        if (user != null) {
-            agencyNameLabel.setText("Agency: " + user.getName());
-            nameField.setText(user.getName());
-            emailField.setText(user.getEmail());
-            phoneField.setText(user.getPhone() != null ? user.getPhone() : "");
-            addressField.setText(user.getAddress() != null ? user.getAddress() : "");
+        try {
+            // Validate session
+            User sessionUser = Session.getCurrentUser();
+            if (sessionUser == null || sessionUser.getId() != user.getId()) {
+                LOGGER.warning("Session expired or mismatched user ID. Redirecting to signin page.");
+                showAlert("Session Expired", "Please sign in again.");
+                redirectToSignin();
+                return;
+            }
+            // Refresh user data
+            user = serviceUser.getUserById(user.getId());
+            if (user != null) {
+                // Update Session
+                Session.setCurrentUser(Session.getSession(user));
+                LOGGER.info("Session updated with refreshed user data for ID: " + user.getId());
+
+                // Update UI fields
+                nameField.setText(user.getName());
+                emailField.setText(user.getEmail());
+                phoneField.setText(user.getPhone() != null ? user.getPhone() : "");
+                addressField.setText(user.getAddress() != null ? user.getAddress() : "");
+                websiteField.setText(user.getWebsite() != null ? user.getWebsite() : "");
+
+                // Load profile photo
+                String photoPath = serviceUser.getProfilePhotoPath(user.getId());
+                if (photoPath != null && !photoPath.isEmpty()) {
+                    File photoFile = new File(photoPath);
+                    if (photoFile.exists()) {
+                        profilePhotoView.setImage(new Image(photoFile.toURI().toString()));
+                        LOGGER.info("Profile photo loaded for user ID: " + user.getId() + " from path: " + photoPath);
+                    } else {
+                        LOGGER.warning("Profile photo file not found: " + photoPath);
+                        profilePhotoView.setImage(new Image(getClass().getResource(DEFAULT_PROFILE_IMAGE).toExternalForm()));
+                    }
+                } else {
+                    LOGGER.info("No profile photo path for user ID: " + user.getId() + ", using default image");
+                    profilePhotoView.setImage(new Image(getClass().getResource(DEFAULT_PROFILE_IMAGE).toExternalForm()));
+                }
+            } else {
+                LOGGER.severe("Failed to load user data for ID: " + user.getId());
+                showAlert("Error", "User not found in database.");
+            }
+        } catch (SQLException e) {
+            LOGGER.severe("SQLException loading profile for user ID: " + user.getId() + ", error: " + e.getMessage());
+            showAlert("Database Error", "Error loading profile: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void saveProfile() {
+    private void uploadProfilePhoto() throws SQLException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Profile Photo");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+        File selectedFile = fileChooser.showOpenDialog(btnUploadPhoto.getScene().getWindow());
+        if (selectedFile != null) {
+            try {
+                // Create profile_photos directory if it doesn't exist
+                File photosDir = new File(PROFILE_PHOTOS_DIR);
+                if (!photosDir.exists()) {
+                    photosDir.mkdirs();
+                    LOGGER.info("Created profile photos directory: " + PROFILE_PHOTOS_DIR);
+                }
+
+                // Generate a unique filename
+                String extension = selectedFile.getName().substring(selectedFile.getName().lastIndexOf("."));
+                String uniqueFileName = UUID.randomUUID().toString() + extension;
+                File destFile = new File(PROFILE_PHOTOS_DIR + uniqueFileName);
+
+                // Copy the file to the profile_photos directory
+                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                LOGGER.info("Copied uploaded file to: " + destFile.getAbsolutePath());
+
+                // Update the database with the relative path
+                String relativePath = PROFILE_PHOTOS_DIR + uniqueFileName;
+                serviceUser.updateProfilePhoto(user.getId(), relativePath);
+
+                // Update profilePhotoView
+                profilePhotoView.setImage(new Image(destFile.toURI().toString()));
+
+                // Update the User object in the session
+                User updatedUser = serviceUser.getUserById(user.getId());
+                Session.setCurrentUser(Session.getSession(updatedUser));
+                LOGGER.info("Session updated with new profile photo path for user ID: " + user.getId());
+
+                showAlert("Success", "Profile photo updated successfully.");
+            } catch (IOException e) {
+                LOGGER.severe("IOException uploading profile photo: " + e.getMessage());
+                showAlert("Error", "Failed to save the selected file: " + e.getMessage());
+            } catch (SQLException e) {
+                LOGGER.severe("SQLException uploading profile photo: " + e.getMessage());
+                showAlert("Error", "Database error while uploading profile photo: " + e.getMessage());
+            }
+        } else {
+            LOGGER.info("No file selected for profile photo upload");
+        }
+    }
+
+    @FXML
+    private void removeProfilePhoto() {
         try {
-            if (user == null) {
-                showAlert("Error", "User session is invalid. Please sign in again.");
-                logout();
-                return;
-            }
+            // Update database to set profile_photo_path to NULL
+            serviceUser.updateProfilePhoto(user.getId(), null);
 
-            nameErrorLabel.setText("");
-            phoneErrorLabel.setText("");
-            passwordErrorLabel.setText("");
+            // Update profilePhotoView with default image
+            profilePhotoView.setImage(new Image(getClass().getResource(DEFAULT_PROFILE_IMAGE).toExternalForm()));
 
-            String name = nameField.getText().trim();
-            String phone = phoneField.getText().trim();
-            String address = addressField.getText().trim();
-            String newPassword = newPasswordField.getText();
-            String confirmPassword = confirmPasswordField.getText();
+            // Update the User object in the session
+            User updatedUser = serviceUser.getUserById(user.getId());
+            Session.setCurrentUser(Session.getSession(updatedUser));
+            LOGGER.info("Session updated with removed profile photo for user ID: " + user.getId());
 
-            // Validation
-            if (name.isEmpty()) {
-                nameErrorLabel.setText("Name cannot be empty");
-                return;
-            }
-            if (name.length() > 50) {
-                nameErrorLabel.setText("Name cannot exceed 50 characters");
-                return;
-            }
-            if (!name.matches("[A-Za-z\\s]+")) {
-                nameErrorLabel.setText("Name can only contain letters and spaces");
-                return;
-            }
-            if (!phone.isEmpty() && !phone.matches("\\d{10,15}")) {
-                phoneErrorLabel.setText("Phone must be 10-15 digits");
-                return;
-            }
-            if (!newPassword.isEmpty()) {
-                if (!newPassword.equals(confirmPassword)) {
-                    passwordErrorLabel.setText("Passwords do not match");
-                    return;
-                }
-                if (newPassword.length() < 8) {
-                    passwordErrorLabel.setText("Password must be at least 8 characters");
-                    return;
-                }
-            }
+            showAlert("Success", "Profile photo removed successfully.");
+        } catch (SQLException e) {
+            LOGGER.severe("SQLException removing profile photo: " + e.getMessage());
+            showAlert("Error", "Database error while removing profile photo: " + e.getMessage());
+        } catch (IOException e) {
+            LOGGER.severe("IOException removing profile photo: " + e.getMessage());
+            showAlert("Error", "Unexpected I/O error: " + e.getMessage());
+        }
+    }
 
-            // Update user
+    @FXML
+    private void saveProfile() throws SQLException {
+        if (user == null || serviceUser == null) {
+            LOGGER.warning("Cannot save profile: user or serviceUser is null");
+            showAlert("Error", "User or service not initialized. Please sign in again.");
+            redirectToSignin();
+            return;
+        }
+
+        boolean valid = true;
+        nameErrorLabel.setText("");
+        phoneErrorLabel.setText("");
+        websiteErrorLabel.setText("");
+
+        String name = nameField.getText().trim();
+        if (name.isEmpty()) {
+            nameErrorLabel.setText("Name is required.");
+            valid = false;
+        }
+
+        String phone = phoneField.getText().trim();
+        if (!phone.isEmpty() && !PHONE_PATTERN.matcher(phone).matches()) {
+            phoneErrorLabel.setText("Invalid phone number (e.g., +1234567890).");
+            valid = false;
+        }
+
+        String website = websiteField.getText().trim();
+        if (!website.isEmpty() && !WEBSITE_PATTERN.matcher(website).matches()) {
+            websiteErrorLabel.setText("Invalid website (http://www.agency.com).");
+            valid = false;
+        }
+
+        if (valid) {
+            // Refresh user object to ensure latest photo path is included
+            user = serviceUser.getUserById(user.getId());
+
+            // Update user fields
             user.setName(name);
-            user.setPhone(phone);
-            user.setAddress(address);
+            user.setPhone(phone.isEmpty() ? null : phone);
+            user.setAddress(addressField.getText().trim().isEmpty() ? null : addressField.getText().trim());
+            user.setWebsite(website.isEmpty() ? null : website);
+
             serviceUser.update(user);
-            Session.getSession(user).setCurrentUser(Session.getSession(user));
+            showAlert("Success", "Profile updated successfully.");
 
-            if (!newPassword.isEmpty()) {
-                String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                serviceUser.updatePassword(user.getId(), hashedPassword);
-            }
-
-            showAlert("Success", "Profile updated successfully");
-            newPasswordField.clear();
-            confirmPasswordField.clear();
-            loadProfile();
-        } catch (SQLException e) {
-            showAlert("Database Error", "Error updating profile: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void deleteAccount() {
-        try {
-            if (user == null) {
-                showAlert("Error", "User session is invalid. Please sign in again.");
-                logout();
-                return;
-            }
-
-            // Show confirmation dialog
-            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmation.setTitle("Delete Account");
-            confirmation.setHeaderText("Are you sure you want to delete your agency account?");
-            confirmation.setContentText("This action cannot be undone. All your data will be permanently removed.");
-            Optional<ButtonType> result = confirmation.showAndWait();
-
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // Delete user and token
-                serviceUser.delete(user.getId());
-                Session.clearSession();
-
-                // Redirect to sign-in page
-                Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Admin/signin.fxml"));
-                Stage stage = (Stage) btnDeleteAccount.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-
-                showAlert("Success", "Your agency account has been deleted.");
-            }
-        } catch (SQLException e) {
-            showAlert("Database Error", "Error deleting account: " + e.getMessage());
-            e.printStackTrace();
-        } catch (Exception e) {
-            showAlert("Error", "Failed to delete account.");
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void logout() {
-        try {
-            Session.clearSession();
-            Parent root = FXMLLoader.load(getClass().getResource("/Fxml/Admin/signin.fxml"));
-            Stage stage = (Stage) btnLogout.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            showAlert("Error", "Failed to log out");
-            e.printStackTrace();
+            // Update session with the latest user data
+            User updatedUser = serviceUser.getUserById(user.getId());
+            Session.setCurrentUser(Session.getSession(updatedUser));
+            LOGGER.info("Session updated with new profile data for ID: " + user.getId());
         }
     }
 
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(title.equals("Success") ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

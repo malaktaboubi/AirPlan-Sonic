@@ -1,6 +1,8 @@
 package controllersAmineM;
 
+import controllers.MenuController;
 import entitiesAmineM.User;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.util.Duration;
 import servicesAmineM.ServiceAdmin;
 import servicesAmineM.Session;
 
@@ -20,6 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.text.DecimalFormat;
+import java.util.logging.Logger;
 
 public class AdminDashboardController implements Initializable {
 
@@ -55,10 +59,22 @@ public class AdminDashboardController implements Initializable {
     @FXML private LineChart<String, Number> revenueChart;
     @FXML private CategoryAxis revenueMonthAxis;
     @FXML private NumberAxis revenueAxis;
+    @FXML private Button viewUsersButton;
 
     private User user;
     private ServiceAdmin serviceAdmin;
+    private static final Logger LOGGER = Logger.getLogger(AdminDashboardController.class.getName());
     public static final DecimalFormat df = new DecimalFormat("#.00");
+
+    private void initializeServices() {
+        try {
+            this.serviceAdmin = new ServiceAdmin();
+            LOGGER.info("ServiceUser initialized in AdminDashboardController");
+        } catch (Exception e) {
+            LOGGER.severe("Failed to initialize ServiceUser: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -162,5 +178,43 @@ public class AdminDashboardController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private MenuController menuController;
+
+    private void updateUserOverview() {
+        if (serviceAdmin == null) {
+            LOGGER.warning("ServiceUser not initialized. Cannot update user overview.");
+            return;
+        }
+        try {
+            // Placeholder logic for updating user stats (replace with actual service calls)
+            totalUsersLabel.setText("Total Users: " + serviceAdmin.getTotalUsers());
+            activeUsersLabel.setText("Active Users This Month: " + serviceAdmin.getActiveUsersThisMonth());
+            userTypesLabel.setText("User Types: " + serviceAdmin.getUserTypes());
+            topUsersLabel.setText("Top Users: " + serviceAdmin.getTopUsers());
+            newUsersLabel.setText("New Users This Month: " + serviceAdmin.getNewUsersThisMonth());
+        } catch (Exception e) {
+            LOGGER.severe("Error updating user overview: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleMouseEntered() {
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(300), viewUsersButton);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(1);
+        viewUsersButton.setVisible(true);
+        fadeIn.play();
+    }
+
+    @FXML
+    private void handleMouseExited() {
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(300), viewUsersButton);
+        fadeOut.setFromValue(1);
+        fadeOut.setToValue(0);
+        fadeOut.setOnFinished(e -> viewUsersButton.setVisible(false));
+        fadeOut.play();
     }
 }

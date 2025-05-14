@@ -1,161 +1,177 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.airPlan.controllers.Admin.AgencyController2">
-    <top>
-        <Pane prefHeight="100.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
-            <HBox prefHeight="100.0" prefWidth="1000.0">
-                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                    <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                    </HBox.margin>
-                    <Image url="@../../images/logoAirplan.png" />
-                </ImageView>
-                <Label fx:id="agencyNameLabel" text="Agency: [Name]" styleClass="client-label">
-                    <HBox.margin>
-                        <Insets left="20.0" top="40.0" />
-                    </HBox.margin>
-                    <font>
-                        <Font name="System Bold" size="16.0" />
-                    </font>
-                </Label>
-                <Button fx:id="btnLogout" text="Logout" onAction="#logout" styleClass="logout-button">
-                    <HBox.margin>
-                        <Insets left="600.0" top="40.0" />
-                    </HBox.margin>
-                </Button>
-            </HBox>
-        </Pane>
-    </top>
+<BorderPane fx:id="root" prefHeight="670.0" prefWidth="1000.0" stylesheets="@../styleAmineM/Profile.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.ProfileAgencyController">
     <center>
-        <StackPane fx:id="contentArea" prefHeight="570.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
-            <Pane prefHeight="570.0" prefWidth="1000.0">
-                <HBox prefHeight="570.0" prefWidth="1000.0">
-                    <VBox fx:id="profileView" prefHeight="570.0" prefWidth="500.0" styleClass="content-pane">
+        <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1000.0" spacing="20.0" styleClass="content-pane" BorderPane.alignment="CENTER">
+            <Label styleClass="section-title" text="Profile Management">
+                <VBox.margin>
+                    <Insets top="20.0" />
+                </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" spacing="20.0">
+                <!-- Profile Photo and Buttons Card -->
+                <VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="300.0" styleClass="profile-card">
+                    <Label styleClass="card-title" text="Profile Photo">
+                        <VBox.margin>
+                            <Insets top="15.0" />
+                        </VBox.margin>
+                    </Label>
+                    <ImageView fx:id="profilePhotoView" fitHeight="150.0" fitWidth="150.0" preserveRatio="true" styleClass="profile-photo">
+                        <VBox.margin>
+                            <Insets left="70.0" top="20.0" />
+                        </VBox.margin>
+                        <Image url="@/imagesAmineM/user-icon7.png" />
+                    </ImageView>
+                    <HBox prefHeight="100.0" prefWidth="200.0">
                         <children>
-                            <Label text="Agency Profile Management" styleClass="section-title">
-                                <VBox.margin>
-                                    <Insets top="20.0" left="20.0" />
-                                </VBox.margin>
-                            </Label>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Label text="Name:" styleClass="form-label">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <TextField fx:id="nameField" prefWidth="200.0">
-                                    <HBox.margin>
-                                        <Insets left="20.0" top="10.0" />
-                                    </HBox.margin>
-                                </TextField>
-                                <Label fx:id="nameErrorLabel" text="" styleClass="error-label">
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Label text="Email:" styleClass="form-label">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <TextField fx:id="emailField" prefWidth="200.0" disable="true">
-                                    <HBox.margin>
-                                        <Insets left="20.0" top="10.0" />
-                                    </HBox.margin>
-                                </TextField>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Label text="Phone:" styleClass="form-label">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <TextField fx:id="phoneField" prefWidth="200.0">
-                                    <HBox.margin>
-                                        <Insets left="20.0" top="10.0" />
-                                    </HBox.margin>
-                                </TextField>
-                                <Label fx:id="phoneErrorLabel" text="" styleClass="error-label">
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Label text="Address:" styleClass="form-label">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <TextField fx:id="addressField" prefWidth="200.0">
-                                    <HBox.margin>
-                                        <Insets left="20.0" top="10.0" />
-                                    </HBox.margin>
-                                </TextField>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Label text="New Password:" styleClass="form-label">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <PasswordField fx:id="newPasswordField" prefWidth="200.0">
-                                    <HBox.margin>
-                                        <Insets left="20.0" top="10.0" />
-                                    </HBox.margin>
-                                </PasswordField>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Label text="Confirm Password:" styleClass="form-label">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <PasswordField fx:id="confirmPasswordField" prefWidth="200.0">
-                                    <HBox.margin>
-                                        <Insets left="20.0" top="10.0" />
-                                    </HBox.margin>
-                                </PasswordField>
-                                <Label fx:id="passwordErrorLabel" text="" styleClass="error-label">
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Button fx:id="btnSave" text="Save Changes" onAction="#saveProfile" styleClass="save-button">
-                                    <HBox.margin>
-                                        <Insets left="150.0" top="20.0" />
-                                    </HBox.margin>
-                                </Button>
-                            </HBox>
-                            <HBox prefHeight="50.0" prefWidth="500.0">
-                                <Button fx:id="btnDeleteAccount" text="Delete Account" onAction="#deleteAccount" styleClass="delete-button">
-                                    <HBox.margin>
-                                        <Insets left="150.0" top="10.0" />
-                                    </HBox.margin>
-                                </Button>
-                            </HBox>
+                            <Button fx:id="btnUploadPhoto" onAction="#uploadProfilePhoto" styleClass="save-button">
+                                <graphic>
+                                    <FontAwesomeIconView glyphName="UPLOAD" size="14" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="75.0" top="10.0" />
+                                </HBox.margin>
+                            </Button>
+                            <Button fx:id="btnRemovePhoto" onAction="#removeProfilePhoto" styleClass="delete-button">
+                                <graphic>
+                                    <FontAwesomeIconView glyphName="TRASH" size="14" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="30.0" top="10.0" />
+                                </HBox.margin>
+                            </Button>
                         </children>
-                    </VBox>
-                </HBox>
-            </Pane>
-        </StackPane>
+                        <VBox.margin>
+                            <Insets top="5.0" />
+                        </VBox.margin>
+                    </HBox>
+                    <Button fx:id="btnSave" onAction="#saveProfile" styleClass="save-button">
+                        <VBox.margin>
+                            <Insets left="120.0" top="50.0" />
+                        </VBox.margin>
+                        <graphic>
+                            <FontAwesomeIconView glyphName="EDIT" size="18" />
+                        </graphic>
+                    </Button>
+                </VBox>
+                <!-- Personal Info Card -->
+                <VBox alignment="TOP_LEFT" prefHeight="450.0" prefWidth="600.0" spacing="10.0" styleClass="profile-card">
+                    <Label styleClass="card-title" text="Personal Information">
+                        <VBox.margin>
+                            <Insets left="20.0" top="15.0" />
+                        </VBox.margin>
+                    </Label>
+                    <!-- Name -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label styleClass="card-icon">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="USER" size="24" />
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <VBox>
+                            <Label styleClass="form-label" text="Name" />
+                            <TextField fx:id="nameField" prefWidth="300.0" styleClass="text-field">
+                                <HBox.margin>
+                                    <Insets left="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <Label fx:id="nameErrorLabel" styleClass="error-label" text="" />
+                        </VBox>
+                    </HBox>
+                    <!-- Email -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label styleClass="card-icon">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="ENVELOPE" size="24" />
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <VBox>
+                            <Label styleClass="form-label" text="Email" />
+                            <TextField fx:id="emailField" disable="true" prefWidth="300.0" styleClass="text-field">
+                                <HBox.margin>
+                                    <Insets left="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                        </VBox>
+                    </HBox>
+                    <!-- Phone -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label styleClass="card-icon">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="PHONE" size="24" />
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <VBox>
+                            <Label styleClass="form-label" text="Phone" />
+                            <TextField fx:id="phoneField" prefWidth="300.0" styleClass="text-field">
+                                <HBox.margin>
+                                    <Insets left="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <Label fx:id="phoneErrorLabel" styleClass="error-label" text="" />
+                        </VBox>
+                    </HBox>
+                    <!-- Address -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label styleClass="card-icon">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="MAP" size="24" />
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <VBox>
+                            <Label styleClass="form-label" text="Address" />
+                            <TextField fx:id="addressField" prefWidth="300.0" styleClass="text-field">
+                                <HBox.margin>
+                                    <Insets left="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                        </VBox>
+                    </HBox>
+                    <!-- Website -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label styleClass="card-icon">
+                            <graphic>
+                                <FontAwesomeIconView glyphName="GLOBE" size="24" />
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <VBox>
+                            <Label styleClass="form-label" text="Website" />
+                            <TextField fx:id="websiteField" prefWidth="300.0" styleClass="text-field">
+                                <HBox.margin>
+                                    <Insets left="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <Label fx:id="websiteErrorLabel" styleClass="error-label" text="" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
     </center>
 </BorderPane>

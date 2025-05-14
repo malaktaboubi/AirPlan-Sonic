@@ -251,7 +251,7 @@ public class ServiceAgency {
             while (rs.next()) {
                 feedbackByType.append(rs.getString("type")).append(": ").append(rs.getInt("count")).append(", ");
             }
-            feedback.feedbackByType = feedbackByType.length() > 0 ? feedbackByType.substring(0, feedbackByType.length() - 2) : "None";
+            feedback.feedbackByType = !feedbackByType.isEmpty() ? feedbackByType.substring(0, feedbackByType.length() - 2) : "None";
 
             // Common Feedback
             stmt = conn.prepareStatement(

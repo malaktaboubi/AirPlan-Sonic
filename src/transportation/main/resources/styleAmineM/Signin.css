@@ -64,6 +64,14 @@ Text {
      -fx-border-style: solid;
 }
 
+.btn_signin:hover {
+     -fx-background-color: #11d89f;
+     -fx-border-width: 2px 2px 2px 2px;
+     -fx-border-radius: 50px;
+     -fx-background-radius: 50px;
+     -fx-border-color: #11d89f;
+     -fx-border-style: solid;
+}
 
 .text-field:focused, .password-field:focused {
      -fx-border-color: -fx-primary-color;

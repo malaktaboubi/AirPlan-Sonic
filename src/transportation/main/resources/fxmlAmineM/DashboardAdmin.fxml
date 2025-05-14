@@ -5,7 +5,9 @@
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.AdminDashboardController">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane fx:id="root" stylesheets="@../styleAmineM/Dashboard.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.AdminDashboardController">
     <center>
         <ScrollPane fitToWidth="true" prefHeight="570.0" prefWidth="1000.0" styleClass="scroll-pane"
                     BorderPane.alignment="CENTER">
@@ -19,10 +21,11 @@
                     <!-- User Overview Card -->
                     <VBox styleClass="dashboard-card" prefWidth="300.0" prefHeight="400.0"
                           GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <!-- Title Section with Icon -->
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="USERS" />
+                                    <FontAwesomeIconView glyphName="USERS" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -30,25 +33,23 @@
                             </Label>
                             <Label text="User Overview" styleClass="card-title"/>
                         </HBox>
+                        <!-- Labels with User Data -->
                         <Label fx:id="totalUsersLabel" text="Total Users: 0" styleClass="card-label">
                             <VBox.margin>
                                 <Insets top="10.0" left="20.0"/>
                             </VBox.margin>
                         </Label>
-                        <Label fx:id="activeUsersLabel" text="Active Users This Month: 0"
-                               styleClass="card-label">
+                        <Label fx:id="activeUsersLabel" text="Active Users This Month: 0" styleClass="card-label">
                             <VBox.margin>
                                 <Insets top="5.0" left="20.0"/>
                             </VBox.margin>
                         </Label>
-                        <Label fx:id="userTypesLabel" text="User Types: None" styleClass="card-label"
-                               wrapText="true">
+                        <Label fx:id="userTypesLabel" text="User Types: None" styleClass="card-label" wrapText="true">
                             <VBox.margin>
                                 <Insets top="5.0" left="20.0" right="20.0"/>
                             </VBox.margin>
                         </Label>
-                        <Label fx:id="topUsersLabel" text="Top Users: None" styleClass="card-label"
-                               wrapText="true">
+                        <Label fx:id="topUsersLabel" text="Top Users: None" styleClass="card-label" wrapText="true">
                             <VBox.margin>
                                 <Insets top="5.0" left="20.0" right="20.0"/>
                             </VBox.margin>
@@ -65,7 +66,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="GLOBE" />
+                                    <FontAwesomeIconView glyphName="GLOBE" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -103,7 +104,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="BTC" />
+                                    <FontAwesomeIconView glyphName="BTC" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -135,7 +136,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="HEARTBEAT" />
+                                    <FontAwesomeIconView glyphName="HEARTBEAT" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -166,7 +167,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="COMMENT" />
+                                    <FontAwesomeIconView glyphName="COMMENT" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -174,6 +175,7 @@
                             </Label>
                             <Label text="Feedback and Satisfaction" styleClass="card-title"/>
                         </HBox>
+
                         <Label fx:id="totalFeedbackLabel" text="Total Feedback: 0" styleClass="card-label">
                             <VBox.margin>
                                 <Insets top="10.0" left="20.0"/>
@@ -204,7 +206,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="TROPHY" />
+                                    <FontAwesomeIconView glyphName="TROPHY" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>
@@ -242,7 +244,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="LINE_CHART" />
+                                    <FontAwesomeIconView glyphName="LINE_CHART" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0"/>

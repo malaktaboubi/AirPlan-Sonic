@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="root" prefHeight="670.0" prefWidth="1000.0" stylesheets="@../styleAmineM/Profile.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.SettingsController">
+    <center>
+        <VBox alignment="TOP_CENTER" prefHeight="570.0" prefWidth="1000.0" spacing="20.0" styleClass="content-pane" BorderPane.alignment="CENTER">
+            <Label styleClass="section-title" text="Profile Management">
+                <VBox.margin>
+                    <Insets top="20.0" />
+                </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" spacing="20.0">
+                <!-- Profile Photo and Buttons Card -->
+                <VBox alignment="TOP_CENTER" prefHeight="450.0" prefWidth="300.0" styleClass="profile-card">
+                    <Label styleClass="card-title" text="Profile Photo">
+                        <VBox.margin>
+                            <Insets top="15.0" />
+                        </VBox.margin>
+                    </Label>
+                    <ImageView fx:id="profilePhotoView" fitHeight="150.0" fitWidth="150.0" preserveRatio="true" styleClass="profile-photo">
+                        <VBox.margin>
+                            <Insets left="70.0" top="20.0" />
+                        </VBox.margin>
+                        <Image url="@../imagesAmineM/user-icon7.png" />
+                    </ImageView>
+                    <Button fx:id="btnSave" onAction="#saveProfile" styleClass="save-button">
+                        <VBox.margin>
+                            <Insets left="120.0" top="30.0" />
+                        </VBox.margin>
+                  <graphic>
+                     <FontAwesomeIconView glyphName="EDIT" size="18" />
+                  </graphic>
+                    </Button>
+                    <Button fx:id="btnDeleteAccount" onAction="#deleteAccount" styleClass="delete-button">
+                        <VBox.margin>
+                            <Insets left="120.0" top="80.0" />
+                        </VBox.margin>
+                  <graphic>
+                     <FontAwesomeIconView glyphName="BAN" size="18" />
+                  </graphic>
+                    </Button>
+                </VBox>
+                <!-- Password Reset Card -->
+                <VBox alignment="TOP_LEFT" prefHeight="450.0" prefWidth="600.0" spacing="10.0" styleClass="profile-card">
+                    <Label styleClass="card-title" text="Password Reset">
+                        <VBox.margin>
+                            <Insets left="20.0" top="15.0" />
+                        </VBox.margin>
+                    </Label>
+                    <!-- Email -->
+                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <Label styleClass="card-icon">
+                            <graphic>
+                                <FontAwesomeIconView fill="#3498db" glyphName="ENVELOPE" />
+                            </graphic>
+                            <HBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                        <VBox>
+                            <Label styleClass="form-label" text="Email" />
+                            <TextField fx:id="emailField" disable="true" prefWidth="300.0" styleClass="text-field">
+                                <HBox.margin>
+                                    <Insets left="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                        </VBox>
+                    </HBox>
+                    <VBox fx:id="passwordResetSection" spacing="10.0">
+                        <Label styleClass="card-title" text="Reset Password">
+                            <VBox.margin>
+                                <Insets left="20.0" top="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <!-- New Password -->
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontAwesomeIconView fill="#3498db" glyphName="UNLOCK" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <VBox>
+                                <Label styleClass="form-label" text="New Password" />
+                                <PasswordField fx:id="newPasswordField" prefWidth="300.0" styleClass="text-field">
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </PasswordField>
+                            </VBox>
+                        </HBox>
+                        <!-- Confirm Password -->
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label styleClass="card-icon">
+                                <graphic>
+                                    <FontAwesomeIconView fill="#3498db" glyphName="LOCK" />
+                                </graphic>
+                                <HBox.margin>
+                                    <Insets left="20.0" top="10.0" />
+                                </HBox.margin>
+                            </Label>
+                            <VBox>
+                                <Label styleClass="form-label" text="Confirm Password" />
+                                <PasswordField fx:id="confirmPasswordField" prefWidth="300.0" styleClass="text-field">
+                                    <HBox.margin>
+                                        <Insets left="10.0" />
+                                    </HBox.margin>
+                                </PasswordField>
+                                <Label fx:id="passwordErrorLabel" styleClass="error-label" text="" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

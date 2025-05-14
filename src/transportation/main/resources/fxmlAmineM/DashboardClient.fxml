@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.kordamp.ikonli.javafx.*?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllersAmineM.ClientDashboardController">
     <center>
         <ScrollPane fitToWidth="true" prefHeight="570.0" prefWidth="1000.0" styleClass="scroll-pane"
@@ -26,7 +24,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="USER" />
+                                    <FontAwesomeIconView glyphName="USER" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -63,7 +61,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="BTC" />
+                                    <FontAwesomeIconView glyphName="BTC" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -102,7 +100,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="CALENDAR" />
+                                    <FontAwesomeIconView glyphName="CALENDAR" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -139,7 +137,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="HEART" />
+                                    <FontAwesomeIconView glyphName="HEART" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -188,7 +186,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="COMMENT" />
+                                    <FontAwesomeIconView glyphName="COMMENT" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -219,7 +217,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="TROPHY" />
+                                    <FontAwesomeIconView glyphName="TROPHY" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />
@@ -251,7 +249,7 @@
                         <HBox alignment="CENTER_LEFT">
                             <Label styleClass="card-icon">
                                 <graphic>
-                                    <FontAwesomeIconView glyphName="BAR_CHART" />
+                                    <FontAwesomeIconView glyphName="BAR_CHART" fill="#3498db"/>
                                 </graphic>
                                 <HBox.margin>
                                     <Insets left="20.0" top="10.0" />

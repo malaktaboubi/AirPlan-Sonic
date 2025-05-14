@@ -55,7 +55,7 @@ public class ProfileClientController implements SigninController.UserAwareContro
     private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?\\d{10,15}$");
     private static final Pattern PASSPORT_PATTERN = Pattern.compile("^[A-Z0-9]{6,12}$");
 
-    private static final Logger LOGGER = Logger.getLogger(ProfileClientController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ProfileAgencyController.class.getName());
 
     @Override
     public void setUser(User user) {
@@ -191,26 +191,27 @@ public class ProfileClientController implements SigninController.UserAwareContro
     }
 
     @FXML
-    private void removeProfilePhoto() {
+    public void removeProfilePhoto() {
+        if (user == null) {
+            LOGGER.severe("Cannot remove profile photo: user is null");
+            return;
+        }
+        if (serviceUser == null) {
+            LOGGER.severe("Cannot remove profile photo: ServiceUser is null");
+            return;
+        }
+
         try {
-            // Update database to set profile_photo_path to NULL
+            // Update the database to set the profile photo path to null
             serviceUser.updateProfilePhoto(user.getId(), null);
+            LOGGER.info("Profile photo removed for user ID: " + user.getId());
 
-            // Update profilePhotoView with default image
-            profilePhotoView.setImage(new Image(getClass().getResource(DEFAULT_PROFILE_IMAGE).toExternalForm()));
-
-            // Update the User object in the session
-            User updatedUser = serviceUser.getUserById(user.getId());
-            Session.setCurrentUser(Session.getSession(updatedUser));
-            LOGGER.info("Session updated with removed profile photo for user ID: " + user.getId());
-
-            showAlert("Success", "Profile photo removed successfully.");
-        } catch (SQLException e) {
-            LOGGER.severe("SQLException removing profile photo: " + e.getMessage());
-            showAlert("Error", "Database error while removing profile photo: " + e.getMessage());
-        } catch (IOException e) {
-            LOGGER.severe("IOException removing profile photo: " + e.getMessage());
-            showAlert("Error", "Unexpected I/O error: " + e.getMessage());
+            // Optionally, update the user object in the session
+            user.setProfilePhotoPath(null); // Assuming User has a setter for this
+            Session.setCurrentUser(Session.getSession(user));
+        } catch (Exception e) {
+            LOGGER.severe("Failed to remove profile photo for user ID: " + user.getId() + ": " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

@@ -10,8 +10,9 @@ public class User {
     private String address;
     private String passport;
     private String profilePhotoPath;
+    private String website;
 
-    public User(int id, String name, String email, String password, String userType, String phone, String address, String passport, String profilePhotoPath) {
+    public User(int id, String name, String email, String password, String userType, String phone, String address, String passport, String profilePhotoPath,  String website) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -21,6 +22,7 @@ public class User {
         this.address = address;
         this.passport = passport;
         this.profilePhotoPath = profilePhotoPath;
+        this.website = website;
     }
 
     public int getId() {
@@ -97,5 +99,12 @@ public class User {
 
     public User getUser() {
         return null;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+    public void setWebsite(String website) {
+        this.website = website;
     }
 }

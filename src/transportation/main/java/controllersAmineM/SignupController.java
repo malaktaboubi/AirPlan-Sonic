@@ -60,7 +60,7 @@ public class SignupController implements Initializable {
             return;
         }
 
-        User user = new User(0, username, email, password, role, "", "", "", null);
+        User user = new User(0, username, email, password, role, "", "", "", "","");
 
         try {
             ServiceUser service = new ServiceUser();

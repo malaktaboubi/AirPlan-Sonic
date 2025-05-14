@@ -23,6 +23,79 @@ public class ServiceAdmin {
         public int newUsers;
     }
 
+    public UserOverview getTotalUsers() throws SQLException {
+        UserOverview overview = new UserOverview();
+        overview.topUsers = new ArrayList<>();
+        try (Connection conn = getConnection()) {
+            // Total Users
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM users");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) overview.totalUsers = rs.getInt(1);
+        }
+        return overview;
+    }
+    public UserOverview getActiveUsersThisMonth() throws SQLException {
+        UserOverview overview = new UserOverview();
+        overview.topUsers = new ArrayList<>();
+        try (Connection conn = getConnection()) {
+            // Active Users This Month
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT COUNT(DISTINCT b.user_id) FROM bookings b " +
+                            "WHERE b.booking_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)"
+            );
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) overview.activeUsers = rs.getInt(1);
+        }
+        return overview;
+    }
+    public UserOverview getUserTypes() throws SQLException {
+        UserOverview overview = new UserOverview();
+        overview.topUsers = new ArrayList<>();
+        try (Connection conn = getConnection()) {
+            // User Types
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT user_type, COUNT(*) as count FROM users GROUP BY user_type"
+            );
+            ResultSet rs = stmt.executeQuery();
+            StringBuilder types = new StringBuilder();
+            while (rs.next()) {
+                types.append(rs.getString("user_type")).append(": ").append(rs.getInt("count")).append(", ");
+            }
+            overview.userTypes = types.length() > 0 ? types.substring(0, types.length() - 2) : "None";
+        }
+        return overview;
+    }
+    public UserOverview getTopUsers() throws SQLException {
+        UserOverview overview = new UserOverview();
+        overview.topUsers = new ArrayList<>();
+        try (Connection conn = getConnection()) {
+            // Top Users
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT u.name, COUNT(b.id) as bookings " +
+                            "FROM users u JOIN bookings b ON u.id = b.id " +
+                            "GROUP BY u.id, u.name ORDER BY bookings DESC LIMIT 5"
+            );
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                overview.topUsers.add(rs.getString("name"));
+            }
+            if (overview.topUsers.isEmpty()) overview.topUsers.add("None");
+        }
+        return overview;
+    }
+    public UserOverview getNewUsersThisMonth() throws SQLException {
+        UserOverview overview = new UserOverview();
+        overview.topUsers = new ArrayList<>();
+        try (Connection conn = getConnection()) {
+            // New Users This Month
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT COUNT(*) FROM users WHERE registration_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)"
+            );
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) overview.newUsers = rs.getInt(1);
+        }
+        return overview;
+    }
     public UserOverview getUserOverview() throws SQLException {
         UserOverview overview = new UserOverview();
         overview.topUsers = new ArrayList<>();
