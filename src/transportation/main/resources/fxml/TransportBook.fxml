@@ -190,11 +190,25 @@
             <content>
                <VBox fx:id="listVboxReservations" prefHeight="659.0" prefWidth="470.0">
                   <children>
-                     <Label text="My Reservation List:">
+                     <Label prefHeight="39.0" prefWidth="281.0" styleClass="section-title" text="My Reservation List:">
                         <VBox.margin>
                            <Insets left="20.0" top="30.0" />
                         </VBox.margin>
+                        <font>
+                           <Font size="46.0" />
+                        </font>
                      </Label>
+                     <ScrollPane prefHeight="665.0" prefWidth="470.0">
+                        <content>
+                           <VBox fx:id="reservationList" prefHeight="611.0" prefWidth="470.0">
+                              <padding>
+                                 <Insets top="20.0" />
+                              </padding></VBox>
+                        </content>
+                        <VBox.margin>
+                           <Insets top="30.0" />
+                        </VBox.margin>
+                     </ScrollPane>
                   </children>
                </VBox>
             </content>

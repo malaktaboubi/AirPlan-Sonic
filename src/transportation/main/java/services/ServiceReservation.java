@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ServiceReservation implements IServiceTransport<Reservation> {
-    private static Connection cnx;
+    private Connection cnx;
 
     public ServiceReservation() {
         cnx = MyDataBase.getInstance().getConnection();
@@ -104,6 +104,24 @@ public class ServiceReservation implements IServiceTransport<Reservation> {
             System.out.println(reservations.size() + " reservations retrieved successfully");
             return reservations;
 
+        } catch (SQLException e) {
+            System.err.println("Error retrieving reservations: " + e.getMessage());
+            throw new RuntimeException("Database access error", e);
+        }
+    }
+
+    public List<Reservation> afficherForUser(int userId) {
+        String query = "SELECT * FROM reservation WHERE user_id = ?";
+        try (PreparedStatement pstmt = cnx.prepareStatement(query)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                List<Reservation> reservations = new ArrayList<>();
+                while (rs.next()) {
+                    mapResultSetSafely(rs).ifPresent(reservations::add);
+                }
+                System.out.println(reservations.size() + " reservations retrieved successfully");
+                return reservations;
+            }
         } catch (SQLException e) {
             System.err.println("Error retrieving reservations: " + e.getMessage());
             throw new RuntimeException("Database access error", e);

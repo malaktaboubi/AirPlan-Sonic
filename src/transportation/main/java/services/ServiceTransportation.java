@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 public class ServiceTransportation {
-    private static Connection cnx;
+    private Connection cnx;
 
     public ServiceTransportation() {
         cnx = MyDataBase.getInstance().getConnection();
@@ -121,7 +121,7 @@ public class ServiceTransportation {
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
-    public static List<Transportation> afficher() {
+    public List<Transportation> afficher() {
         String query = "SELECT * FROM transportation";
 
         try (Statement stmt = cnx.createStatement();
@@ -142,7 +142,7 @@ public class ServiceTransportation {
         }
     }
 
-    private static Optional<Transportation> mapResultSetSafely(ResultSet rs) {
+    private Optional<Transportation> mapResultSetSafely(ResultSet rs) {
         try {
             return Optional.of(mapResultSetToTransportation(rs));
         } catch (SQLException e) {
@@ -152,7 +152,7 @@ public class ServiceTransportation {
     }
 
 
-        private static Transportation mapResultSetToTransportation(ResultSet rs) throws SQLException {
+        private Transportation mapResultSetToTransportation(ResultSet rs) throws SQLException {
             Transportation transport = new Transportation();
             transport.setId(rs.getInt("id_transport"));
             transport.setType(rs.getString("type"));

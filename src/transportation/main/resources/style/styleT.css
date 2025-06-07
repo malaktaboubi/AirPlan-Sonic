@@ -306,6 +306,40 @@
     -fx-text-fill: #333333;
 }
 
+/*888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
+/*reservation cards*/
+
+.decline-button {
+    -fx-background-color: #ff4444; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+}
+
+.reservation-card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0.2, 0, 1);
+}
+
+.reservation-card .title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.animated {
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.reservation-card .label {
+    -fx-max-width: 150px; /* Adjust based on your needs */
+    -fx-ellipsis-string: "..."; /* Adds ellipsis for overflow */
+    -fx-overflow: hidden;
+}
+
 
 /*888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888*/
 /*scrollpanes*/
@@ -391,3 +425,4 @@
 .dark .scroll-bar:vertical .thumb:pressed {
     -fx-background-color: #6b8cff;
 }
+

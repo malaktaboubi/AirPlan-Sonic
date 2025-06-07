@@ -28,7 +28,17 @@ public class MyDataBase {
         return instance;
     }
 
-    public Connection getConnection() {
-        return connection;
+    public synchronized Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL, USER, PSW);
+                System.out.println("Reconnected to database!");
+            }
+            return connection;
+        } catch (SQLException e) {
+            System.err.println("Error getting connection: " + e.getMessage());
+            throw new RuntimeException("Database connection error", e);
+        }
     }
+
 }

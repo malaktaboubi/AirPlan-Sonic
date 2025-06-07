@@ -47,11 +47,24 @@
                   </HBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="199.0" styleClass="title2" text="Transports List">
-                           <VBox.margin>
-                              <Insets left="20.0" top="10.0" />
-                           </VBox.margin>
-                        </Label>
+                        <HBox prefHeight="75.0" prefWidth="694.0">
+                           <children>
+                              <Label prefHeight="82.0" prefWidth="274.0" styleClass="title2" text="Transports List">
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="20.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <HBox prefHeight="70.0" prefWidth="410.0" styleClass="search-container">
+                                 <children>
+                                    <TextField fx:id="searchField" prefHeight="26.0" prefWidth="283.0" promptText="Search reservations..." styleClass="search-field">
+                                       <HBox.margin>
+                                          <Insets left="50.0" top="25.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
                         <ScrollPane minHeight="-Infinity" prefHeight="390.0" prefWidth="694.0">
                            <VBox.margin>
                               <Insets top="10.0" />
