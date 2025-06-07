@@ -30,6 +30,7 @@ import javafx.scene.image.ImageView;
 
 public class TransportBookAdminController {
 
+    public TextField searchField;
     ServiceTransportation serviceTransportation = new ServiceTransportation();
     ServiceReservation serviceReservation = new ServiceReservation();
     ServiceCharts Servicecharts = new ServiceCharts();

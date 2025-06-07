@@ -54,15 +54,7 @@
                                     <Insets left="20.0" top="20.0" />
                                  </HBox.margin>
                               </Label>
-                              <HBox prefHeight="70.0" prefWidth="410.0" styleClass="search-container">
-                                 <children>
-                                    <TextField fx:id="searchField" prefHeight="26.0" prefWidth="283.0" promptText="Search reservations..." styleClass="search-field">
-                                       <HBox.margin>
-                                          <Insets left="50.0" top="25.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                              </HBox>
+                              <HBox prefHeight="70.0" prefWidth="410.0" styleClass="search-container" />
                            </children>
                         </HBox>
                         <ScrollPane minHeight="-Infinity" prefHeight="390.0" prefWidth="694.0">
